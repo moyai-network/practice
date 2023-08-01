@@ -1,0 +1,23 @@
+{
+  "translations": {
+    "item.lobby.ffa": "<gold>FFA</gold>",
+    "item.lobby.settings": "<gold>SETTINGS</gold>",
+
+    "user.suicide": "%s <red>committed suicide</red>",
+    "user.kill": "%s <red>was slain by</red> %s",
+    "user.kick.header.oomph": "<b><red>You were kicked from Moyai by Oomph</red></b>",
+    "user.kick.autoclicker": "<red>We detected that your CPS is unfair, please try increasing your\ndebounce time or terminate your external program!\n<grey><i>For questions or concerns, refer to discord.gg/synhcf</grey></i>",
+    "user.kick.description": "<gold>Reason:</gold> <yellow>%s</yellow>\n<grey><i>For questions or concerns, refer to discord.gg/moyai-mc</grey></i>",
+
+    "oomph.staff.alert": "<gold>[<redstone>Oomph</redstone>]</gold> <aqua>%v was flagged for %v (%v)</aqua> <grey>%v [x%v]</grey>",
+
+    "command.combat": "<red>You may not use this command in combat</red>",
+
+    "combat.tag": "<red>You are now in combat</red>",
+    "combat.untag": "<green>You are no longer in combat</green>",
+    "pearl.cooldown": "<red>You are now on pearl cooldown</red>",
+    "pearl.expired": "<green>Pearl cooldown expired cooldown</green",
+
+    "scoreboard.footer": " <i><grey>moyai.pro</i></grey>"
+  }
+}

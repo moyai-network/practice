@@ -1,0 +1,24 @@
+[Network]
+Address = ':19132'
+
+[Server]
+Name = 'Dragonfly Server'
+ShutdownMessage = 'Server closed.'
+AuthEnabled = true
+JoinMessage = ''
+QuitMessage = ''
+
+[World]
+SaveData = true
+Folder = 'assets/world'
+
+[Players]
+MaxCount = 0
+MaximumChunkRadius = 8
+SaveData = false
+Folder = 'assets/players'
+
+[Resources]
+AutoBuildPack = true
+Folder = 'assets/resources'
+Required = false
