@@ -16,7 +16,7 @@
     "combat.tag": "<red>You are now in combat</red>",
     "combat.untag": "<green>You are no longer in combat</green>",
     "pearl.cooldown": "<red>You are now on pearl cooldown</red>",
-    "pearl.expired": "<green>Pearl cooldown expired cooldown</green",
+    "pearl.expired": "<green>Pearl cooldown expired</green",
 
     "scoreboard.footer": " <i><grey>moyai.pro</i></grey>"
   }
