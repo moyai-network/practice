@@ -44,6 +44,7 @@ func init() {
 		w.SetTickRange(0)
 		w.StopThundering()
 		w.StopRaining()
+		world.NewLoader(16, w, world.NopViewer{})
 		ffas[g] = w
 	}
 }
