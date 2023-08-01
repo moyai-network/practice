@@ -2,8 +2,8 @@ package user
 
 import (
 	"github.com/df-mc/dragonfly/server/player"
-	"github.com/moyai-network/moose/lang"
-	"github.com/moyai-network/moose/sets"
+	"github.com/moyai-network/carrot/lang"
+	"github.com/moyai-network/carrot/sets"
 )
 
 var (

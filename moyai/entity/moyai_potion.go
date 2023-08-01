@@ -12,7 +12,7 @@ import (
 	"github.com/df-mc/dragonfly/server/world/particle"
 	"github.com/df-mc/dragonfly/server/world/sound"
 	"github.com/go-gl/mathgl/mgl64"
-	"github.com/moyai-network/moose/nbtconv"
+	"github.com/moyai-network/carrot/nbtconv"
 	"image/color"
 	"time"
 )

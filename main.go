@@ -2,13 +2,12 @@ package main
 
 import (
 	"github.com/df-mc/dragonfly/server/cmd"
-	"github.com/df-mc/dragonfly/server/item"
 	"github.com/df-mc/dragonfly/server/player"
 	"github.com/df-mc/dragonfly/server/player/chat"
 	"github.com/df-mc/dragonfly/server/world"
-	"github.com/moyai-network/moose"
-	"github.com/moyai-network/moose/lang"
-	"github.com/moyai-network/moose/worlds"
+	"github.com/moyai-network/carrot"
+	"github.com/moyai-network/carrot/lang"
+	"github.com/moyai-network/carrot/worlds"
 	"github.com/moyai-network/practice/moyai"
 	"github.com/moyai-network/practice/moyai/command"
 	ent "github.com/moyai-network/practice/moyai/entity"
@@ -85,8 +84,8 @@ func accept(p *player.Player) {
 
 func registerCommands() {
 	for _, c := range []cmd.Command{
-		cmd.New("spawn", moose.GlyphFont("teleport to spawn", item.ColourOrange()), []string{"hub"}, command.Spawn{}),
-		//cmd.New("duel", moose.GlyphFont("duel other players or parties", item.ColourOrange()), nil, command.Duel{}),
+		cmd.New("spawn", carrot.GlyphFont("teleport to spawn"), []string{"hub"}, command.Spawn{}),
+		//cmd.New("duel", carrot.GlyphFont("duel other players or parties", item.ColourOrange()), nil, command.Duel{}),
 	} {
 		cmd.Register(c)
 	}

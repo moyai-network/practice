@@ -1,7 +1,7 @@
 package game
 
 import (
-	"github.com/moyai-network/moose"
+	"github.com/moyai-network/carrot"
 	"github.com/moyai-network/practice/moyai/game/kit"
 	"regexp"
 	"strings"
@@ -29,7 +29,7 @@ func ByName(name string) Game {
 type Game struct {
 	name    string
 	texture string
-	kit     moose.Kit
+	kit     carrot.Kit
 }
 
 func (g Game) Name() string {
@@ -40,6 +40,6 @@ func (g Game) Texture() string {
 	return g.texture
 }
 
-func (g Game) Kit() moose.Kit {
+func (g Game) Kit() carrot.Kit {
 	return g.kit
 }

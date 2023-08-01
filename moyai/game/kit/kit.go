@@ -6,12 +6,12 @@ import (
 	"github.com/df-mc/dragonfly/server/player"
 	"github.com/df-mc/dragonfly/server/session"
 	"github.com/df-mc/dragonfly/server/world"
-	"github.com/moyai-network/moose"
+	"github.com/moyai-network/carrot"
 	_ "unsafe"
 )
 
 // Apply ...
-func Apply(kit moose.Kit, p *player.Player) {
+func Apply(kit carrot.Kit, p *player.Player) {
 	p.Inventory().Clear()
 	p.Armour().Clear()
 

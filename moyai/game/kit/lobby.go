@@ -4,7 +4,7 @@ import (
 	"github.com/df-mc/dragonfly/server/entity/effect"
 	"github.com/df-mc/dragonfly/server/item"
 	"github.com/df-mc/dragonfly/server/player"
-	"github.com/moyai-network/moose/lang"
+	"github.com/moyai-network/carrot/lang"
 )
 
 // Lobby represents the kit given when players join the lobby.

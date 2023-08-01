@@ -9,8 +9,8 @@ import (
 	"github.com/df-mc/dragonfly/server/player"
 	"github.com/df-mc/dragonfly/server/player/scoreboard"
 	"github.com/df-mc/dragonfly/server/world"
-	"github.com/moyai-network/moose"
-	"github.com/moyai-network/moose/lang"
+	"github.com/moyai-network/carrot"
+	"github.com/moyai-network/carrot/lang"
 	"github.com/moyai-network/practice/moyai/data"
 	"github.com/moyai-network/practice/moyai/game"
 	"github.com/moyai-network/practice/moyai/game/kit"
@@ -26,8 +26,8 @@ type Handler struct {
 	p *player.Player
 	g game.Game
 
-	combat *moose.Tag
-	pearl  *moose.CoolDown
+	combat *carrot.Tag
+	pearl  *carrot.CoolDown
 
 	lastAttacker           atomic.Value[string]
 	lastAttackerExpiration atomic.Value[time.Time]
@@ -43,8 +43,14 @@ func newHandler(p *player.Player, g game.Game, lobby func(p *player.Player)) *Ha
 		g:       g,
 		lobby:   lobby,
 	}
-	h.combat = moose.NewTag(h.tag, h.unTag)
-	h.pearl = moose.NewCoolDown()
+	h.combat = carrot.NewTag(h.tag, h.unTag)
+	h.pearl = carrot.NewCoolDown(func(cd *carrot.CoolDown) {
+		if !cd.Active() {
+			h.p.SendPopup(lang.Translatef(h.p.Locale(), "pearl.cooldown"))
+		}
+	}, func(cd *carrot.CoolDown) {
+		h.p.SendPopup(lang.Translatef(h.p.Locale(), "pearl.expired"))
+	})
 	return h
 }
 
@@ -183,13 +189,13 @@ func (h *Handler) HandleQuit() {
 	user.Remove(h.p)
 }
 
-func (h *Handler) tag(t *moose.Tag) {
+func (h *Handler) tag(t *carrot.Tag) {
 	if !t.Active() {
 		h.p.SendPopup(lang.Translatef(h.p.Locale(), "combat.tag"))
 	}
 }
 
-func (h *Handler) unTag(t *moose.Tag) {
+func (h *Handler) unTag(t *carrot.Tag) {
 	h.p.SendPopup(lang.Translatef(h.p.Locale(), "combat.untag"))
 }
 
@@ -197,7 +203,7 @@ func (h *Handler) sendScoreBoard() {
 	l := h.p.Locale()
 	u, _ := data.LoadUser(h.p.Name())
 
-	sb := scoreboard.New(moose.GlyphFont("PRACTICE", item.ColourOrange()))
+	sb := scoreboard.New(carrot.GlyphFont("PRACTICE"))
 	sb.RemovePadding()
 	_, _ = sb.WriteString("§r\uE000")
 

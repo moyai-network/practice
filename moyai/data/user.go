@@ -1,8 +1,8 @@
 package data
 
 import (
-	"github.com/moyai-network/moose"
-	"github.com/moyai-network/moose/role"
+	"github.com/moyai-network/carrot"
+	"github.com/moyai-network/carrot/role"
 	"github.com/rcrowley/go-bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"log"
@@ -37,7 +37,7 @@ type User struct {
 	Roles *role.Roles
 
 	Punishments struct {
-		Ban, Mute moose.Punishment
+		Ban, Mute carrot.Punishment
 	}
 	Stats struct {
 		Kills, Deaths  int
@@ -79,7 +79,7 @@ func DefaultUser(name string) User {
 	return User{
 		Name:        strings.ToLower(name),
 		DisplayName: name,
-		Roles:       role.NewRoles([]moose.Role{role.Default{}}, map[moose.Role]time.Time{}),
+		Roles:       role.NewRoles([]carrot.Role{role.Default{}}, map[carrot.Role]time.Time{}),
 	}
 }
 

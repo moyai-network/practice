@@ -1,12 +1,11 @@
 package lobby
 
 import (
-	"github.com/df-mc/dragonfly/server/item"
 	"github.com/df-mc/dragonfly/server/player"
 	"github.com/df-mc/dragonfly/server/player/scoreboard"
 	"github.com/df-mc/dragonfly/server/world"
-	"github.com/moyai-network/moose"
-	"github.com/moyai-network/moose/lang"
+	"github.com/moyai-network/carrot"
+	"github.com/moyai-network/carrot/lang"
 	"github.com/moyai-network/practice/moyai/data"
 	"github.com/moyai-network/practice/moyai/game/kit"
 	"github.com/moyai-network/practice/moyai/user"
@@ -49,7 +48,7 @@ func updateScoreBoards() {
 		l := p.Locale()
 		u, _ := data.LoadUser(p.Name())
 
-		sb := scoreboard.New(moose.GlyphFont("PRACTICE", item.ColourOrange()))
+		sb := scoreboard.New(carrot.GlyphFont("PRACTICE"))
 		sb.RemovePadding()
 		_, _ = sb.WriteString("§r\uE000")
 		_, _ = sb.WriteString(text.Colourf("<black>Role</black><grey>:</grey> %s", u.Roles.Highest().Colour(u.Roles.Highest().Name())))

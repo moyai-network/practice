@@ -2,7 +2,7 @@ package user
 
 import (
 	"github.com/df-mc/dragonfly/server/event"
-	"github.com/moyai-network/moose/lang"
+	"github.com/moyai-network/carrot/lang"
 	"github.com/oomph-ac/oomph/check"
 	"github.com/oomph-ac/oomph/player"
 	"github.com/unickorn/strutils"
