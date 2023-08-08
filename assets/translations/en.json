@@ -1,7 +1,7 @@
 {
   "translations": {
-    "item.lobby.ffa": "<gold>FFA</gold>",
-    "item.lobby.settings": "<gold>SETTINGS</gold>",
+    "item.lobby.ffa": "<orange>FFA</orange>",
+    "item.lobby.settings": "<orange>Settings</orange>",
 
     "user.suicide": "%s <red>committed suicide</red>",
     "user.kill": "%s <red>was slain by</red> %s",
