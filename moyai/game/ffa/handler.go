@@ -221,6 +221,8 @@ func (h *Handler) UserHandler() *user.Handler {
 // Close ...
 func (h *Handler) Close() {
 	close(h.close)
+	h.combat.Cancel()
+	h.pearl.Cancel()
 }
 
 func (h *Handler) SendScoreBoard() {
