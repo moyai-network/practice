@@ -7,7 +7,6 @@ import (
 	"github.com/df-mc/dragonfly/server/event"
 	"github.com/df-mc/dragonfly/server/item"
 	"github.com/df-mc/dragonfly/server/player"
-	"github.com/df-mc/dragonfly/server/player/scoreboard"
 	"github.com/df-mc/dragonfly/server/world"
 	"github.com/moyai-network/carrot"
 	"github.com/moyai-network/carrot/lang"
@@ -16,7 +15,6 @@ import (
 	"github.com/moyai-network/practice/moyai/game/kit"
 	"github.com/moyai-network/practice/moyai/user"
 	"github.com/sandertv/gophertunnel/minecraft/text"
-	"strings"
 	"time"
 )
 
@@ -37,8 +35,15 @@ type Handler struct {
 
 // newHandler returns a new FFA handler.
 func newHandler(p *player.Player, g game.Game, lobby func(p *player.Player)) *Handler {
+	var uHandler *user.Handler
+	if uh, ok := p.Handler().(user.UserHandler); ok {
+		uHandler = uh.UserHandler()
+	} else {
+		uHandler = user.NewHandler(p)
+	}
+
 	h := &Handler{
-		Handler: user.NewHandler(p),
+		Handler: uHandler,
 		p:       p,
 		g:       g,
 		lobby:   lobby,
@@ -98,7 +103,7 @@ func (h *Handler) HandleHurt(ctx *event.Context, damage *float64, attackImmunity
 		k, online := user.LookupXUID(killer.XUID)
 		kh, ok := k.Handler().(*Handler)
 		if online && ok {
-			kh.sendScoreBoard()
+			kh.SendScoreBoard()
 			kh.combat.Cancel()
 			kh.pearl.Reset()
 			kit.Apply(h.g.Kit(), kh.p)
@@ -171,7 +176,7 @@ func (h *Handler) HandleQuit() {
 		k, online := user.LookupXUID(killer.XUID)
 		kh, ok := k.Handler().(*Handler)
 		if online && ok {
-			kh.sendScoreBoard()
+			kh.SendScoreBoard()
 			kh.combat.Cancel()
 			kh.pearl.Reset()
 			kit.Apply(h.g.Kit(), kh.p)
@@ -189,6 +194,11 @@ func (h *Handler) HandleQuit() {
 	user.Remove(h.p)
 }
 
+// UserHandler ...
+func (h *Handler) UserHandler() *user.Handler {
+	return h.Handler
+}
+
 func (h *Handler) tag(t *carrot.Tag) {
 	if !t.Active() {
 		h.p.SendPopup(lang.Translatef(h.p.Locale(), "combat.tag"))
@@ -197,26 +207,4 @@ func (h *Handler) tag(t *carrot.Tag) {
 
 func (h *Handler) unTag(t *carrot.Tag) {
 	h.p.SendPopup(lang.Translatef(h.p.Locale(), "combat.untag"))
-}
-
-func (h *Handler) sendScoreBoard() {
-	l := h.p.Locale()
-	u, _ := data.LoadUser(h.p.Name())
-
-	sb := scoreboard.New(carrot.GlyphFont("PRACTICE"))
-	sb.RemovePadding()
-	_, _ = sb.WriteString("§r\uE000")
-
-	_, _ = sb.WriteString(text.Colourf("<black>Kills</black><grey>: %d</grey>", u.Stats.Kills))
-	_, _ = sb.WriteString(text.Colourf("<black>Deaths</black><grey>: %d</grey>", u.Stats.Deaths))
-	_, _ = sb.WriteString(text.Colourf("<black>Kill Streak</black><grey>: %d</grey>", u.Stats.KillStreak))
-
-	_, _ = sb.WriteString("\uE000")
-	_, _ = sb.WriteString(lang.Translatef(l, "scoreboard.footer"))
-	for i, li := range sb.Lines() {
-		if !strings.Contains(li, "\uE000") {
-			sb.Set(i, " "+li)
-		}
-	}
-	h.p.SendScoreboard(sb)
 }

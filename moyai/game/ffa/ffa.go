@@ -9,6 +9,7 @@ import (
 	ent "github.com/moyai-network/practice/moyai/entity"
 	"github.com/moyai-network/practice/moyai/game"
 	"github.com/moyai-network/practice/moyai/game/structure"
+	"math"
 	"math/rand"
 )
 
@@ -44,7 +45,7 @@ func init() {
 		w.SetTickRange(0)
 		w.StopThundering()
 		w.StopRaining()
-		world.NewLoader(16, w, world.NopViewer{})
+		world.NewLoader(16, w, world.NopViewer{}).Load(math.MaxInt)
 		ffas[g] = w
 	}
 }

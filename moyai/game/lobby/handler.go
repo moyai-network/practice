@@ -18,8 +18,15 @@ type Handler struct {
 
 // newHandler returns a new lobby handler.
 func newHandler(p *player.Player) *Handler {
+	var uHandler *user.Handler
+	if uh, ok := p.Handler().(user.UserHandler); ok {
+		uHandler = uh.UserHandler()
+	} else {
+		uHandler = user.NewHandler(p)
+	}
+
 	h := &Handler{
-		Handler: user.NewHandler(p),
+		Handler: uHandler,
 		p:       p,
 	}
 
@@ -58,4 +65,9 @@ func (h *Handler) HandleAttackEntity(ctx *event.Context, _ world.Entity, _, _ *f
 // HandleHurt ...
 func (h *Handler) HandleHurt(ctx *event.Context, _ *float64, _ *time.Duration, _ world.DamageSource) {
 	ctx.Cancel()
+}
+
+// UserHandler ...
+func (h *Handler) UserHandler() *user.Handler {
+	return h.Handler
 }

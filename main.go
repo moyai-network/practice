@@ -5,7 +5,6 @@ import (
 	"github.com/df-mc/dragonfly/server/player"
 	"github.com/df-mc/dragonfly/server/player/chat"
 	"github.com/df-mc/dragonfly/server/world"
-	"github.com/moyai-network/carrot"
 	_ "github.com/moyai-network/carrot/console"
 	"github.com/moyai-network/carrot/lang"
 	"github.com/moyai-network/carrot/worlds"
@@ -41,7 +40,7 @@ func main() {
 	c.ReadOnlyWorld = true
 	c.Entities = ent.Registry
 
-	c.Name = text.Colourf("<bold><purple>MOYAI</purple></bold>") + "§8"
+	c.Name = text.Colourf("<bold><quartz>MOYAI</quartz></bold>") + "§8"
 
 	/*ac := oomph.New(log, ":19132")
 	ac.Listen(&c, c.Name, []minecraft.Protocol{}, false, false)
@@ -85,8 +84,8 @@ func accept(p *player.Player) {
 
 func registerCommands() {
 	for _, c := range []cmd.Command{
-		cmd.New("spawn", carrot.GlyphFont("teleport to spawn"), []string{"hub"}, command.Spawn{}),
-		cmd.New("role", carrot.GlyphFont("role commands"), nil, command.RoleAdd{}, command.RoleRemove{}, command.RoleAddOffline{}, command.RoleRemoveOffline{}),
+		cmd.New("spawn", text.Colourf("<orange>Teleport to spawn</orange>"), []string{"hub"}, command.Spawn{}),
+		cmd.New("role", text.Colourf("<orange>Role management commands</orange>"), nil, command.RoleAdd{}, command.RoleRemove{}, command.RoleAddOffline{}, command.RoleRemoveOffline{}),
 		//cmd.New("duel", carrot.GlyphFont("duel other players or parties", item.ColourOrange()), nil, command.Duel{}),
 	} {
 		cmd.Register(c)

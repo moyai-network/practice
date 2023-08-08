@@ -25,5 +25,5 @@ func AddPlayer(p *player.Player, g game.Game, lobby func(player2 *player.Player)
 	p.Armour().Handle(inventory.NopHandler{})
 
 	p.SetNameTag(text.Colourf("<red>%s</red>", p.Name()))
-	h.sendScoreBoard()
+	h.SendScoreBoard()
 }

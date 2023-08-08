@@ -2,15 +2,10 @@ package lobby
 
 import (
 	"github.com/df-mc/dragonfly/server/player"
-	"github.com/df-mc/dragonfly/server/player/scoreboard"
 	"github.com/df-mc/dragonfly/server/world"
-	"github.com/moyai-network/carrot"
-	"github.com/moyai-network/carrot/lang"
 	"github.com/moyai-network/practice/moyai/data"
 	"github.com/moyai-network/practice/moyai/game/kit"
 	"github.com/moyai-network/practice/moyai/user"
-	"github.com/sandertv/gophertunnel/minecraft/text"
-	"strings"
 )
 
 func New(w *world.World) {
@@ -35,30 +30,4 @@ func AddPlayer(p *player.Player) {
 
 	u, _ := data.LoadUser(p.Name())
 	p.SetNameTag(u.Roles.Highest().Colour(p.Name()))
-
-	updateScoreBoards()
-}
-
-func updateScoreBoards() {
-	for _, e := range lobby.Entities() {
-		p, ok := e.(*player.Player)
-		if !ok {
-			continue
-		}
-		l := p.Locale()
-		u, _ := data.LoadUser(p.Name())
-
-		sb := scoreboard.New(carrot.GlyphFont("PRACTICE"))
-		sb.RemovePadding()
-		_, _ = sb.WriteString("§r\uE000")
-		_, _ = sb.WriteString(text.Colourf("<black>Role</black><grey>:</grey> %s", u.Roles.Highest().Colour(u.Roles.Highest().Name())))
-		_, _ = sb.WriteString("\uE000")
-		_, _ = sb.WriteString(lang.Translatef(l, "scoreboard.footer"))
-		for i, li := range sb.Lines() {
-			if !strings.Contains(li, "\uE000") {
-				sb.Set(i, " "+li)
-			}
-		}
-		p.SendScoreboard(sb)
-	}
 }
