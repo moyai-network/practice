@@ -7,7 +7,7 @@ require (
 	github.com/df-mc/dragonfly v0.9.9-0.20230714144543-281943e6efc4
 	github.com/go-gl/mathgl v1.0.0
 	github.com/hako/durafmt v0.0.0-20210608085754-5c1018a4e16b
-	github.com/moyai-network/carrot v0.0.0-20230801222041-8d30bd262a31
+	github.com/moyai-network/carrot v0.0.0-20230808010836-0dcb5b5a5651
 	github.com/oomph-ac/oomph v0.0.0-20230726033737-4cceb3fda16b
 	github.com/rcrowley/go-bson v0.0.0-20140210180454-771ad044f2d7
 	github.com/restartfu/gophig v0.0.0-20230501130741-bd994da592f7
