@@ -10,6 +10,10 @@ import (
 )
 
 func AddPlayer(p *player.Player, g game.Game, lobby func(player2 *player.Player)) {
+	if c, closeable := p.Handler().(interface{ Close() }); closeable {
+		c.Close()
+	}
+
 	w, ok := ffas[g]
 	if !ok {
 		log.Fatalln("no world found for game:", g.Name())
@@ -18,10 +22,6 @@ func AddPlayer(p *player.Player, g game.Game, lobby func(player2 *player.Player)
 	w.AddEntity(p)
 	p.Teleport(w.Spawn().Vec3Middle())
 	kit.Apply(g.Kit(), p)
-
-	if c, closeable := p.Handler().(interface{ Close() }); closeable {
-		c.Close()
-	}
 
 	h := newHandler(p, g, lobby)
 	h.SendScoreBoard()

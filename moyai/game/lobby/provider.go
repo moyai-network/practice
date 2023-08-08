@@ -19,13 +19,13 @@ func Contains(p *player.Player) bool {
 }
 
 func AddPlayer(p *player.Player) {
-	user.Add(p)
-	lobby.AddEntity(p)
-	p.Teleport(lobby.Spawn().Vec3Middle())
-
 	if c, closeable := p.Handler().(interface{ Close() }); closeable {
 		c.Close()
 	}
+
+	user.Add(p)
+	lobby.AddEntity(p)
+	p.Teleport(lobby.Spawn().Vec3Middle())
 
 	kit.Apply(kit.Lobby{}, p)
 	h := newHandler(p)

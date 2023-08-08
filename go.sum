@@ -56,6 +56,8 @@ github.com/moyai-network/carrot v0.0.0-20230801222041-8d30bd262a31 h1:j4jpqLiy/E
 github.com/moyai-network/carrot v0.0.0-20230801222041-8d30bd262a31/go.mod h1:jjOSH+GPVBczAa0tIE018hIkMk+SX7LR1bQgutIv8Rk=
 github.com/moyai-network/carrot v0.0.0-20230808010836-0dcb5b5a5651 h1:c9wIV5/zIiGGq2VefYa1ljpOGlRSm75GtSKi8eh/VQA=
 github.com/moyai-network/carrot v0.0.0-20230808010836-0dcb5b5a5651/go.mod h1:jjOSH+GPVBczAa0tIE018hIkMk+SX7LR1bQgutIv8Rk=
+github.com/moyai-network/carrot v0.0.0-20230808012116-0ce5ea93eac7 h1:sxnjWMPrFTsc3ZkETs335bOlAx+CFfTSLUebUeyXMv8=
+github.com/moyai-network/carrot v0.0.0-20230808012116-0ce5ea93eac7/go.mod h1:jjOSH+GPVBczAa0tIE018hIkMk+SX7LR1bQgutIv8Rk=
 github.com/muhammadmuzzammil1998/jsonc v1.0.0 h1:8o5gBQn4ZA3NBA9DlTujCj2a4w0tqWrPVjDwhzkgTIs=
 github.com/muhammadmuzzammil1998/jsonc v1.0.0/go.mod h1:saF2fIVw4banK0H4+/EuqfFLpRnoy5S+ECwTOCcRcSU=
 github.com/onsi/ginkgo v1.6.0/go.mod h1:lLunBs/Ym6LB5Z9jYTR76FiuTmxDTDusOGeTQH+WWjE=

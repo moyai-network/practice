@@ -50,7 +50,7 @@ func newHandler(p *player.Player, g game.Game, lobby func(p *player.Player)) *Ha
 		p:       p,
 		g:       g,
 		lobby:   lobby,
-		close:   make(chan struct{}),
+		close:   make(chan struct{}, 0),
 	}
 	h.combat = carrot.NewTag(h.tag, h.unTag)
 	h.pearl = carrot.NewCoolDown(func(cd *carrot.CoolDown) {
@@ -220,9 +220,18 @@ func (h *Handler) UserHandler() *user.Handler {
 
 // Close ...
 func (h *Handler) Close() {
-	close(h.close)
 	h.combat.Cancel()
 	h.pearl.Cancel()
+	for _, e := range h.p.World().Entities() {
+		if ent, ok := e.(*entity.Ent); ok {
+			if be, ok := ent.Behaviour().(*entity.ProjectileBehaviour); ok {
+				if be.Owner() == h.p {
+					_ = e.Close()
+				}
+			}
+		}
+	}
+	close(h.close)
 }
 
 func (h *Handler) SendScoreBoard() {
