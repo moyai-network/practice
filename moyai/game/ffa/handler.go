@@ -7,6 +7,7 @@ import (
 	"github.com/df-mc/dragonfly/server/event"
 	"github.com/df-mc/dragonfly/server/item"
 	"github.com/df-mc/dragonfly/server/player"
+	"github.com/df-mc/dragonfly/server/player/scoreboard"
 	"github.com/df-mc/dragonfly/server/world"
 	"github.com/moyai-network/carrot"
 	"github.com/moyai-network/carrot/lang"
@@ -15,6 +16,7 @@ import (
 	"github.com/moyai-network/practice/moyai/game/kit"
 	"github.com/moyai-network/practice/moyai/user"
 	"github.com/sandertv/gophertunnel/minecraft/text"
+	"strings"
 	"time"
 )
 
@@ -31,6 +33,7 @@ type Handler struct {
 	lastAttackerExpiration atomic.Value[time.Time]
 
 	lobby func(*player.Player)
+	close chan struct{}
 }
 
 // newHandler returns a new FFA handler.
@@ -47,6 +50,7 @@ func newHandler(p *player.Player, g game.Game, lobby func(p *player.Player)) *Ha
 		p:       p,
 		g:       g,
 		lobby:   lobby,
+		close:   make(chan struct{}),
 	}
 	h.combat = carrot.NewTag(h.tag, h.unTag)
 	h.pearl = carrot.NewCoolDown(func(cd *carrot.CoolDown) {
@@ -56,6 +60,19 @@ func newHandler(p *player.Player, g game.Game, lobby func(p *player.Player)) *Ha
 	}, func(cd *carrot.CoolDown) {
 		h.p.SendPopup(lang.Translatef(h.p.Locale(), "pearl.expired"))
 	})
+
+	t := time.NewTicker(time.Second)
+	go func() {
+		for {
+			select {
+			case <-t.C:
+				h.SendScoreBoard()
+			case <-h.close:
+				t.Stop()
+				return
+			}
+		}
+	}()
 	return h
 }
 
@@ -69,6 +86,7 @@ func (h *Handler) HandleItemUse(ctx *event.Context) {
 			return
 		}
 		h.pearl.Set(time.Second * 15)
+		h.SendScoreBoard()
 	}
 }
 
@@ -89,8 +107,8 @@ func (h *Handler) HandleHurt(ctx *event.Context, damage *float64, attackImmunity
 		u = u.WithDeaths(u.Stats.Deaths + 1)
 		_ = data.SaveUser(u.WithKillStreak(0))
 
-		h.combat.Reset()
-		h.pearl.Reset()
+		h.combat.Cancel()
+		h.pearl.Cancel()
 
 		h.lobby(h.p)
 
@@ -137,6 +155,7 @@ func (h *Handler) HandleAttackEntity(ctx *event.Context, e world.Entity, force, 
 
 	th.lastAttacker.Store(h.p.Name())
 	th.lastAttackerExpiration.Store(time.Now().Add(time.Second * 15))
+	h.SendScoreBoard()
 }
 
 // bannedCommands is a list of commands disallowed in combat.
@@ -197,6 +216,58 @@ func (h *Handler) HandleQuit() {
 // UserHandler ...
 func (h *Handler) UserHandler() *user.Handler {
 	return h.Handler
+}
+
+// Close ...
+func (h *Handler) Close() {
+	close(h.close)
+}
+
+func (h *Handler) SendScoreBoard() {
+	l := h.p.Locale()
+	u, _ := data.LoadUser(h.p.Name())
+
+	var kdr float64
+	if u.Stats.Deaths > 0 {
+		kdr = float64(u.Stats.Kills / u.Stats.Deaths)
+	} else {
+		kdr = float64(u.Stats.Kills)
+	}
+
+	sb := scoreboard.New(carrot.GlyphFont("PRACTICE"))
+	sb.RemovePadding()
+	_, _ = sb.WriteString("§r\uE000")
+
+	_, _ = sb.WriteString("\uE142\uE143\uE144\uE143\uE142")
+	_, _ = sb.WriteString(text.Colourf("<black>\uE141 </black>K<grey>:</grey> <black>%d</black> D<grey>:</grey> <black>%d</black>", u.Stats.Kills, u.Stats.Deaths))
+	_, _ = sb.WriteString(text.Colourf("<black>\uE141 </black>KDR<grey>:</grey> <black>%.2f</black>", kdr))
+	_, _ = sb.WriteString(text.Colourf("<black>\uE141 </black>KS<grey>:</grey> <black>%d</black>", u.Stats.KillStreak))
+
+	_, _ = sb.WriteString("\n\uE146\uE147\uE148\uE149\uE144\uE143")
+	if h.pearl.Active() {
+		_, _ = sb.WriteString(text.Colourf("<black>\uE141 </black>Ender Pearl<grey>:</grey> <black>%.0f</black>", h.pearl.Remaining().Seconds()))
+	}
+	if h.combat.Active() {
+		_, _ = sb.WriteString(text.Colourf("<black>\uE141 </black>Combat<grey>:</grey> <black>%.0f</black>", h.combat.Remaining().Seconds()))
+	}
+
+	a, ok := data.LoadUser(h.lastAttacker.Load())
+	attacker, online := user.LookupXUID(a.XUID)
+	if ok && online && h.combat.Active() {
+		_, _ = sb.WriteString(text.Colourf("<black>\uE141 </black>Ping<grey>:</grey> <green>%dms</green> \uE145 <red>%dms</red>", h.p.Latency().Milliseconds()*2, attacker.Latency().Milliseconds()*2))
+	} else {
+		_, _ = sb.WriteString(text.Colourf("<black>\uE141 </black>Ping<grey>:</grey> <green>%dms</green>", h.p.Latency().Milliseconds()*2))
+	}
+
+	_, _ = sb.WriteString("\uE000")
+	for i, li := range sb.Lines() {
+		if !strings.Contains(li, "\uE000") {
+			sb.Set(i, "  "+li)
+		}
+	}
+	_, _ = sb.WriteString(lang.Translatef(l, "scoreboard.footer"))
+	h.p.RemoveScoreboard()
+	h.p.SendScoreboard(sb)
 }
 
 func (h *Handler) tag(t *carrot.Tag) {

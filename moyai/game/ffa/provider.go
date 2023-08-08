@@ -19,7 +19,12 @@ func AddPlayer(p *player.Player, g game.Game, lobby func(player2 *player.Player)
 	p.Teleport(w.Spawn().Vec3Middle())
 	kit.Apply(g.Kit(), p)
 
+	if c, closeable := p.Handler().(interface{ Close() }); closeable {
+		c.Close()
+	}
+
 	h := newHandler(p, g, lobby)
+	h.SendScoreBoard()
 	p.Handle(h)
 	p.Inventory().Handle(inventory.NopHandler{})
 	p.Armour().Handle(inventory.NopHandler{})
