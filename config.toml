@@ -5,8 +5,8 @@ Address = ':19132'
 Name = 'Dragonfly Server'
 ShutdownMessage = 'Server closed.'
 AuthEnabled = true
-JoinMessage = ''
-QuitMessage = ''
+JoinMessage = '%v has joined the game'
+QuitMessage = '%v has left the game'
 
 [World]
 SaveData = true
@@ -14,11 +14,16 @@ Folder = 'assets/world'
 
 [Players]
 MaxCount = 0
-MaximumChunkRadius = 8
+MaximumChunkRadius = 32
 SaveData = false
-Folder = 'assets/players'
+Folder = 'players'
 
 [Resources]
 AutoBuildPack = true
 Folder = 'assets/resources'
 Required = false
+
+[Oomph]
+Port = 19132
+CombatMode = 1
+MovementMode = 1

@@ -1,6 +1,9 @@
 package ffa
 
 import (
+	"math"
+	"math/rand"
+
 	"github.com/df-mc/dragonfly/server/block"
 	"github.com/df-mc/dragonfly/server/block/cube"
 	"github.com/df-mc/dragonfly/server/item"
@@ -9,8 +12,6 @@ import (
 	ent "github.com/moyai-network/practice/moyai/entity"
 	"github.com/moyai-network/practice/moyai/game"
 	"github.com/moyai-network/practice/moyai/game/structure"
-	"math"
-	"math/rand"
 )
 
 var ffas = map[game.Game]*world.World{}

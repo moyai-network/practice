@@ -1,6 +1,9 @@
 package lobby
 
 import (
+	"strings"
+	"time"
+
 	"github.com/df-mc/dragonfly/server/event"
 	"github.com/df-mc/dragonfly/server/player"
 	"github.com/df-mc/dragonfly/server/player/scoreboard"
@@ -11,8 +14,6 @@ import (
 	"github.com/moyai-network/practice/moyai/form"
 	"github.com/moyai-network/practice/moyai/user"
 	"github.com/sandertv/gophertunnel/minecraft/text"
-	"strings"
-	"time"
 )
 
 // Handler represents the player handler for the lobby.

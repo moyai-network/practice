@@ -25,7 +25,11 @@ func NewOomphHandler(p *player.Player) *OomphHandler {
 
 func (h *OomphHandler) HandleFlag(ctx *event.Context, ch check.Check, params map[string]any, _ *bool) {
 	name, variant := ch.Name()
-	Broadcast("oomph.staff.alert",
+	p, ok := Lookup(h.p.Name())
+	if !ok {
+		return
+	}
+	Alert(p,
 		h.p.Name(),
 		name,
 		variant,

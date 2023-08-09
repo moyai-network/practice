@@ -9,7 +9,7 @@
     "user.kick.autoclicker": "<red>We detected that your CPS is unfair, please try increasing your\ndebounce time or terminate your external program!\n<grey><i>For questions or concerns, refer to discord.gg/synhcf</grey></i>",
     "user.kick.description": "<gold>Reason:</gold> <yellow>%s</yellow>\n<grey><i>For questions or concerns, refer to discord.gg/moyai-mc</grey></i>",
 
-    "oomph.staff.alert": "<gold>[<redstone>Oomph</redstone>]</gold> <aqua>%v was flagged for %v (%v)</aqua> <grey>%v [x%v]</grey>",
+    "staff.alert": "<gold>[<redstone>Oomph</redstone>]</gold> <aqua>%v was flagged for %v (%v)</aqua> <grey>%v [x%v]</grey>",
 
     "command.combat": "<red>You may not use this command in combat</red>",
 
@@ -41,11 +41,9 @@
 
     "user.message.mute": "<red>You may not send message while muted</red>",
 
-    "user.ban.header": "<b><red>You are banned from Syn</red></b>",
-    "user.ban.header.oomph": "<b><red>You were banned from Syn by Oomph</red></b>",
+    "user.ban.header": "<b><red>You are banned from Moyai</red></b>",
+    "user.ban.header.oomph": "<b><red>You were banned from Moyai by Oomph</red></b>",
     "user.ban.header.alt": "<b><red>An account linked to you is banned from Syn</red></b>",
-    "user.ban.description": "<gold>Reason:</gold> <yellow>%s</yellow>\n<dark-green>Remaining:</dark-green> <green>%s</green>\n<grey><i>For questions or concerns, refer to discord.gg/moyai-mc</grey></i>",
-
-    "oomph.staff.alert": "<gold>[<redstone>Oomph</redstone>]</gold> <aqua>%v was flagged for %v (%v)</aqua> <grey>%v [x%v]</grey>",
+    "user.ban.description": "<gold>Reason:</gold> <yellow>%s</yellow>\n<dark-green>Remaining:</dark-green> <green>%s</green>\n<grey><i>For questions or concerns, refer to discord.gg/moyai-mc</grey></i>"
   }
 }

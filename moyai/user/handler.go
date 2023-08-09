@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/df-mc/dragonfly/server/block/cube"
-	"github.com/df-mc/dragonfly/server/entity"
 	"github.com/df-mc/dragonfly/server/event"
 	"github.com/df-mc/dragonfly/server/item"
 	"github.com/df-mc/dragonfly/server/player"
@@ -54,10 +53,6 @@ var formatRegex = regexp.MustCompile(`§[\da-gk-or]`)
 // HandleChat ...
 func (h *Handler) HandleChat(ctx *event.Context, message *string) {
 	ctx.Cancel()
-
-	if *message == "die" {
-		h.p.Hurt(20, entity.VoidDamageSource{})
-	}
 
 	u, ok := data.LoadUser(h.p.Name())
 	if !ok {

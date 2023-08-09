@@ -1,10 +1,11 @@
 package structure
 
 import (
+	"math/rand"
+
 	"github.com/df-mc/dragonfly/server/block"
 	"github.com/df-mc/dragonfly/server/block/cube"
 	"github.com/df-mc/dragonfly/server/world"
-	"math/rand"
 )
 
 type Structure struct {
