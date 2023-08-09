@@ -65,6 +65,7 @@ func main() {
 	}()
 
 	srv := c.New()
+	srv.CloseOnProgramEnd()
 
 	w := srv.World()
 	w.Handle(&worlds.Handler{})
@@ -80,7 +81,6 @@ func main() {
 	registerCommands()
 
 	srv.Listen()
-	srv.CloseOnProgramEnd()
 	for srv.Accept(accept) {
 		// Do nothing
 	}
