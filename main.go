@@ -1,6 +1,8 @@
 package main
 
 import (
+	"os"
+
 	"github.com/df-mc/dragonfly/server/cmd"
 	"github.com/df-mc/dragonfly/server/player"
 	"github.com/df-mc/dragonfly/server/player/chat"
@@ -12,11 +14,13 @@ import (
 	"github.com/moyai-network/practice/moyai/command"
 	ent "github.com/moyai-network/practice/moyai/entity"
 	"github.com/moyai-network/practice/moyai/game/lobby"
+	"github.com/moyai-network/practice/moyai/user"
+	"github.com/oomph-ac/oomph"
 	"github.com/restartfu/gophig"
+	"github.com/sandertv/gophertunnel/minecraft"
 	"github.com/sandertv/gophertunnel/minecraft/text"
 	"github.com/sirupsen/logrus"
 	"golang.org/x/text/language"
-	"os"
 )
 
 func main() {
@@ -39,10 +43,11 @@ func main() {
 
 	c.ReadOnlyWorld = true
 	c.Entities = ent.Registry
+	c.Allower = &moyai.Allower{}
 
 	c.Name = text.Colourf("<bold><quartz>MOYAI</quartz></bold>") + "§8"
 
-	/*ac := oomph.New(log, ":19132")
+	ac := oomph.New(log, ":19132")
 	ac.Listen(&c, c.Name, []minecraft.Protocol{}, false, false)
 	go func() {
 		for {
@@ -54,7 +59,7 @@ func main() {
 			p.SetMovementMode(2)
 			p.Handle(user.NewOomphHandler(p))
 		}
-	}()*/
+	}()
 
 	srv := c.New()
 
@@ -76,6 +81,7 @@ func main() {
 	for srv.Accept(accept) {
 		// Do nothing
 	}
+
 }
 
 func accept(p *player.Player) {
@@ -84,9 +90,12 @@ func accept(p *player.Player) {
 
 func registerCommands() {
 	for _, c := range []cmd.Command{
-		cmd.New("spawn", text.Colourf("<orange>Teleport to spawn</orange>"), []string{"hub"}, command.Spawn{}),
-		cmd.New("role", text.Colourf("<orange>Role management commands</orange>"), nil, command.RoleAdd{}, command.RoleRemove{}, command.RoleAddOffline{}, command.RoleRemoveOffline{}),
-		//cmd.New("duel", carrot.GlyphFont("duel other players or parties", item.ColourOrange()), nil, command.Duel{}),
+		cmd.New("spawn", text.Colourf("<orange>Teleport to spawn.</orange>"), []string{"hub"}, command.Spawn{}),
+		cmd.New("role", text.Colourf("<orange>Role management commands.</orange>"), nil, command.RoleAdd{}, command.RoleRemove{}, command.RoleAddOffline{}, command.RoleRemoveOffline{}),
+		cmd.New("duel", text.Colourf("<orange>Duel other players or parties.</orange>"), nil, command.Duel{}),
+		cmd.New("ban", text.Colourf("<orange>Ban other players</orange>"), nil, command.BanList{}, command.BanLiftOffline{}, command.BanInfoOffline{}, command.Ban{}, command.BanOffline{}, command.BanForm{}),
+		cmd.New("kick", text.Colourf("<orange>Kick other players</orange>"), nil, command.Kick{}),
+		cmd.New("mute", text.Colourf("<orange>Mute other players</orange>"), nil, command.MuteList{}, command.MuteLiftOffline{}, command.MuteInfoOffline{}, command.Mute{}, command.MuteOffline{}, command.MuteForm{}),
 	} {
 		cmd.Register(c)
 	}

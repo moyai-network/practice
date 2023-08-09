@@ -1,17 +1,20 @@
 package user
 
 import (
+	"regexp"
+	"strings"
+	"time"
+
 	"github.com/df-mc/dragonfly/server/block/cube"
+	"github.com/df-mc/dragonfly/server/entity"
 	"github.com/df-mc/dragonfly/server/event"
 	"github.com/df-mc/dragonfly/server/item"
 	"github.com/df-mc/dragonfly/server/player"
 	"github.com/df-mc/dragonfly/server/player/chat"
 	"github.com/df-mc/dragonfly/server/world"
 	"github.com/moyai-network/carrot"
+	"github.com/moyai-network/carrot/lang"
 	"github.com/moyai-network/practice/moyai/data"
-	"regexp"
-	"strings"
-	"time"
 )
 
 type Handler struct {
@@ -52,6 +55,10 @@ var formatRegex = regexp.MustCompile(`§[\da-gk-or]`)
 func (h *Handler) HandleChat(ctx *event.Context, message *string) {
 	ctx.Cancel()
 
+	if *message == "die" {
+		h.p.Hurt(20, entity.VoidDamageSource{})
+	}
+
 	u, ok := data.LoadUser(h.p.Name())
 	if !ok {
 		return
@@ -60,6 +67,11 @@ func (h *Handler) HandleChat(ctx *event.Context, message *string) {
 	*message = emojis.Replace(*message)
 	r := u.Roles.Highest()
 	msg := r.Chat(h.p.Name(), *message)
+
+	if !u.Punishments.Mute.Expired() {
+		h.p.Message(lang.Translatef(h.p.Locale(), "user.message.mute"))
+		return
+	}
 
 	if h.chatCoolDown.Active() {
 		h.p.Message(msg)

@@ -18,6 +18,32 @@
     "pearl.cooldown": "<red>You are now on pearl cooldown</red>",
     "pearl.expired": "<green>Pearl cooldown expired</green",
 
-    "scoreboard.footer": " <i><grey>moyai.pro</i></grey>"
+    "scoreboard.footer": " <i><grey>moyai.pro</i></grey>",
+
+    "command.ban.already": "<red>That player is already banned.</red>",
+    "command.ban.broadcast": "\n<aqua>%v</aqua> has removed <dark-aqua>%v</dark-aqua> from Moyai for <dark-red>%v</dark-red>\n\n",
+    "command.ban.lift": "<green>You unbanned %s.</green>",
+    "command.ban.list": "<green>Banned Players (%d)\n%s</green>",
+    "command.ban.none": "<red>There are no players banned.</red>",
+    "command.ban.not": "<red>That player is not banned.</red>",
+    "command.ban.operator": "<red>This player cannot be banned.</red>",
+    "command.ban.self": "<red>You cannot ban yourself.</red>",
+    "command.ban.success": "<green>You banned %s for %s.</green>",
+    "command.blacklist.already": "<red>That player is already blacklisted.</red>",
+    "command.blacklist.broadcast": "\n<aqua>%v</aqua> has blacklisted <dark-aqua>%v</dark-aqua> from Moyai\n\n",
+    "command.blacklist.lift": "<green>You unblacklisted %s.</green>",
+    "command.blacklist.list": "<green>Blacklisted Players (%d)\n%s</green>",
+    "command.blacklist.none": "<red>There are no players blacklisted.</red>",
+    "command.blacklist.not": "<red>That player is not blacklisted.</red>",
+    "command.blacklist.operator": "<red>This player cannot be blacklisted.</red>",
+    "command.blacklist.self": "<red>You cannot blacklist yourself.</red>",
+    "command.blacklist.success": "<green>You blacklisted %s for %s.</green>",
+
+    "user.message.mute": "<red>You may not send message while muted</red>",
+
+    "user.ban.header": "<b><red>You are banned from Syn</red></b>",
+    "user.ban.header.oomph": "<b><red>You were banned from Syn by Oomph</red></b>",
+    "user.ban.header.alt": "<b><red>An account linked to you is banned from Syn</red></b>",
+    "user.ban.description": "<gold>Reason:</gold> <yellow>%s</yellow>\n<dark-green>Remaining:</dark-green> <green>%s</green>\n<grey><i>For questions or concerns, refer to discord.gg/moyai-mc</grey></i>"
   }
 }

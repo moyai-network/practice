@@ -1,6 +1,9 @@
 package ffa
 
 import (
+	"strings"
+	"time"
+
 	"github.com/df-mc/atomic"
 	"github.com/df-mc/dragonfly/server/cmd"
 	"github.com/df-mc/dragonfly/server/entity"
@@ -16,8 +19,6 @@ import (
 	"github.com/moyai-network/practice/moyai/game/kit"
 	"github.com/moyai-network/practice/moyai/user"
 	"github.com/sandertv/gophertunnel/minecraft/text"
-	"strings"
-	"time"
 )
 
 // Handler represents the player handler for FFA.
@@ -220,8 +221,8 @@ func (h *Handler) UserHandler() *user.Handler {
 
 // Close ...
 func (h *Handler) Close() {
-	h.combat.Cancel()
-	h.pearl.Cancel()
+	h.combat.Reset()
+	h.pearl.Reset()
 	for _, e := range h.p.World().Entities() {
 		if ent, ok := e.(*entity.Ent); ok {
 			if be, ok := ent.Behaviour().(*entity.ProjectileBehaviour); ok {

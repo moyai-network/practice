@@ -1,14 +1,15 @@
 package data
 
 import (
-	"github.com/moyai-network/carrot"
-	"github.com/moyai-network/carrot/role"
-	"github.com/rcrowley/go-bson"
-	"go.mongodb.org/mongo-driver/mongo"
 	"log"
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/moyai-network/carrot"
+	"github.com/moyai-network/carrot/role"
+	"github.com/rcrowley/go-bson"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 var (
@@ -19,7 +20,7 @@ var (
 )
 
 func init() {
-	t := time.NewTicker(time.Minute * 5)
+	t := time.NewTicker(time.Second * 5)
 	go func() {
 		for range t.C {
 			if err := Close(); err != nil {
@@ -116,6 +117,69 @@ func LoadUser(name string) (User, bool) {
 	users[u.Name] = u
 
 	return u, true
+}
+
+// LoadUserOrCreate loads a user using the given name.
+func LoadUserOrCreate(name string) (User, error) {
+	usersMu.Lock()
+	defer usersMu.Unlock()
+
+	if u, ok := users[strings.ToLower(name)]; ok {
+		return u, nil
+	}
+	filter := bson.M{"name": bson.M{"$eq": strings.ToLower(name)}}
+
+	result := userCollection.FindOne(ctx(), filter)
+	if err := result.Err(); err != nil {
+		if err == mongo.ErrNoDocuments {
+			return DefaultUser(name), nil
+		}
+		return User{}, err
+	}
+	var u User
+
+	err := result.Decode(&u)
+	if err != nil {
+		return User{}, err
+	}
+
+	users[u.Name] = u
+
+	return u, nil
+}
+
+// LoadUsersCond loads users using the given filter.
+func LoadUsersCond(cond any) ([]User, error) {
+	collection := db.Collection("users")
+	count, err := collection.EstimatedDocumentCount(ctx())
+	if err != nil {
+		return nil, err
+	}
+
+	var data = make([]User, count)
+
+	for d := 0; d < int(count); d++ {
+		data[d] = User{}
+	}
+
+	cursor, err := collection.Find(ctx(), cond)
+	if err != nil {
+		return nil, err
+	}
+
+	if err = cursor.All(ctx(), &data); err != nil {
+		return nil, err
+	}
+
+	usersMu.Lock()
+	for i, u := range data {
+		if d, ok := users[u.Name]; ok {
+			data[i] = d
+		}
+	}
+	usersMu.Unlock()
+
+	return data, nil
 }
 
 // SaveUser saves the provided user into the database.

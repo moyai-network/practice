@@ -6,6 +6,7 @@ import (
 	"github.com/moyai-network/carrot"
 	"github.com/moyai-network/carrot/role"
 	"github.com/moyai-network/practice/moyai/data"
+	"github.com/sandertv/gophertunnel/minecraft/text"
 	"golang.org/x/text/language"
 )
 
@@ -28,4 +29,27 @@ func allow(src cmd.Source, console bool, roles ...carrot.Role) bool {
 	}
 	u, ok := data.LoadUser(p.Name())
 	return ok && u.Roles.Contains(append(roles, role.Operator{})...)
+}
+
+// names returns a list of formatted names from a list of users. If tag is true a tag will be shown next to the name
+// indicating if the user is banned or blacklisted.
+func names(users []data.User, tag bool) (names []string) {
+	for _, u := range users {
+		if u.Punishments.Ban.Permanent {
+			if tag {
+				names = append(names, text.Colourf("<dark-red>%s [BLACKLISTED]</dark-red>", u.DisplayName))
+			} else {
+				names = append(names, text.Colourf("<dark-red>%s</dark-red>", u.DisplayName))
+			}
+		} else if !u.Punishments.Ban.Expired() {
+			if tag {
+				names = append(names, text.Colourf("<red>%s [BANNED]</red>", u.DisplayName))
+			} else {
+				names = append(names, text.Colourf("<red>%s</red>", u.DisplayName))
+			}
+		} else {
+			names = append(names, text.Colourf("<green>%s</green>", u.DisplayName))
+		}
+	}
+	return
 }
