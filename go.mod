@@ -2,19 +2,27 @@ module github.com/moyai-network/practice
 
 go 1.20
 
+require github.com/segmentio/fasthash v1.0.3 // indirect
+
+replace github.com/sandertv/go-raknet => github.com/tedacmc/tedac-raknet v0.0.4
+
+replace github.com/sandertv/gophertunnel => github.com/everblademc/tedac-gophertunnel v0.0.9
+
 require (
 	github.com/df-mc/atomic v1.10.0
 	github.com/df-mc/dragonfly v0.9.9-0.20230714144543-281943e6efc4
+	github.com/flonja/multiversion v0.0.0-20230727204349-88d4a8c393a0
 	github.com/go-gl/mathgl v1.0.0
 	github.com/hako/durafmt v0.0.0-20210608085754-5c1018a4e16b
 	github.com/moyai-network/carrot v0.0.0-20230809195845-569b12381470
-	github.com/oomph-ac/oomph v0.0.0-20230726033737-4cceb3fda16b
+	github.com/oomph-ac/oomph v0.0.0-20230809175909-1885fe846dc5
 	github.com/rcrowley/go-bson v0.0.0-20140210180454-771ad044f2d7
 	github.com/restartfu/gophig v0.0.0-20230501130741-bd994da592f7
 	github.com/sandertv/gophertunnel v1.31.0
 	github.com/sirupsen/logrus v1.9.3
 	github.com/unickorn/strutils v0.0.0-20221027210219-8e7a82cccd62
 	go.mongodb.org/mongo-driver v1.12.0
+	golang.org/x/exp v0.0.0-20230713183714-613f0c0eb8a1
 	golang.org/x/text v0.11.0
 )
 
@@ -33,9 +41,9 @@ require (
 	github.com/kr/text v0.2.0 // indirect
 	github.com/montanaflynn/stats v0.0.0-20171201202039-1bf9dbcd8cbe // indirect
 	github.com/muhammadmuzzammil1998/jsonc v1.0.0 // indirect
-	github.com/pelletier/go-toml v1.9.5 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.7 // indirect
 	github.com/rogpeppe/go-internal v1.11.0 // indirect
+	github.com/samber/lo v1.38.1 // indirect
 	github.com/sandertv/go-raknet v1.12.0 // indirect
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect
 	github.com/xdg-go/scram v1.1.2 // indirect
@@ -43,7 +51,6 @@ require (
 	github.com/youmark/pkcs8 v0.0.0-20181117223130-1be2e3e5546d // indirect
 	go.uber.org/atomic v1.11.0 // indirect
 	golang.org/x/crypto v0.11.0 // indirect
-	golang.org/x/exp v0.0.0-20230713183714-613f0c0eb8a1 // indirect
 	golang.org/x/image v0.9.0 // indirect
 	golang.org/x/net v0.12.0 // indirect
 	golang.org/x/oauth2 v0.10.0 // indirect
