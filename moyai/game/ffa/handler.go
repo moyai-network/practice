@@ -221,8 +221,8 @@ func (h *Handler) UserHandler() *user.Handler {
 
 // Close ...
 func (h *Handler) Close() {
-	h.combat.Reset()
-	h.pearl.Reset()
+	h.combat.Cancel()
+	h.pearl.Cancel()
 	for _, e := range h.p.World().Entities() {
 		if ent, ok := e.(*entity.Ent); ok {
 			if be, ok := ent.Behaviour().(*entity.ProjectileBehaviour); ok {

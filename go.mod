@@ -14,7 +14,7 @@ require (
 	github.com/flonja/multiversion v0.0.0-20230727204349-88d4a8c393a0
 	github.com/go-gl/mathgl v1.0.0
 	github.com/hako/durafmt v0.0.0-20210608085754-5c1018a4e16b
-	github.com/moyai-network/carrot v0.0.0-20230809195845-569b12381470
+	github.com/moyai-network/carrot v0.0.0-20230809221034-20de92e6cba2
 	github.com/oomph-ac/oomph v0.0.0-20230809175909-1885fe846dc5
 	github.com/rcrowley/go-bson v0.0.0-20140210180454-771ad044f2d7
 	github.com/restartfu/gophig v0.0.0-20230501130741-bd994da592f7
