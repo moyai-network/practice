@@ -60,6 +60,7 @@ func (h *Handler) HandleChat(ctx *event.Context, message *string) {
 		return
 	}
 
+	*message = formatRegex.ReplaceAllString(*message, "")
 	*message = emojis.Replace(*message)
 	r := u.Roles.Highest()
 	msg := r.Chat(h.p.Name(), *message)
