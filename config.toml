@@ -25,5 +25,5 @@ Required = false
 
 [Oomph]
 Port = 19132
-CombatMode = 1
-MovementMode = 1
+CombatMode = 2
+MovementMode = 2
