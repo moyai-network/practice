@@ -23,12 +23,13 @@ func NewMoyaiPearl(pos mgl64.Vec3, vel mgl64.Vec3, owner world.Entity) world.Ent
 
 var moyaiPearlConf = entity.ProjectileBehaviourConfig{
 	Gravity: 0.050,
-	Drag:    0.01,
+	Drag:    0.008,
 
-	KnockBackForceAddend: 0.45 - 0.3608,
-	Particle:             particle.EndermanTeleport{},
-	Sound:                sound.Teleport{},
-	Hit:                  teleport,
+	KnockBackHeightAddend: 0.54 - 0.45,
+	KnockBackForceAddend:  0.394 - 0.3608,
+	Particle:              particle.EndermanTeleport{},
+	Sound:                 sound.Teleport{},
+	Hit:                   teleport,
 }
 
 // teleporter represents a living entity that can teleport.
