@@ -140,6 +140,7 @@ func (h *Handler) HandleCommandExecution(ctx *event.Context, command cmd.Command
 
 // HandleQuit ...
 func (h *Handler) HandleQuit() {
+	h.Close()
 	u, _ := data.LoadUser(h.p.Name())
 	if u.Stats.KillStreak > u.Stats.BestKillStreak {
 		u = u.WithBestKillStreak(u.Stats.KillStreak)

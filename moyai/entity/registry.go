@@ -33,12 +33,10 @@ var conf = world.EntityRegistryConfig{
 	BottleOfEnchanting: entity.DefaultRegistry.Config().BottleOfEnchanting,
 	Arrow:              entity.DefaultRegistry.Config().Arrow,
 	Egg:                entity.DefaultRegistry.Config().Egg,
-	EnderPearl: func(pos, vel mgl64.Vec3, owner world.Entity) world.Entity {
-		return NewMoyaiPearl(pos, vel, owner)
-	},
-	Firework:        entity.DefaultRegistry.Config().Firework,
-	LingeringPotion: entity.DefaultRegistry.Config().LingeringPotion,
-	Snowball:        entity.DefaultRegistry.Config().Snowball,
+	EnderPearl:         entity.DefaultRegistry.Config().EnderPearl,
+	Firework:           entity.DefaultRegistry.Config().Firework,
+	LingeringPotion:    entity.DefaultRegistry.Config().LingeringPotion,
+	Snowball:           entity.DefaultRegistry.Config().Snowball,
 	SplashPotion: func(pos, vel mgl64.Vec3, t any, owner world.Entity) world.Entity {
 		return NewMoyaiPotion(pos, vel, owner, t.(potion.Potion))
 	},
