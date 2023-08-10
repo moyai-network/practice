@@ -47,6 +47,6 @@
     "user.ban.description": "<gold>Reason:</gold> <yellow>%s</yellow>\n<dark-green>Remaining:</dark-green> <green>%s</green>\n<grey><i>For questions or concerns, refer to discord.gg/moyai-mc</grey></i>",
 
     "duel.requested": "<green>%s just sent you a duel request</green>",
-    "duel.request": "<green>you just sent a duel request to %s</green>"
+    "duel.request": "<green>You just sent a duel request to %s</green>"
   }
 }
