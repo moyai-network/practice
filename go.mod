@@ -17,7 +17,7 @@ require (
 	github.com/go-gl/mathgl v1.0.0
 	github.com/hako/durafmt v0.0.0-20210608085754-5c1018a4e16b
 	github.com/moyai-network/carrot v0.0.0-20230809230727-15e27bbcbcb7
-	github.com/oomph-ac/oomph v0.0.0-20230810013703-5387924e55ee
+	github.com/oomph-ac/oomph v0.0.0-20230810151419-0c78cfad9d04
 	github.com/rcrowley/go-bson v0.0.0-20140210180454-771ad044f2d7
 	github.com/restartfu/gophig v0.0.0-20230501130741-bd994da592f7
 	github.com/sandertv/gophertunnel v1.31.0
