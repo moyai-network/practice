@@ -22,8 +22,9 @@ func NewMoyaiPearl(pos mgl64.Vec3, vel mgl64.Vec3, owner world.Entity) world.Ent
 }
 
 var moyaiPearlConf = entity.ProjectileBehaviourConfig{
-	Gravity:               0.085,
-	Drag:                  0.01,
+	Gravity: 0.085,
+	Drag:    0.01,
+
 	KnockBackHeightAddend: 0.388 - 0.45,
 	KnockBackForceAddend:  0.39 - 0.3608,
 	Particle:              particle.EndermanTeleport{},
@@ -56,7 +57,10 @@ func teleport(e *entity.Ent, target trace.Result) {
 		p.Hurt(0, entity.FallDamageSource{})
 
 		if r, ok := target.(trace.EntityResult); ok {
-			if _, ok := r.Entity().(entity.Living); ok {
+			if l, ok := r.Entity().(entity.Living); ok {
+				if _, vulnerable := l.Hurt(0.0, entity.ProjectileDamageSource{Projectile: e, Owner: e.Behaviour().(*entity.ProjectileBehaviour).Owner()}); vulnerable {
+					l.KnockBack(p.Position(), 0.388, 0.39)
+				}
 				p.SetAttackImmunity(245 * time.Millisecond)
 			}
 		}
