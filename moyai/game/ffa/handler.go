@@ -282,6 +282,10 @@ func (h *Handler) SendScoreBoard() {
 	h.p.SendScoreboard(sb)
 }
 
+func (h *Handler) Game() game.Game {
+	return h.g
+}
+
 func (h *Handler) tag(t *carrot.Tag) {
 	if !t.Active() {
 		h.p.SendPopup(lang.Translatef(h.p.Locale(), "combat.tag"))

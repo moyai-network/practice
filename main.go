@@ -99,6 +99,7 @@ func registerCommands() {
 		cmd.New("ban", text.Colourf("<orange>Ban other players</orange>"), nil, command.BanList{}, command.BanLiftOffline{}, command.BanInfoOffline{}, command.Ban{}, command.BanOffline{}, command.BanForm{}),
 		cmd.New("kick", text.Colourf("<orange>Kick other players</orange>"), nil, command.Kick{}),
 		cmd.New("mute", text.Colourf("<orange>Mute other players</orange>"), nil, command.MuteList{}, command.MuteLiftOffline{}, command.MuteInfoOffline{}, command.Mute{}, command.MuteOffline{}, command.MuteForm{}),
+		cmd.New("rekit", text.Colourf("<orange>re-apply your kit</orange>"), nil, command.ReKit{}),
 	} {
 		cmd.Register(c)
 	}
