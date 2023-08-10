@@ -4,6 +4,7 @@ import (
 	"github.com/df-mc/dragonfly/server/block"
 	"github.com/df-mc/dragonfly/server/block/cube"
 	"github.com/df-mc/dragonfly/server/item"
+	"github.com/df-mc/dragonfly/server/item/inventory"
 	"github.com/df-mc/dragonfly/server/player"
 	"github.com/df-mc/dragonfly/server/world"
 	"github.com/go-gl/mathgl/mgl64"
@@ -45,12 +46,16 @@ func Start(p1, p2 *player.Player, g game.Game, lobby func(*player.Player)) {
 	w.StopThundering()
 	w.StopRaining()
 
+	p1.Inventory().Handle(inventory.NopHandler{})
+	p1.Armour().Handle(inventory.NopHandler{})
 	p1.SetNameTag(text.Colourf("<red>%s</red>", p1.Name()))
 	p1.Handle(newHandler(p1, p2, lobby))
 	w.AddEntity(p1)
 	p1.Teleport(mgl64.Vec3{float64(dim[0] / 2), 2, 10})
 	kit.Apply(g.Kit(), p1)
 
+	p2.Inventory().Handle(inventory.NopHandler{})
+	p2.Armour().Handle(inventory.NopHandler{})
 	p2.SetNameTag(text.Colourf("<red>%s</red>", p2.Name()))
 	p2.Handle(newHandler(p2, p1, lobby))
 	w.AddEntity(p2)
