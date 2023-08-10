@@ -24,9 +24,8 @@ func (d Duel) Run(src cmd.Source, out *cmd.Output) {
 	if !ok {
 		return
 	}
-	_, ok = p.Handler().(*lobby.Handler)
+	_, ok = p.Handler().(user.UserHandler)
 	if !ok {
-		out.Error("You must be in the lobby to accept duel requests.")
 		return
 	}
 
@@ -39,9 +38,8 @@ func (d Duel) Run(src cmd.Source, out *cmd.Output) {
 		return
 	}
 
-	h, ok := t.Handler().(*lobby.Handler)
+	h, ok := t.Handler().(user.UserHandler)
 	if !ok {
-		out.Error("Your opponent must be in the lobby in order to accept their duel request.")
 		return
 	}
 
@@ -56,13 +54,20 @@ func (d DuelAccept) Run(src cmd.Source, out *cmd.Output) {
 	if !ok {
 		return
 	}
-	h, ok := p.Handler().(user.UserHandler)
+	h, ok := p.Handler().(*lobby.Handler)
 	if !ok {
+		out.Error("Your opponent must be in the lobby in order to accept their duel request.")
 		return
 	}
 
 	t, ok := user.Lookup(string(d.Duel))
 	if !ok {
+		return
+	}
+
+	_, ok = p.Handler().(*lobby.Handler)
+	if !ok {
+		out.Error("Your opponent must be in the lobby in order to accept their duel request.")
 		return
 	}
 
