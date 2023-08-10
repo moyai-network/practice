@@ -9,6 +9,7 @@ import (
 	"github.com/df-mc/dragonfly/server/entity"
 	"github.com/df-mc/dragonfly/server/event"
 	"github.com/df-mc/dragonfly/server/item"
+	"github.com/df-mc/dragonfly/server/item/potion"
 	"github.com/df-mc/dragonfly/server/player"
 	"github.com/df-mc/dragonfly/server/player/scoreboard"
 	"github.com/df-mc/dragonfly/server/world"
@@ -135,7 +136,7 @@ func (h *Handler) HandleHurt(ctx *event.Context, damage *float64, attackImmunity
 		killer = killer.WithKills(killer.Stats.Kills + 1)
 
 		_ = data.SaveUser(killer)
-		user.Broadcast("user.kill", u.Roles.Highest().Colour(u.DisplayName), killer.Roles.Highest().Colour(killer.DisplayName))
+		user.Broadcast("user.kill", u.Roles.Highest().Colour(u.DisplayName), potions(h.p), killer.Roles.Highest().Colour(killer.DisplayName), potions(k))
 	}
 }
 
@@ -294,4 +295,14 @@ func (h *Handler) tag(t *carrot.Tag) {
 
 func (h *Handler) unTag(t *carrot.Tag) {
 	h.p.SendPopup(lang.Translatef(h.p.Locale(), "combat.untag"))
+}
+
+// potions returns the amount of potions the player has.
+func potions(p *player.Player) (n int) {
+	for _, i := range p.Inventory().Items() {
+		if p, ok := i.Item().(item.SplashPotion); ok && p.Type == potion.StrongHealing() {
+			n++
+		}
+	}
+	return n
 }

@@ -4,7 +4,7 @@
     "item.lobby.settings": "<orange>Settings</orange>",
 
     "user.suicide": "%s <red>committed suicide</red>",
-    "user.kill": "%s <red>was slain by</red> %s",
+    "user.kill": "%s<grey>[<red>%d</red>]</grey> <red>was slain by</red> %s<grey>[<red>%d</red>]</grey>",
     "user.kick.header.oomph": "<b><red>You were kicked from Moyai by Oomph</red></b>",
     "user.kick.autoclicker": "<red>We detected that your CPS is unfair, please try increasing your\ndebounce time or terminate your external program!\n<grey><i>For questions or concerns, refer to discord.gg/synhcf</grey></i>",
     "user.kick.description": "<gold>Reason:</gold> <yellow>%s</yellow>\n<grey><i>For questions or concerns, refer to discord.gg/moyai-mc</grey></i>",
