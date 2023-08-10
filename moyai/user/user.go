@@ -2,6 +2,8 @@ package user
 
 import (
 	"fmt"
+	"github.com/moyai-network/practice/moyai/game"
+	"time"
 
 	"github.com/df-mc/dragonfly/server/cmd"
 	"github.com/df-mc/dragonfly/server/player"
@@ -67,4 +69,26 @@ func Broadcast(key string, args ...any) {
 	for _, p := range users.Values() {
 		p.Message(lang.Translatef(p.Locale(), key, args...))
 	}
+}
+
+// DuelRequests ...
+func (h *Handler) DuelRequests() (requests []string) {
+	for xuid, t := range h.duelRequests {
+		p, ok := LookupXUID(xuid)
+		if !ok || t.Before(time.Now()) {
+			delete(h.duelRequests, xuid)
+			continue
+		}
+		requests = append(requests, p.Name())
+	}
+	return
+}
+
+// Duel ...
+func (h *Handler) Duel(p *player.Player, g game.Game) {
+	h.duelRequests[p.XUID()] = time.Now().Add(5 * time.Minute)
+}
+
+func (h *Handler) AcceptDuel(t *player.Player) {
+	delete(h.duelRequests, t.XUID())
 }

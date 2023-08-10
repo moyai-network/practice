@@ -21,10 +21,11 @@ type Handler struct {
 	p *player.Player
 
 	chatCoolDown carrot.CoolDown
+	duelRequests map[string]time.Time
 }
 
 func NewHandler(p *player.Player) *Handler {
-	h := &Handler{p: p}
+	h := &Handler{p: p, duelRequests: map[string]time.Time{}}
 	return h
 }
 
