@@ -25,8 +25,8 @@ var moyaiPearlConf = entity.ProjectileBehaviourConfig{
 	Gravity: 0.050,
 	Drag:    0.01,
 
-	KnockBackHeightAddend: 0.388,
-	KnockBackForceAddend:  0.39,
+	KnockBackHeightAddend: 0.388 - 0.45,
+	KnockBackForceAddend:  0.39 - 0.3608,
 	Particle:              particle.EndermanTeleport{},
 	Sound:                 sound.Teleport{},
 	Hit:                   teleport,
