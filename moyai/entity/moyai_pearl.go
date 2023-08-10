@@ -58,9 +58,6 @@ func teleport(e *entity.Ent, target trace.Result) {
 
 		if r, ok := target.(trace.EntityResult); ok {
 			if _, ok := r.Entity().(entity.Living); ok {
-				// if _, vulnerable := l.Hurt(0.0, entity.ProjectileDamageSource{Projectile: e, Owner: e.Behaviour().(*entity.ProjectileBehaviour).Owner()}); vulnerable {
-				// 	l.KnockBack(p.Position(), 0.388, 0.39)
-				// }
 				p.SetAttackImmunity(245 * time.Millisecond)
 			}
 		}

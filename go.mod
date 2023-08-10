@@ -2,6 +2,8 @@ module github.com/moyai-network/practice
 
 go 1.20
 
+replace github.com/flonja/multiversion => ./multiversion
+
 require github.com/segmentio/fasthash v1.0.3 // indirect
 
 replace github.com/sandertv/go-raknet => github.com/tedacmc/tedac-raknet v0.0.4
