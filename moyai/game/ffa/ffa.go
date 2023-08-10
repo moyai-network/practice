@@ -53,7 +53,7 @@ func init() {
 	for _, g := range game.Games() {
 		size := 256
 		w := world.Config{Entities: ent.Registry}.New()
-		s := structure.GenerateBoxStructure([3]int{size, 20, size}, pairs[rand.Intn(len(pairs))]...)
+		s := structure.GenerateBoxStructure([3]int{size, 50, size}, pairs[rand.Intn(len(pairs))]...)
 		w.BuildStructure(cube.Pos{0, 0, 0}, s)
 		w.SetSpawn(cube.Pos{size / 2, 2, size / 2})
 		w.Handle(&worlds.Handler{})
