@@ -1,6 +1,7 @@
 package entity
 
 import (
+	"time"
 	_ "unsafe"
 
 	"github.com/df-mc/dragonfly/server/block/cube/trace"
@@ -47,8 +48,17 @@ func teleport(e *entity.Ent, target trace.Result) {
 			v.ViewEntityMovement(p, e.Position(), rot, onGround)
 		}
 
-		e.World().PlaySound(u.Position(), sound.Teleport{})
 		u.Teleport(target.Position())
-		u.Hurt(5, entity.FallDamageSource{})
+
+		u.World().AddParticle(target.Position(), particle.EndermanTeleport{})
+		u.World().PlaySound(target.Position(), sound.Teleport{})
+
+		p.Hurt(0, entity.FallDamageSource{})
+
+		if r, ok := target.(trace.EntityResult); ok {
+			if _, ok := r.Entity().(entity.Living); ok {
+				p.SetAttackImmunity(245 * time.Millisecond)
+			}
+		}
 	}
 }
