@@ -21,14 +21,32 @@ func init() {
 		{
 			block.Concrete{Colour: item.ColourLime()},
 			block.Concrete{Colour: item.ColourGreen()},
+			block.GlazedTerracotta{Colour: item.ColourGreen()},
+			block.Emerald{},
 		},
 		{
 			block.Concrete{Colour: item.ColourLightBlue()},
 			block.Concrete{Colour: item.ColourBlue()},
+			block.Lapis{},
+			block.Wool{Colour: item.ColourLightBlue()},
+			block.Wool{Colour: item.ColourBlue()},
+			block.StainedGlass{Colour: item.ColourBlue()},
 		},
 		{
-			block.Concrete{Colour: item.ColourLightGrey()},
+			block.Amethyst{},
+			block.Purpur{},
+			block.Wool{Colour: item.ColourPurple()},
+			block.Concrete{Colour: item.ColourPurple()},
+			block.GlazedTerracotta{Colour: item.ColourPurple()},
+			block.StainedGlass{Colour: item.ColourPurple()},
+		},
+		{
+			block.NetherBricks{Type: block.CrackedNetherBricks()},
+			block.NetherBricks{Type: block.ChiseledNetherBricks()},
+			block.Wool{Colour: item.ColourRed()},
+			block.Concrete{Colour: item.ColourRed()},
 			block.Concrete{Colour: item.ColourBlack()},
+			block.Coal{},
 		},
 	}
 
