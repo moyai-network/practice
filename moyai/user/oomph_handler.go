@@ -8,7 +8,6 @@ import (
 	"github.com/moyai-network/carrot/lang"
 	"github.com/oomph-ac/oomph/check"
 	"github.com/oomph-ac/oomph/player"
-	"github.com/oomph-ac/oomph/utils"
 	"github.com/unickorn/strutils"
 )
 
@@ -29,7 +28,6 @@ func (h *OomphHandler) HandleFlag(ctx *event.Context, ch check.Check, params map
 		h.p.Name(),
 		name,
 		variant,
-		utils.PrettyParameters(params, true),
 		mgl64.Round(ch.Violations(), 2),
 	)
 }

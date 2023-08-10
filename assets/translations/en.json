@@ -9,7 +9,8 @@
     "user.kick.autoclicker": "<red>We detected that your CPS is unfair, please try increasing your\ndebounce time or terminate your external program!\n<grey><i>For questions or concerns, refer to discord.gg/synhcf</grey></i>",
     "user.kick.description": "<gold>Reason:</gold> <yellow>%s</yellow>\n<grey><i>For questions or concerns, refer to discord.gg/moyai-mc</grey></i>",
 
-    "staff.alert": "<gold>[<redstone>Oomph</redstone>]</gold> <aqua>%v was flagged for %v (%v)</aqua> <grey>%v [x%v]</grey>",
+    "staff.alert": "<redstone>Oomph > </redstone><grey>%v was flagged for <red>%v</red> (<red>%v</red>)</grey> <grey>[<red>%vx</red>]</grey>",
+    "staff.alert.with_debug": "<gold>[<redstone>Oomph</redstone>]</gold> <aqua>%v was flagged for %v (%v)</aqua> <grey>%v [x%v]</grey>",
 
     "command.combat": "<red>You may not use this command in combat</red>",
 
