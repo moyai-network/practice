@@ -6,6 +6,7 @@ import (
 	"github.com/df-mc/dragonfly/server/entity"
 	"github.com/df-mc/dragonfly/server/event"
 	"github.com/df-mc/dragonfly/server/item"
+	"github.com/df-mc/dragonfly/server/item/potion"
 	"github.com/df-mc/dragonfly/server/player"
 	"github.com/df-mc/dragonfly/server/player/scoreboard"
 	"github.com/df-mc/dragonfly/server/world"
@@ -26,11 +27,10 @@ type Handler struct {
 	pearl     *carrot.CoolDown
 	startTime time.Time
 
-	lobby func(*player.Player)
 	close chan struct{}
 }
 
-func newHandler(p *player.Player, op *player.Player, lobby func(*player.Player)) *Handler {
+func newHandler(p *player.Player, op *player.Player) *Handler {
 	var uHandler *user.Handler
 	if uh, ok := p.Handler().(user.UserHandler); ok {
 		uHandler = uh.UserHandler()
@@ -44,7 +44,6 @@ func newHandler(p *player.Player, op *player.Player, lobby func(*player.Player))
 		op:        op,
 		startTime: time.Now(),
 
-		lobby: lobby,
 		close: make(chan struct{}, 0),
 	}
 
@@ -111,10 +110,10 @@ func (h *Handler) HandleHurt(ctx *event.Context, damage *float64, attackImmunity
 		killer = killer.WithKills(killer.Stats.Kills + 1)
 
 		_ = data.SaveUser(killer)
-		user.Broadcast("user.kill", u.Roles.Highest().Colour(u.DisplayName), killer.Roles.Highest().Colour(killer.DisplayName))
+		user.Broadcast("user.kill", u.Roles.Highest().Colour(u.DisplayName), potions(h.p), killer.Roles.Highest().Colour(killer.DisplayName), potions(h.op))
 
-		h.lobby(h.op)
-		h.lobby(h.p)
+		lobby(h.op)
+		lobby(h.p)
 	}
 }
 
@@ -159,9 +158,9 @@ func (h *Handler) HandleQuit() {
 	killer = killer.WithKills(killer.Stats.Kills + 1)
 
 	_ = data.SaveUser(killer)
-	user.Broadcast("user.kill", u.Roles.Highest().Colour(u.DisplayName), killer.Roles.Highest().Colour(killer.DisplayName))
+	user.Broadcast("user.kill", u.Roles.Highest().Colour(u.DisplayName), potions(h.p), killer.Roles.Highest().Colour(killer.DisplayName), potions(h.op))
 
-	h.lobby(h.op)
+	lobby(h.op)
 }
 
 // Close ...
@@ -223,4 +222,14 @@ func parseDuration(d time.Duration) string {
 	}
 
 	return fmt.Sprintf("%02d:%02d", minutes, seconds)
+}
+
+// potions returns the amount of potions the player has.
+func potions(p *player.Player) (n int) {
+	for _, i := range p.Inventory().Items() {
+		if p, ok := i.Item().(item.SplashPotion); ok && p.Type == potion.StrongHealing() {
+			n++
+		}
+	}
+	return n
 }

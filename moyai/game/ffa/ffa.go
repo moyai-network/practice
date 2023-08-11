@@ -1,6 +1,7 @@
 package ffa
 
 import (
+	"github.com/df-mc/dragonfly/server/player"
 	"math"
 	"math/rand"
 
@@ -13,6 +14,12 @@ import (
 	"github.com/moyai-network/practice/moyai/game"
 	"github.com/moyai-network/practice/moyai/game/structure"
 )
+
+var lobby func(p *player.Player)
+
+func InitializeLobby(f func(*player.Player)) {
+	lobby = f
+}
 
 var ffas = map[game.Game]*world.World{}
 

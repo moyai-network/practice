@@ -10,7 +10,7 @@ import (
 	"github.com/sandertv/gophertunnel/minecraft/text"
 )
 
-func AddPlayer(p *player.Player, g game.Game, lobby func(player2 *player.Player)) {
+func AddPlayer(p *player.Player, g game.Game) {
 	if c, closeable := p.Handler().(interface{ Close() }); closeable {
 		c.Close()
 	}
@@ -24,7 +24,7 @@ func AddPlayer(p *player.Player, g game.Game, lobby func(player2 *player.Player)
 	p.Teleport(w.Spawn().Vec3Middle())
 	kit.Apply(g.Kit(), p)
 
-	h := newHandler(p, g, lobby)
+	h := newHandler(p, g)
 	h.SendScoreBoard()
 	p.Handle(h)
 	p.Inventory().Handle(inventory.NopHandler{})

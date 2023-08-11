@@ -95,7 +95,7 @@ func registerCommands() {
 	for _, c := range []cmd.Command{
 		cmd.New("spawn", text.Colourf("<orange>Teleport to spawn.</orange>"), []string{"hub"}, command.Spawn{}),
 		cmd.New("role", text.Colourf("<orange>Role management commands.</orange>"), nil, command.RoleAdd{}, command.RoleRemove{}, command.RoleAddOffline{}, command.RoleRemoveOffline{}),
-		cmd.New("duel", text.Colourf("<orange>Duel other players or parties.</orange>"), nil, command.Duel{}, command.DuelAccept{}),
+		cmd.New("duel", text.Colourf("<orange>Duel other players or parties.</orange>"), nil, command.DuelAccept{}, command.Duel{}),
 		cmd.New("ban", text.Colourf("<orange>Ban other players</orange>"), nil, command.BanList{}, command.BanLiftOffline{}, command.BanInfoOffline{}, command.Ban{}, command.BanOffline{}, command.BanForm{}),
 		cmd.New("kick", text.Colourf("<orange>Kick other players</orange>"), nil, command.Kick{}),
 		cmd.New("mute", text.Colourf("<orange>Mute other players</orange>"), nil, command.MuteList{}, command.MuteLiftOffline{}, command.MuteInfoOffline{}, command.Mute{}, command.MuteOffline{}, command.MuteForm{}),

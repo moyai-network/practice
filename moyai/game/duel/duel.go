@@ -32,7 +32,10 @@ var pairs = [][]world.Block{
 	},
 }
 
-func Start(p1, p2 *player.Player, g game.Game, lobby func(*player.Player)) {
+func Start(p1, p2 *player.Player, g game.Game) {
+	UnQueue(p1)
+	UnQueue(p2)
+
 	dim := [3]int{50, 20, 80}
 	w := world.Config{Entities: ent.Registry, ReadOnly: true}.New()
 	s := structure.GenerateBoxStructure(dim, pairs[rand.Intn(len(pairs))]...)
@@ -49,7 +52,7 @@ func Start(p1, p2 *player.Player, g game.Game, lobby func(*player.Player)) {
 	p1.Inventory().Handle(inventory.NopHandler{})
 	p1.Armour().Handle(inventory.NopHandler{})
 	p1.SetNameTag(text.Colourf("<red>%s</red>", p1.Name()))
-	p1.Handle(newHandler(p1, p2, lobby))
+	p1.Handle(newHandler(p1, p2))
 	w.AddEntity(p1)
 	p1.Teleport(mgl64.Vec3{float64(dim[0] / 2), 2, 10})
 	kit.Apply(g.Kit(), p1)
@@ -57,7 +60,7 @@ func Start(p1, p2 *player.Player, g game.Game, lobby func(*player.Player)) {
 	p2.Inventory().Handle(inventory.NopHandler{})
 	p2.Armour().Handle(inventory.NopHandler{})
 	p2.SetNameTag(text.Colourf("<red>%s</red>", p2.Name()))
-	p2.Handle(newHandler(p2, p1, lobby))
+	p2.Handle(newHandler(p2, p1))
 	w.AddEntity(p2)
 	p2.Teleport(mgl64.Vec3{float64(dim[0] / 2), 2, 70})
 	kit.Apply(g.Kit(), p2)

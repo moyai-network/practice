@@ -1,6 +1,7 @@
 {
   "translations": {
     "item.lobby.ffa": "<orange>FFA</orange>",
+    "item.lobby.queue": "<orange>Queue</orange>",
     "item.lobby.settings": "<orange>Settings</orange>",
 
     "user.suicide": "%s <red>committed suicide</red>",

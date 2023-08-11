@@ -1,6 +1,8 @@
 package lobby
 
 import (
+	"github.com/moyai-network/practice/moyai/game/duel"
+	"github.com/moyai-network/practice/moyai/game/kit"
 	"strings"
 	"time"
 
@@ -49,18 +51,23 @@ func (h *Handler) HandleItemUse(_ *event.Context) {
 	held, _ := h.p.HeldItems()
 
 	val, ok := held.Value("lobby")
-	if !ok {
-		return
+	if ok {
+		switch val {
+		case 0:
+			h.p.SendForm(form.NewFFA())
+		case 1:
+			h.p.SendForm(form.NewQueue())
+		}
 	}
-	switch val {
-	case 0:
-		h.p.SendForm(form.NewFFA(AddPlayer))
-	}
-}
 
-// HandleQuit ...
-func (h *Handler) HandleQuit() {
-	user.Remove(h.p)
+	val, ok = held.Value("queue")
+	if ok {
+		switch val {
+		case 8:
+			kit.Apply(kit.Lobby{}, h.p)
+			duel.UnQueue(h.p)
+		}
+	}
 }
 
 // HandleAttackEntity ...
@@ -107,4 +114,8 @@ func (h *Handler) SendScoreBoard() {
 	_, _ = sb.WriteString(lang.Translatef(l, "scoreboard.footer"))
 	h.p.RemoveScoreboard()
 	h.p.SendScoreboard(sb)
+}
+func (h *Handler) HandleQuit() {
+	user.Remove(h.p)
+	duel.UnQueue(h.p)
 }

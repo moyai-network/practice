@@ -4,9 +4,16 @@ import (
 	"github.com/df-mc/dragonfly/server/player"
 	"github.com/df-mc/dragonfly/server/world"
 	"github.com/moyai-network/practice/moyai/data"
+	"github.com/moyai-network/practice/moyai/game/duel"
+	"github.com/moyai-network/practice/moyai/game/ffa"
 	"github.com/moyai-network/practice/moyai/game/kit"
 	"github.com/moyai-network/practice/moyai/user"
 )
+
+func init() {
+	ffa.InitializeLobby(AddPlayer)
+	duel.InitializeLobby(AddPlayer)
+}
 
 func New(w *world.World) {
 	lobby = w

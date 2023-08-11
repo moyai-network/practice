@@ -34,12 +34,11 @@ type Handler struct {
 	lastAttacker           atomic.Value[string]
 	lastAttackerExpiration atomic.Value[time.Time]
 
-	lobby func(*player.Player)
 	close chan struct{}
 }
 
 // newHandler returns a new FFA handler.
-func newHandler(p *player.Player, g game.Game, lobby func(p *player.Player)) *Handler {
+func newHandler(p *player.Player, g game.Game) *Handler {
 	var uHandler *user.Handler
 	if uh, ok := p.Handler().(user.UserHandler); ok {
 		uHandler = uh.UserHandler()
@@ -51,8 +50,8 @@ func newHandler(p *player.Player, g game.Game, lobby func(p *player.Player)) *Ha
 		Handler: uHandler,
 		p:       p,
 		g:       g,
-		lobby:   lobby,
-		close:   make(chan struct{}, 0),
+
+		close: make(chan struct{}, 0),
 	}
 	h.combat = carrot.NewTag(h.tag, h.unTag)
 	h.pearl = carrot.NewCoolDown(func(cd *carrot.CoolDown) {
@@ -112,7 +111,7 @@ func (h *Handler) HandleHurt(ctx *event.Context, damage *float64, attackImmunity
 		h.combat.Cancel()
 		h.pearl.Cancel()
 
-		h.lobby(h.p)
+		lobby(h.p)
 
 		killer, ok := data.LoadUser(h.lastAttacker.Load())
 		if !ok || h.lastAttackerExpiration.Load().Before(time.Now()) {
@@ -121,6 +120,16 @@ func (h *Handler) HandleHurt(ctx *event.Context, damage *float64, attackImmunity
 		}
 
 		k, online := user.LookupXUID(killer.XUID)
+		if online {
+			killer = killer.WithKillStreak(killer.Stats.KillStreak + 1)
+			if killer.Stats.KillStreak > killer.Stats.BestKillStreak {
+				killer = killer.WithBestKillStreak(killer.Stats.KillStreak)
+			}
+			killer = killer.WithKills(killer.Stats.Kills + 1)
+
+			_ = data.SaveUser(killer)
+			user.Broadcast("user.kill", u.Roles.Highest().Colour(u.DisplayName), potions(h.p), killer.Roles.Highest().Colour(killer.DisplayName), potions(k))
+		}
 		kh, ok := k.Handler().(*Handler)
 		if online && ok {
 			kh.SendScoreBoard()
@@ -128,15 +137,6 @@ func (h *Handler) HandleHurt(ctx *event.Context, damage *float64, attackImmunity
 			kh.pearl.Reset()
 			kit.Apply(h.g.Kit(), kh.p)
 		}
-
-		killer = killer.WithKillStreak(killer.Stats.KillStreak + 1)
-		if killer.Stats.KillStreak > killer.Stats.BestKillStreak {
-			killer = killer.WithBestKillStreak(killer.Stats.KillStreak)
-		}
-		killer = killer.WithKills(killer.Stats.Kills + 1)
-
-		_ = data.SaveUser(killer)
-		user.Broadcast("user.kill", u.Roles.Highest().Colour(u.DisplayName), potions(h.p), killer.Roles.Highest().Colour(killer.DisplayName), potions(k))
 	}
 }
 
@@ -195,6 +195,17 @@ func (h *Handler) HandleQuit() {
 		}
 
 		k, online := user.LookupXUID(killer.XUID)
+		if online {
+			killer = killer.WithKillStreak(killer.Stats.KillStreak + 1)
+			if killer.Stats.KillStreak > killer.Stats.BestKillStreak {
+				killer = killer.WithBestKillStreak(killer.Stats.KillStreak)
+			}
+			killer = killer.WithKills(killer.Stats.Kills + 1)
+
+			_ = data.SaveUser(killer)
+			user.Broadcast("user.kill", u.Roles.Highest().Colour(u.DisplayName), potions(h.p), killer.Roles.Highest().Colour(killer.DisplayName), potions(k))
+		}
+
 		kh, ok := k.Handler().(*Handler)
 		if online && ok {
 			kh.SendScoreBoard()
@@ -202,15 +213,6 @@ func (h *Handler) HandleQuit() {
 			kh.pearl.Reset()
 			kit.Apply(h.g.Kit(), kh.p)
 		}
-
-		killer = killer.WithKillStreak(killer.Stats.KillStreak + 1)
-		if killer.Stats.KillStreak > killer.Stats.BestKillStreak {
-			killer = killer.WithBestKillStreak(killer.Stats.KillStreak)
-		}
-		killer = killer.WithKills(killer.Stats.Kills + 1)
-
-		_ = data.SaveUser(killer)
-		user.Broadcast("user.kill", u.Roles.Highest().Colour(u.DisplayName), killer.Roles.Highest().Colour(killer.DisplayName))
 	}
 	user.Remove(h.p)
 }
