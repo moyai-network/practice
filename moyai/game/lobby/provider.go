@@ -6,6 +6,7 @@ import (
 	"github.com/df-mc/dragonfly/server/player"
 	"github.com/df-mc/dragonfly/server/world"
 	"github.com/icza/abcsort"
+	"github.com/moyai-network/carrot/role"
 	"github.com/moyai-network/practice/moyai/data"
 	"github.com/moyai-network/practice/moyai/game/duel"
 	"github.com/moyai-network/practice/moyai/game/ffa"
@@ -50,11 +51,16 @@ func formattedLeaderboard() string {
 			break
 		}
 		leader := users[i]
+		name := leader.DisplayName
+		if leader.Roles.Contains(role.Plus{}) {
+			name = text.Colourf("<black>%s</black>", name)
+		}
+
 		position, _ := roman.Itor(i + 1)
 		sb.WriteString(text.Colourf(
-			"<grey>%v.</grey> <white>%v</white> <black>-</black> <grey>%v</grey>\n",
+			"<grey>%v.</grey> <white>%v</white> <dark-grey>-</dark-grey> <grey>%v</grey>\n",
 			position,
-			leader.DisplayName,
+			name,
 			leader.Stats.Kills,
 		))
 	}
