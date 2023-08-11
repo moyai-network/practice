@@ -95,7 +95,7 @@ func (h *Handler) AcceptDuel(t *player.Player) {
 	delete(h.duelRequests, t.XUID())
 }
 
-func (h *Handler) History() map[check.Check]int {
+func (h *Handler) History() map[check.Check]float64 {
 	h.historyMu.Lock()
 	defer h.historyMu.Unlock()
 	return h.history

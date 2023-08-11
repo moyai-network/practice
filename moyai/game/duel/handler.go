@@ -2,6 +2,10 @@ package duel
 
 import (
 	"fmt"
+	"strings"
+	"sync"
+	"time"
+
 	"github.com/df-mc/dragonfly/server/cmd"
 	"github.com/df-mc/dragonfly/server/entity"
 	"github.com/df-mc/dragonfly/server/event"
@@ -10,13 +14,13 @@ import (
 	"github.com/df-mc/dragonfly/server/player"
 	"github.com/df-mc/dragonfly/server/player/scoreboard"
 	"github.com/df-mc/dragonfly/server/world"
+	"github.com/go-gl/mathgl/mgl64"
 	"github.com/moyai-network/carrot"
 	"github.com/moyai-network/carrot/lang"
 	"github.com/moyai-network/practice/moyai/data"
+	"github.com/moyai-network/practice/moyai/game/replay"
 	"github.com/moyai-network/practice/moyai/user"
 	"github.com/sandertv/gophertunnel/minecraft/text"
-	"strings"
-	"time"
 )
 
 type Handler struct {
@@ -26,6 +30,9 @@ type Handler struct {
 
 	pearl     *carrot.CoolDown
 	startTime time.Time
+
+	replay   []replay.ReplayInput
+	replayMu sync.Mutex
 
 	close chan struct{}
 }
@@ -78,9 +85,32 @@ func (h *Handler) HandleItemUse(ctx *event.Context) {
 			h.p.Message(text.Colourf("<red>You are on pearl cooldown</red>"))
 			return
 		}
+
+		h.replayMu.Lock()
+		defer h.replayMu.Unlock()
+		h.replay = append(h.replay, replay.Use{
+			Item: held,
+		})
+
 		h.pearl.Set(time.Second * 15)
 		h.SendScoreBoard()
+	case item.SplashPotion:
+		h.replayMu.Lock()
+		defer h.replayMu.Unlock()
+		h.replay = append(h.replay, replay.Use{
+			Item: held,
+		})
 	}
+}
+
+func (h *Handler) HandleMove(ctx *event.Context, pos mgl64.Vec3, pitch, yaw float64) {
+	h.replayMu.Lock()
+	defer h.replayMu.Unlock()
+	h.replay = append(h.replay, replay.Movement{
+		Pos:   pos,
+		Pitch: pitch,
+		Yaw:   yaw,
+	})
 }
 
 func (h *Handler) HandleHurt(ctx *event.Context, damage *float64, attackImmunity *time.Duration, src world.DamageSource) {
@@ -89,6 +119,10 @@ func (h *Handler) HandleHurt(ctx *event.Context, damage *float64, attackImmunity
 		ctx.Cancel()
 		return
 	}
+
+	h.replayMu.Lock()
+	defer h.replayMu.Unlock()
+	h.replay = append(h.replay, replay.Hurt{})
 
 	if (h.p.Health()-h.p.FinalDamageFrom(*damage, src) <= 0) || src == (entity.VoidDamageSource{}) {
 		ctx.Cancel()
@@ -119,6 +153,10 @@ func (h *Handler) HandleHurt(ctx *event.Context, damage *float64, attackImmunity
 
 func (h *Handler) HandleAttackEntity(ctx *event.Context, e world.Entity, force, height *float64, critical *bool) {
 	*force, *height = 0.394, 0.394
+
+	h.replayMu.Lock()
+	defer h.replayMu.Unlock()
+	h.replay = append(h.replay, replay.Swing{})
 }
 
 // bannedCommands is a list of commands disallowed in combat.
@@ -139,6 +177,10 @@ func (h *Handler) HandleCommandExecution(ctx *event.Context, command cmd.Command
 
 // HandleQuit ...
 func (h *Handler) HandleQuit() {
+	h.replayMu.Lock()
+	defer h.replayMu.Unlock()
+	h.replay = append(h.replay, replay.Death{})
+
 	h.Close()
 	u, _ := data.LoadUser(h.p.Name())
 	if u.Stats.KillStreak > u.Stats.BestKillStreak {

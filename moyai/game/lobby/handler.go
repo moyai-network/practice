@@ -1,10 +1,11 @@
 package lobby
 
 import (
-	"github.com/moyai-network/practice/moyai/game/duel"
-	"github.com/moyai-network/practice/moyai/game/kit"
 	"strings"
 	"time"
+
+	"github.com/moyai-network/practice/moyai/game/duel"
+	"github.com/moyai-network/practice/moyai/game/kit"
 
 	"github.com/df-mc/dragonfly/server/event"
 	"github.com/df-mc/dragonfly/server/player"
