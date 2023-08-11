@@ -1,6 +1,7 @@
 package data
 
 import (
+	"golang.org/x/exp/maps"
 	"log"
 	"strings"
 	"sync"
@@ -82,6 +83,28 @@ func DefaultUser(name string) User {
 		DisplayName: name,
 		Roles:       role.NewRoles([]carrot.Role{role.Default{}}, map[carrot.Role]time.Time{}),
 	}
+}
+
+// Users returns the user data for all users.
+func Users() []User {
+	usersMu.Lock()
+	m := users
+	usersMu.Unlock()
+
+	cur, err := userCollection.Find(ctx(), bson.M{}, nil)
+	if err != nil {
+		return maps.Values(m)
+	}
+	var usrs []User
+
+	_ = cur.All(ctx(), &usrs)
+
+	for _, u := range usrs {
+		if _, ok := m[u.Name]; !ok {
+			m[u.Name] = u
+		}
+	}
+	return maps.Values(m)
 }
 
 // LoadOrCreateUser loads a user or creates it, using the given name.

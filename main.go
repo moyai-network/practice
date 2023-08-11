@@ -1,8 +1,6 @@
 package main
 
 import (
-	"os"
-
 	"github.com/df-mc/dragonfly/server/cmd"
 	"github.com/df-mc/dragonfly/server/player"
 	"github.com/df-mc/dragonfly/server/player/chat"
@@ -24,6 +22,7 @@ import (
 	"github.com/sandertv/gophertunnel/minecraft/text"
 	"github.com/sirupsen/logrus"
 	"golang.org/x/text/language"
+	"os"
 )
 
 func main() {
@@ -89,6 +88,7 @@ func main() {
 
 func accept(p *player.Player) {
 	lobby.AddPlayer(p)
+	p.ShowCoordinates()
 }
 
 func registerCommands() {
