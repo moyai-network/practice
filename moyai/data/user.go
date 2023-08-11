@@ -1,11 +1,12 @@
 package data
 
 import (
-	"golang.org/x/exp/maps"
 	"log"
 	"strings"
 	"sync"
 	"time"
+
+	"golang.org/x/exp/maps"
 
 	"github.com/moyai-network/carrot"
 	"github.com/moyai-network/carrot/role"
@@ -36,11 +37,19 @@ type User struct {
 	Name        string
 	DisplayName string
 
+	DeviceID     string
+	SelfSignedID string
+	Address      string
+
+	FirstLogin time.Time
+	PlayTime   time.Duration
+
 	Roles *role.Roles
 
 	Punishments struct {
 		Ban, Mute carrot.Punishment
 	}
+
 	Stats struct {
 		Kills, Deaths  int
 		KillStreak     int
@@ -82,6 +91,8 @@ func DefaultUser(name string) User {
 		Name:        strings.ToLower(name),
 		DisplayName: name,
 		Roles:       role.NewRoles([]carrot.Role{role.Default{}}, map[carrot.Role]time.Time{}),
+
+		FirstLogin: time.Now(),
 	}
 }
 
