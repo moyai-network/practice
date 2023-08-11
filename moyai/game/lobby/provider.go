@@ -15,6 +15,7 @@ import (
 	"github.com/restartfu/roman"
 	"github.com/sandertv/gophertunnel/minecraft/text"
 	"golang.org/x/exp/slices"
+	"math"
 	"strings"
 	"time"
 )
@@ -25,6 +26,7 @@ func init() {
 }
 
 func New(w *world.World) {
+	world.NewLoader(32, w, world.NopViewer{}).Load(math.MaxInt)
 	lobby = w
 	go startLeaderBoards()
 }
