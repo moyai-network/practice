@@ -2,8 +2,10 @@ package user
 
 import (
 	"fmt"
-	"github.com/moyai-network/practice/moyai/game"
 	"time"
+
+	"github.com/moyai-network/practice/moyai/game"
+	"github.com/oomph-ac/oomph/check"
 
 	"github.com/df-mc/dragonfly/server/cmd"
 	"github.com/df-mc/dragonfly/server/player"
@@ -91,4 +93,10 @@ func (h *Handler) Duel(p *player.Player, g game.Game) {
 
 func (h *Handler) AcceptDuel(t *player.Player) {
 	delete(h.duelRequests, t.XUID())
+}
+
+func (h *Handler) History() map[check.Check]int {
+	h.historyMu.Lock()
+	defer h.historyMu.Unlock()
+	return h.history
 }

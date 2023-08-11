@@ -1,6 +1,10 @@
 package lobby
 
 import (
+	"math"
+	"strings"
+	"time"
+
 	"github.com/df-mc/dragonfly/server/block/cube"
 	"github.com/df-mc/dragonfly/server/entity"
 	"github.com/df-mc/dragonfly/server/player"
@@ -15,9 +19,6 @@ import (
 	"github.com/restartfu/roman"
 	"github.com/sandertv/gophertunnel/minecraft/text"
 	"golang.org/x/exp/slices"
-	"math"
-	"strings"
-	"time"
 )
 
 func init() {

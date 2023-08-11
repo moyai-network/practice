@@ -103,6 +103,8 @@ func registerCommands() {
 		cmd.New("kick", text.Colourf("<orange>Kick other players</orange>"), nil, command.Kick{}),
 		cmd.New("mute", text.Colourf("<orange>Mute other players</orange>"), nil, command.MuteList{}, command.MuteLiftOffline{}, command.MuteInfoOffline{}, command.Mute{}, command.MuteOffline{}, command.MuteForm{}),
 		cmd.New("rekit", text.Colourf("<orange>re-apply your kit</orange>"), nil, command.ReKit{}),
+		cmd.New("pprof", text.Colourf("<orange>You shouldn't have access to this</orange>"), nil, command.Pprof{}),
+		cmd.New("status", text.Colourf("<orange>View technical stats of the server.</orange>"), nil, command.Status{}),
 	} {
 		cmd.Register(c)
 	}

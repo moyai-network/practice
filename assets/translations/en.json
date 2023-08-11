@@ -40,6 +40,11 @@
     "command.blacklist.operator": "<red>This player cannot be blacklisted.</red>",
     "command.blacklist.self": "<red>You cannot blacklist yourself.</red>",
     "command.blacklist.success": "<green>You blacklisted %s for %s.</green>",
+    "command.status.entry.world": "<grey>World </grey><green>\"%s\"</green>",
+    "command.status.entry.uptime": "Uptime",
+    "command.status.entry.cpu": "CPU Model",
+    "command.status.entry.memory": "Memory",
+    "command.status.header": "<green>--<grey>Server Status</grey>--\n</green>",
 
     "user.message.mute": "<red>You may not send message while muted</red>",
 
