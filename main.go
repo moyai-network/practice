@@ -1,6 +1,8 @@
 package main
 
 import (
+	"os"
+
 	"github.com/df-mc/dragonfly/server/cmd"
 	"github.com/df-mc/dragonfly/server/player"
 	"github.com/df-mc/dragonfly/server/player/chat"
@@ -22,7 +24,6 @@ import (
 	"github.com/sandertv/gophertunnel/minecraft/text"
 	"github.com/sirupsen/logrus"
 	"golang.org/x/text/language"
-	"os"
 )
 
 func main() {
@@ -59,6 +60,8 @@ func main() {
 			}
 			p.SetCombatMode(utils.AuthorityType(config.Oomph.CombatMode))
 			p.SetMovementMode(utils.AuthorityType(config.Oomph.MovementMode))
+			p.SetCombatCutoff(2)    // 2 ticks => 100ms
+			p.SetKnockbackCutoff(2) // 2 ticks => 100ms
 			p.Handle(user.NewOomphHandler(p))
 		}
 	}()
