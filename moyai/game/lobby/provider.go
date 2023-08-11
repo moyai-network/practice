@@ -26,7 +26,7 @@ func init() {
 }
 
 func New(w *world.World) {
-	world.NewLoader(32, w, world.NopViewer{}).Load(math.MaxInt)
+	go world.NewLoader(32, w, world.NopViewer{}).Load(math.MaxInt)
 	lobby = w
 	go startLeaderBoards()
 }
