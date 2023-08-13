@@ -92,7 +92,6 @@ func (h *Handler) HandleItemUse(ctx *event.Context) {
 		h.pearl.Set(time.Second * 15)
 		h.SendScoreBoard()
 	case item.SplashPotion:
-		h.replayMu.Lock()
 	}
 }
 
@@ -127,9 +126,6 @@ func (h *Handler) HandleHurt(ctx *event.Context, damage *float64, attackImmunity
 
 		_ = data.SaveUser(killer)
 		user.Broadcast("user.kill", u.Roles.Highest().Colour(u.DisplayName), potions(h.p), killer.Roles.Highest().Colour(killer.DisplayName), potions(h.op))
-
-		h.replayMu.Lock()
-		defer h.replayMu.Unlock()
 
 		h.UserHandler().SetRecentReplay(h.replay)
 		h.op.Handler().(user.UserHandler).UserHandler().SetRecentReplay(h.replay)

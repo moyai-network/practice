@@ -111,8 +111,6 @@ func (h *Handler) HandleHurt(ctx *event.Context, damage *float64, attackImmunity
 		h.combat.Cancel()
 		h.pearl.Cancel()
 
-		lobby(h.p)
-
 		killer, ok := data.LoadUser(h.lastAttacker.Load())
 		if !ok || h.lastAttackerExpiration.Load().Before(time.Now()) {
 			user.Broadcast("user.suicide", u.Roles.Highest().Colour(u.DisplayName))
@@ -137,6 +135,7 @@ func (h *Handler) HandleHurt(ctx *event.Context, damage *float64, attackImmunity
 			kh.pearl.Reset()
 			kit.Apply(h.g.Kit(), kh.p)
 		}
+		lobby(h.p)
 	}
 }
 
