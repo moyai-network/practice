@@ -5,12 +5,12 @@ import (
 	"github.com/go-gl/mathgl/mgl64"
 )
 
-// ReplayInput is an input
-type ReplayInput interface{}
+// Input is an input
+type Input interface{}
 
 // Movement is an input sent when a player moves
 type Movement struct {
-	ReplayInput
+	Input
 	// pos is the new position.
 	Pos mgl64.Vec3
 	// pitch is the new pitch
@@ -22,7 +22,7 @@ type Movement struct {
 // Inventory is an input when a player
 // changes item/slots in its inventory
 type Inventory struct {
-	ReplayInput
+	Input
 	// slot is the new selected slot.
 	Slot float64
 }
@@ -30,22 +30,22 @@ type Inventory struct {
 // Use is an input when a player
 // uses either a pearl or a pot
 type Use struct {
-	ReplayInput
+	Input
 	// item is the item that was used
 	Item item.Stack
 }
 
 // Swing is an input when a player swings its arm
 type Swing struct {
-	ReplayInput
+	Input
 }
 
 // Hurt is an input when a player swings is hurt
 type Hurt struct {
-	ReplayInput
+	Input
 }
 
 // Death is an input when a player dies
 type Death struct {
-	ReplayInput
+	Input
 }
