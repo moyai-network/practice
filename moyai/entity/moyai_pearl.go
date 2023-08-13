@@ -17,7 +17,7 @@ import (
 // blue item used to teleport.
 func NewMoyaiPearl(pos mgl64.Vec3, vel mgl64.Vec3, owner world.Entity) world.Entity {
 	e := entity.Config{Behaviour: moyaiPearlConf.New(owner)}.New(entity.EnderPearlType{}, pos)
-	e.SetVelocity(vel)
+	e.SetVelocity(vel.Mul(1.25))
 	return e
 }
 
