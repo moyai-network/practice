@@ -6,8 +6,10 @@ import (
 	"github.com/df-mc/dragonfly/server/event"
 	"github.com/go-gl/mathgl/mgl64"
 	"github.com/moyai-network/carrot/lang"
+	"github.com/moyai-network/practice/moyai/game/replay"
 	"github.com/oomph-ac/oomph/check"
 	"github.com/oomph-ac/oomph/player"
+	"github.com/sandertv/gophertunnel/minecraft/protocol/packet"
 	"github.com/unickorn/strutils"
 )
 
@@ -47,4 +49,18 @@ func (h *OomphHandler) HandlePunishment(ctx *event.Context, ch check.Check, msg 
 		lang.Translatef(l, "user.kick.header.oomph"),
 		lang.Translatef(l, "user.kick.description", n+v),
 	}, "\n")))
+}
+
+func (h *OomphHandler) HandleClientPacket(ctx *event.Context, pk packet.Packet) {
+	p, ok := Lookup(h.p.Name())
+	if _, ok := p.Handler().(replayHandler); ok {
+
+	}
+	if !ok {
+		return
+	}
+}
+
+type replayHandler interface {
+	AddReplayAction(*player.Player, replay.ReplayInput)
 }

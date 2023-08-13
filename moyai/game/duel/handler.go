@@ -220,6 +220,12 @@ func (h *Handler) Close() {
 	close(h.close)
 }
 
+func (h *Handler) AddReplayAction(p *player.Player, r replay.ReplayInput) {
+	h.replayMu.Lock()
+	defer h.replayMu.Lock()
+	h.replay[h.p.Name()] = r
+}
+
 // UserHandler ...
 func (h *Handler) UserHandler() *user.Handler {
 	return h.Handler
