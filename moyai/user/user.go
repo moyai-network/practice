@@ -6,6 +6,7 @@ import (
 
 	"github.com/moyai-network/practice/moyai/game"
 	"github.com/oomph-ac/oomph/check"
+	"github.com/sandertv/gophertunnel/minecraft/protocol/packet"
 
 	"github.com/df-mc/dragonfly/server/cmd"
 	"github.com/df-mc/dragonfly/server/player"
@@ -99,4 +100,26 @@ func (h *Handler) History() map[check.Check]float64 {
 	h.historyMu.Lock()
 	defer h.historyMu.Unlock()
 	return h.history
+}
+
+func (h *Handler) SetRecentReplay(re []struct {
+	Name   string
+	Packet packet.Packet
+}) {
+	h.recentReplay = re
+}
+
+func (h *Handler) RecentReplay() ([]struct {
+	Name   string
+	Packet packet.Packet
+}, bool) {
+	return h.recentReplay, len(h.recentReplay) != 0
+}
+
+func (h *Handler) SetWatchingReplay(b bool) {
+	h.watchingReplay.Store(b)
+}
+
+func (h *Handler) WatchingReplay() bool {
+	return h.watchingReplay.Load()
 }

@@ -4,6 +4,7 @@ import (
 	"regexp"
 	"strings"
 	"sync"
+	"sync/atomic"
 	"time"
 
 	"github.com/df-mc/dragonfly/server/block/cube"
@@ -16,6 +17,7 @@ import (
 	"github.com/moyai-network/carrot/lang"
 	"github.com/moyai-network/practice/moyai/data"
 	"github.com/oomph-ac/oomph/check"
+	"github.com/sandertv/gophertunnel/minecraft/protocol/packet"
 )
 
 type Handler struct {
@@ -27,10 +29,16 @@ type Handler struct {
 
 	history   map[check.Check]float64
 	historyMu sync.Mutex
+
+	watchingReplay atomic.Bool
+	recentReplay   []struct {
+		Name   string
+		Packet packet.Packet
+	}
 }
 
 func NewHandler(p *player.Player) *Handler {
-	h := &Handler{p: p, duelRequests: map[string]time.Time{}, history: map[check.Check]float64{}}
+	h := &Handler{p: p, duelRequests: map[string]time.Time{}, history: map[check.Check]float64{}, watchingReplay: atomic.Bool{}}
 	return h
 }
 

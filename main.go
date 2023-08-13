@@ -105,6 +105,7 @@ func registerCommands() {
 		cmd.New("rekit", text.Colourf("<orange>re-apply your kit</orange>"), nil, command.ReKit{}),
 		cmd.New("pprof", text.Colourf("<orange>You shouldn't have access to this</orange>"), nil, command.Pprof{}),
 		cmd.New("status", text.Colourf("<orange>View technical stats of the server.</orange>"), nil, command.Status{}),
+		cmd.New("replay", text.Colourf("<orange>View replay of duels.</orange>"), nil, command.ReplayRecent{}),
 	} {
 		cmd.Register(c)
 	}

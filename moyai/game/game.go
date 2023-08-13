@@ -1,10 +1,11 @@
 package game
 
 import (
-	"github.com/moyai-network/carrot"
-	"github.com/moyai-network/practice/moyai/game/kit"
 	"regexp"
 	"strings"
+
+	"github.com/moyai-network/carrot"
+	"github.com/moyai-network/practice/moyai/game/kit"
 )
 
 func Games() []Game {
