@@ -31,7 +31,7 @@ type Handler struct {
 	pearl     *carrot.CoolDown
 	startTime time.Time
 
-	replay   []replay.ReplayInput
+	replay   map[string]replay.ReplayInput
 	replayMu sync.Mutex
 
 	close chan struct{}
@@ -88,29 +88,29 @@ func (h *Handler) HandleItemUse(ctx *event.Context) {
 
 		h.replayMu.Lock()
 		defer h.replayMu.Unlock()
-		h.replay = append(h.replay, replay.Use{
+		h.replay[h.p.Name()] = replay.Use{
 			Item: held,
-		})
+		}
 
 		h.pearl.Set(time.Second * 15)
 		h.SendScoreBoard()
 	case item.SplashPotion:
 		h.replayMu.Lock()
 		defer h.replayMu.Unlock()
-		h.replay = append(h.replay, replay.Use{
+		h.replay[h.p.Name()] = replay.Use{
 			Item: held,
-		})
+		}
 	}
 }
 
 func (h *Handler) HandleMove(ctx *event.Context, pos mgl64.Vec3, pitch, yaw float64) {
 	h.replayMu.Lock()
 	defer h.replayMu.Unlock()
-	h.replay = append(h.replay, replay.Movement{
+	h.replay[h.p.Name()] = replay.Movement{
 		Pos:   pos,
 		Pitch: pitch,
 		Yaw:   yaw,
-	})
+	}
 }
 
 func (h *Handler) HandleHurt(ctx *event.Context, damage *float64, attackImmunity *time.Duration, src world.DamageSource) {
@@ -122,7 +122,7 @@ func (h *Handler) HandleHurt(ctx *event.Context, damage *float64, attackImmunity
 
 	h.replayMu.Lock()
 	defer h.replayMu.Unlock()
-	h.replay = append(h.replay, replay.Hurt{})
+	h.replay[h.p.Name()] = replay.Hurt{}
 
 	if (h.p.Health()-h.p.FinalDamageFrom(*damage, src) <= 0) || src == (entity.VoidDamageSource{}) {
 		ctx.Cancel()
@@ -156,7 +156,7 @@ func (h *Handler) HandleAttackEntity(ctx *event.Context, e world.Entity, force, 
 
 	h.replayMu.Lock()
 	defer h.replayMu.Unlock()
-	h.replay = append(h.replay, replay.Swing{})
+	h.replay[h.p.Name()] = replay.Swing{}
 }
 
 // bannedCommands is a list of commands disallowed in combat.
@@ -179,7 +179,7 @@ func (h *Handler) HandleCommandExecution(ctx *event.Context, command cmd.Command
 func (h *Handler) HandleQuit() {
 	h.replayMu.Lock()
 	defer h.replayMu.Unlock()
-	h.replay = append(h.replay, replay.Death{})
+	h.replay[h.p.Name()] = replay.Death{}
 
 	h.Close()
 	u, _ := data.LoadUser(h.p.Name())
