@@ -243,7 +243,7 @@ func (h *Handler) SendScoreBoard() {
 
 	var kdr float64
 	if u.Stats.Deaths > 0 {
-		kdr = float64(u.Stats.Kills / u.Stats.Deaths)
+		kdr = float64(u.Stats.Kills) / float64(u.Stats.Deaths)
 	} else {
 		kdr = float64(u.Stats.Kills)
 	}
