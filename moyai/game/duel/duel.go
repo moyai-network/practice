@@ -1,6 +1,8 @@
 package duel
 
 import (
+	"math/rand"
+
 	"github.com/df-mc/dragonfly/server/block"
 	"github.com/df-mc/dragonfly/server/block/cube"
 	"github.com/df-mc/dragonfly/server/item"
@@ -14,7 +16,6 @@ import (
 	"github.com/moyai-network/practice/moyai/game/kit"
 	"github.com/moyai-network/practice/moyai/game/structure"
 	"github.com/sandertv/gophertunnel/minecraft/text"
-	"math/rand"
 )
 
 var pairs = [][]world.Block{
@@ -39,6 +40,7 @@ func Start(p1, p2 *player.Player, g game.Game) {
 	dim := [3]int{50, 20, 80}
 	w := world.Config{Entities: ent.Registry, ReadOnly: true}.New()
 	s := structure.GenerateBoxStructure(dim, pairs[rand.Intn(len(pairs))]...)
+	id := rand.Int63()
 	w.BuildStructure(cube.Pos{0, 0, 0}, s)
 	w.Handle(&worlds.Handler{})
 	w.StopWeatherCycle()
@@ -52,7 +54,7 @@ func Start(p1, p2 *player.Player, g game.Game) {
 	p1.Inventory().Handle(inventory.NopHandler{})
 	p1.Armour().Handle(inventory.NopHandler{})
 	p1.SetNameTag(text.Colourf("<red>%s</red>", p1.Name()))
-	p1.Handle(newHandler(p1, p2))
+	p1.Handle(newHandler(p1, p2, id))
 	w.AddEntity(p1)
 	p1.Teleport(mgl64.Vec3{float64(dim[0] / 2), 2, 10})
 	kit.Apply(g.Kit(), p1)
@@ -60,7 +62,7 @@ func Start(p1, p2 *player.Player, g game.Game) {
 	p2.Inventory().Handle(inventory.NopHandler{})
 	p2.Armour().Handle(inventory.NopHandler{})
 	p2.SetNameTag(text.Colourf("<red>%s</red>", p2.Name()))
-	p2.Handle(newHandler(p2, p1))
+	p2.Handle(newHandler(p2, p1, id))
 	w.AddEntity(p2)
 	p2.Teleport(mgl64.Vec3{float64(dim[0] / 2), 2, 70})
 	kit.Apply(g.Kit(), p2)

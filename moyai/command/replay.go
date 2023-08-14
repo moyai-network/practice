@@ -1,6 +1,7 @@
 package command
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/df-mc/dragonfly/server/block"
@@ -66,11 +67,13 @@ func (r ReplayRecent) Run(src cmd.Source, out *cmd.Output) {
 			}
 			go func() {
 				for _, action := range r {
+					fmt.Println("moving ", action.Name)
 					p, _ := fakePlayerMap[action.Name]
 					pk, _ := action.Packet.(*packet.PlayerAuthInput)
 					p.Move(mgl64.Vec3{float64(pk.Delta.X()), float64(pk.Delta.Y()), float64(pk.Delta.Z())}, float64(pk.Yaw), float64(pk.Pitch))
 					time.Sleep(50 * time.Millisecond)
 				}
+
 				w.Close()
 				lobby.AddPlayer(p)
 			}()

@@ -1,13 +1,16 @@
 package user
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/df-mc/dragonfly/server/event"
+	p "github.com/df-mc/dragonfly/server/player"
 	"github.com/go-gl/mathgl/mgl64"
 	"github.com/moyai-network/carrot/lang"
 	"github.com/oomph-ac/oomph/check"
 	"github.com/oomph-ac/oomph/player"
+	"github.com/sandertv/gophertunnel/minecraft/protocol/packet"
 	"github.com/unickorn/strutils"
 )
 
@@ -49,22 +52,23 @@ func (h *OomphHandler) HandlePunishment(ctx *event.Context, ch check.Check, msg 
 	}, "\n")))
 }
 
-// func (h *OomphHandler) HandleClientPacket(ctx *event.Context, pk packet.Packet) {
-// 	p, ok := Lookup(h.p.Name())
-// 	if !ok {
-// 		return
-// 	}
-// 	if h, ok := p.Handler().(replayHandler); ok {
-// 		switch pk := pk.(type) {
-// 		case *packet.PlayerAuthInput:
-// 			h.AddReplayAction(p, pk)
-// 		}
-// 	}
-// 	if !ok {
-// 		return
-// 	}
-// }
+func (h *OomphHandler) HandleClientPacket(ctx *event.Context, pk packet.Packet) {
+	p, ok := Lookup(h.p.Name())
+	if !ok {
+		return
+	}
+	if h, ok := p.Handler().(replayHandler); ok {
+		switch pk := pk.(type) {
+		case *packet.PlayerAuthInput:
+			fmt.Println(p.Name())
+			h.AddReplayAction(p, pk)
+		}
+	}
+	if !ok {
+		return
+	}
+}
 
-// type replayHandler interface {
-// 	AddReplayAction(*p.Player, packet.Packet)
-// }
+type replayHandler interface {
+	AddReplayAction(*p.Player, packet.Packet)
+}

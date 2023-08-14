@@ -3,7 +3,6 @@ package duel
 import (
 	"fmt"
 	"strings"
-	"sync"
 	"time"
 
 	"github.com/df-mc/dragonfly/server/cmd"
@@ -31,16 +30,12 @@ type Handler struct {
 	pearl     *carrot.CoolDown
 	startTime time.Time
 
-	replay []struct {
-		Name   string
-		Packet packet.Packet
-	}
-	replayMu sync.Mutex
+	id int64
 
 	close chan struct{}
 }
 
-func newHandler(p *player.Player, op *player.Player) *Handler {
+func newHandler(p *player.Player, op *player.Player, id int64) *Handler {
 	var uHandler *user.Handler
 	if uh, ok := p.Handler().(user.UserHandler); ok {
 		uHandler = uh.UserHandler()
@@ -54,8 +49,17 @@ func newHandler(p *player.Player, op *player.Player) *Handler {
 		op:        op,
 		startTime: time.Now(),
 
+		id: id,
+
 		close: make(chan struct{}, 0),
 	}
+
+	ongoingMu.Lock()
+	defer ongoingMu.Unlock()
+	ongoing[h.id] = []struct {
+		Name   string
+		Packet packet.Packet
+	}{}
 
 	h.pearl = carrot.NewCoolDown(func(cd *carrot.CoolDown) {
 		if !cd.Active() {
@@ -127,8 +131,11 @@ func (h *Handler) HandleHurt(ctx *event.Context, damage *float64, attackImmunity
 		_ = data.SaveUser(killer)
 		user.Broadcast("user.kill", u.Roles.Highest().Colour(u.DisplayName), potions(h.p), killer.Roles.Highest().Colour(killer.DisplayName), potions(h.op))
 
-		h.UserHandler().SetRecentReplay(h.replay)
-		h.op.Handler().(user.UserHandler).UserHandler().SetRecentReplay(h.replay)
+		ongoingMu.Lock()
+		defer ongoingMu.Unlock()
+		fmt.Println(ongoing[h.id])
+		h.UserHandler().SetRecentReplay(ongoing[h.id])
+		h.op.Handler().(user.UserHandler).UserHandler().SetRecentReplay(ongoing[h.id])
 
 		lobby(h.op)
 		lobby(h.p)
@@ -198,12 +205,15 @@ func (h *Handler) Close() {
 }
 
 func (h *Handler) AddReplayAction(p *player.Player, pk packet.Packet) {
-	h.replayMu.Lock()
-	h.replay = append(h.replay, ReplayAction{
+	ongoingMu.Lock()
+	defer ongoingMu.Unlock()
+	ongoing[h.id] = append(ongoing[h.id], struct {
+		Name   string
+		Packet packet.Packet
+	}{
 		Name:   p.Name(),
 		Packet: pk,
 	})
-	h.replayMu.Unlock()
 }
 
 // UserHandler ...
