@@ -61,16 +61,18 @@ func (r ReplayRecent) Run(src cmd.Source, out *cmd.Output) {
 			}
 			fakePlayerMap := map[string]*player.Player{}
 			for n := range ss {
-				fakePlayerMap[n] = player.New("Replay | "+n, p.Skin(), mgl64.Vec3{float64(dim[0] / 2), 2, 10})
-				w.AddEntity(fakePlayerMap[n])
-				fakePlayerMap[n].Teleport(mgl64.Vec3{float64(dim[0] / 2), 2, 10})
+				fp := player.New("Replay | "+n, p.Skin(), mgl64.Vec3{float64(dim[0] / 2), 2, 10})
+				fakePlayerMap[n] = fp
+				w.AddEntity(fp)
+				fp.Teleport(mgl64.Vec3{float64(dim[0] / 2), 2, 10})
 			}
 			go func() {
 				for _, action := range r {
-					fmt.Println("moving ", action.Name)
-					p, _ := fakePlayerMap[action.Name]
+					fp, _ := fakePlayerMap[action.Name]
 					pk, _ := action.Packet.(*packet.PlayerAuthInput)
-					p.Move(mgl64.Vec3{float64(pk.Delta.X()), float64(pk.Delta.Y()), float64(pk.Delta.Z())}, float64(pk.Yaw), float64(pk.Pitch))
+					delta := mgl64.Vec3{float64(pk.Position.X()), float64(pk.Position.Y()), float64(pk.Position.Z())}.Sub(p.Position())
+					fmt.Println("moving ", action.Name, delta)
+					fp.Move(delta, p.Rotation().Yaw()-float64(pk.Yaw), p.Rotation().Pitch()-float64(pk.Pitch))
 					time.Sleep(50 * time.Millisecond)
 				}
 

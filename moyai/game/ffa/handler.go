@@ -93,6 +93,7 @@ func (h *Handler) HandleItemUse(ctx *event.Context) {
 
 func (h *Handler) HandleHurt(ctx *event.Context, damage *float64, attackImmunity *time.Duration, src world.DamageSource) {
 	*damage = *damage / 1.25
+	*attackImmunity = time.Millisecond * 470
 	if src == (entity.FallDamageSource{}) {
 		ctx.Cancel()
 		return
