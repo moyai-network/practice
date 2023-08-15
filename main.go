@@ -50,7 +50,7 @@ func main() {
 
 	c.Name = text.Colourf("<bold><purple>MOYAI</purple></bold>") + "§8"
 
-	ac := oomph.New(log, ":19133")
+	ac := oomph.New(log, ":19132")
 	ac.Listen(&c, c.Name, []minecraft.Protocol{v486.New()}, false, false)
 	go func() {
 		for {
