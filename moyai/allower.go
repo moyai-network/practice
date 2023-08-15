@@ -13,7 +13,7 @@ import (
 	"golang.org/x/text/language"
 )
 
-// allower ensures that all players who join are whitelisted if whitelisting is enabled.
+// Allower ensures that all players who join are whitelisted if whitelisting is enabled.
 type Allower struct {
 	whitelisted bool
 }
