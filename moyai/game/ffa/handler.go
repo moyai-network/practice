@@ -147,6 +147,12 @@ func (h *Handler) HandleAttackEntity(ctx *event.Context, e world.Entity, force, 
 		return
 	}
 
+	if o, ok := e.(*player.Player); ok && !o.OnGround() {
+		if dist := e.Position().Y() - h.p.Position().Y(); dist >= 2.5 {
+			*height -= dist / 26
+		}
+	}
+
 	th, ok := target.Handler().(*Handler)
 	if !ok {
 		return
