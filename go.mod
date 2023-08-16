@@ -17,15 +17,15 @@ require (
 	github.com/go-gl/mathgl v1.0.0
 	github.com/hako/durafmt v0.0.0-20210608085754-5c1018a4e16b
 	github.com/moyai-network/carrot v0.0.0-20230809230727-15e27bbcbcb7
-	github.com/oomph-ac/oomph v0.0.0-20230811165755-499a4bf285ae
+	github.com/oomph-ac/oomph v0.0.0-20230816193956-d15cd01293b7
 	github.com/rcrowley/go-bson v0.0.0-20140210180454-771ad044f2d7
 	github.com/restartfu/gophig v0.0.0-20230501130741-bd994da592f7
 	github.com/sandertv/gophertunnel v1.31.0
 	github.com/sirupsen/logrus v1.9.3
 	github.com/unickorn/strutils v0.0.0-20221027210219-8e7a82cccd62
 	go.mongodb.org/mongo-driver v1.12.0
-	golang.org/x/exp v0.0.0-20230713183714-613f0c0eb8a1
-	golang.org/x/text v0.11.0
+	golang.org/x/exp v0.0.0-20230811145659-89c5cff77bcb
+	golang.org/x/text v0.12.0
 )
 
 require (
@@ -55,12 +55,12 @@ require (
 	github.com/xdg-go/stringprep v1.0.4 // indirect
 	github.com/youmark/pkcs8 v0.0.0-20181117223130-1be2e3e5546d // indirect
 	go.uber.org/atomic v1.11.0 // indirect
-	golang.org/x/crypto v0.11.0 // indirect
-	golang.org/x/image v0.9.0 // indirect
-	golang.org/x/net v0.12.0 // indirect
-	golang.org/x/oauth2 v0.10.0 // indirect
+	golang.org/x/crypto v0.12.0 // indirect
+	golang.org/x/image v0.11.0 // indirect
+	golang.org/x/net v0.14.0 // indirect
+	golang.org/x/oauth2 v0.11.0 // indirect
 	golang.org/x/sync v0.1.0 // indirect
-	golang.org/x/sys v0.10.0 // indirect
+	golang.org/x/sys v0.11.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/protobuf v1.31.0 // indirect
 	gopkg.in/square/go-jose.v2 v2.6.0 // indirect
