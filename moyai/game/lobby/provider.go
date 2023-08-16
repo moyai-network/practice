@@ -42,11 +42,14 @@ func formattedLeaderboard() string {
 		return users[i].Name
 	})
 
-	slices.SortFunc(users, func(a, b data.User) bool {
+	slices.SortFunc(users, func(a, b data.User) int {
 		if a.Stats.Kills == b.Stats.Kills {
-
+			return 0
 		}
-		return a.Stats.Kills > b.Stats.Kills
+		if a.Stats.Kills > b.Stats.Kills {
+			return 1
+		}
+		return -1
 	})
 
 	for i := 0; i < 10; i++ {

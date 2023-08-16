@@ -16,10 +16,13 @@ require (
 	github.com/flonja/multiversion v0.0.0-20230727204349-88d4a8c393a0
 	github.com/go-gl/mathgl v1.0.0
 	github.com/hako/durafmt v0.0.0-20210608085754-5c1018a4e16b
+	github.com/icza/abcsort v0.0.0-20230330133725-d6ace6446f81
 	github.com/moyai-network/carrot v0.0.0-20230809230727-15e27bbcbcb7
 	github.com/oomph-ac/oomph v0.0.0-20230816193956-d15cd01293b7
 	github.com/rcrowley/go-bson v0.0.0-20140210180454-771ad044f2d7
 	github.com/restartfu/gophig v0.0.0-20230501130741-bd994da592f7
+	github.com/restartfu/roman v0.0.0-20230625112848-37485fd60bf6
+	github.com/samber/lo v1.38.1
 	github.com/sandertv/gophertunnel v1.31.0
 	github.com/sirupsen/logrus v1.9.3
 	github.com/unickorn/strutils v0.0.0-20221027210219-8e7a82cccd62
@@ -39,16 +42,12 @@ require (
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/google/uuid v1.3.0 // indirect
-	github.com/icza/abcsort v0.0.0-20230330133725-d6ace6446f81 // indirect
 	github.com/klauspost/compress v1.16.7 // indirect
 	github.com/kr/text v0.2.0 // indirect
 	github.com/montanaflynn/stats v0.0.0-20171201202039-1bf9dbcd8cbe // indirect
 	github.com/muhammadmuzzammil1998/jsonc v1.0.0 // indirect
-	github.com/pelletier/go-toml v1.9.5 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.7 // indirect
-	github.com/restartfu/roman v0.0.0-20230625112848-37485fd60bf6 // indirect
 	github.com/rogpeppe/go-internal v1.11.0 // indirect
-	github.com/samber/lo v1.38.1 // indirect
 	github.com/sandertv/go-raknet v1.12.0 // indirect
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect
 	github.com/xdg-go/scram v1.1.2 // indirect
