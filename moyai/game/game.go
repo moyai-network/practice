@@ -9,11 +9,15 @@ import (
 )
 
 func Games() []Game {
-	return []Game{NoDebuff()}
+	return []Game{NoDebuff(), Boxing()}
 }
 
 func NoDebuff() Game {
-	return Game{name: "NoDebuff", texture: "textures/items/potion_bottle_splash_heal", kit: kit.NoDebuff{}}
+	return Game{name: "NoDebuff", texture: "textures/items/potion_bottle_splash_heal", kit: kit.NoDebuff{}, ffa: true}
+}
+
+func Boxing() Game {
+	return Game{name: "Boxing", texture: "textures/items/diamond_sword", kit: kit.Boxing{}}
 }
 
 // formatRegex is a regex used to clean color formatting on a string.
@@ -23,6 +27,8 @@ func ByName(name string) Game {
 	switch strings.ToLower(formatRegex.ReplaceAllString(name, "")) {
 	case "nodebuff":
 		return NoDebuff()
+	case "boxing":
+		return Boxing()
 	}
 	panic("should never happen: unknown game name: '" + name + "'")
 }
@@ -30,7 +36,9 @@ func ByName(name string) Game {
 type Game struct {
 	name    string
 	texture string
-	kit     carrot.Kit
+
+	ffa bool
+	kit carrot.Kit
 }
 
 func (g Game) Name() string {
@@ -39,6 +47,10 @@ func (g Game) Name() string {
 
 func (g Game) Texture() string {
 	return g.texture
+}
+
+func (g Game) FFA() bool {
+	return g.ffa
 }
 
 func (g Game) Kit() carrot.Kit {

@@ -1,7 +1,6 @@
 package user
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/df-mc/dragonfly/server/event"
@@ -60,7 +59,7 @@ func (h *OomphHandler) HandleClientPacket(ctx *event.Context, pk packet.Packet) 
 	if h, ok := p.Handler().(replayHandler); ok {
 		switch pk := pk.(type) {
 		case *packet.PlayerAuthInput:
-			fmt.Println(p.Name())
+			//fmt.Println(p.Name())
 			h.AddReplayAction(p, pk)
 		}
 	}

@@ -86,7 +86,6 @@ func main() {
 	for srv.Accept(accept) {
 		// Do nothing
 	}
-
 }
 
 func accept(p *player.Player) {

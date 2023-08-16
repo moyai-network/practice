@@ -1,10 +1,10 @@
 package lobby
 
 import (
+	"github.com/moyai-network/practice/moyai/game"
 	"strings"
 	"time"
 
-	"github.com/moyai-network/practice/moyai/game/duel"
 	"github.com/moyai-network/practice/moyai/game/kit"
 
 	"github.com/df-mc/dragonfly/server/event"
@@ -66,7 +66,7 @@ func (h *Handler) HandleItemUse(_ *event.Context) {
 		switch val {
 		case 8:
 			kit.Apply(kit.Lobby{}, h.p)
-			duel.UnQueue(h.p)
+			game.DeQueue(h.p)
 		}
 	}
 }
@@ -118,5 +118,5 @@ func (h *Handler) SendScoreBoard() {
 }
 func (h *Handler) HandleQuit() {
 	user.Remove(h.p)
-	duel.UnQueue(h.p)
+	game.DeQueue(h.p)
 }
