@@ -3,8 +3,7 @@ package command
 import (
 	"github.com/df-mc/dragonfly/server/cmd"
 	"github.com/df-mc/dragonfly/server/player"
-	"github.com/moyai-network/carrot/lang"
-	"github.com/moyai-network/practice/moyai/game"
+	"github.com/moyai-network/practice/moyai/form"
 	"github.com/moyai-network/practice/moyai/game/duel"
 	"github.com/moyai-network/practice/moyai/game/lobby"
 	"github.com/moyai-network/practice/moyai/user"
@@ -35,18 +34,10 @@ func (d Duel) Run(src cmd.Source, out *cmd.Output) {
 	}
 
 	if t == p {
+		out.Error("You may not duel yourself")
 		return
 	}
-
-	h, ok := t.Handler().(user.UserHandler)
-	if !ok {
-		return
-	}
-
-	h.UserHandler().Duel(p, game.NoDebuff())
-
-	out.Print(lang.Translatef(p.Locale(), "duel.request", t.Name()))
-	t.Message(lang.Translatef(p.Locale(), "duel.requested", p.Name()))
+	p.SendForm(form.NewDuel(t))
 }
 
 func (d DuelAccept) Run(src cmd.Source, out *cmd.Output) {
@@ -71,8 +62,8 @@ func (d DuelAccept) Run(src cmd.Source, out *cmd.Output) {
 		return
 	}
 
-	h.UserHandler().AcceptDuel(t)
-	duel.NewMatch(p, t, game.NoDebuff()).Start()
+	g := h.UserHandler().AcceptDuel(t)
+	duel.NewMatch(p, t, g).Start()
 }
 
 type duelRequests string

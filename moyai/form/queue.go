@@ -3,7 +3,6 @@ package form
 import (
 	"github.com/df-mc/dragonfly/server/player"
 	"github.com/df-mc/dragonfly/server/player/form"
-	"github.com/moyai-network/carrot"
 	"github.com/moyai-network/practice/moyai/game"
 	"github.com/moyai-network/practice/moyai/game/kit"
 	"github.com/sandertv/gophertunnel/minecraft/text"
@@ -14,11 +13,11 @@ type Queue struct{}
 
 func NewQueue() form.Form {
 	var buttons []form.Button
-	m := form.NewMenu(Queue{}, carrot.GlyphFont("Queue"))
+	m := form.NewMenu(Queue{}, text.Colourf("<orange>» <black>Duel Queue</black> «</orange>"))
 	for _, g := range game.Games() {
-		buttons = append(buttons, form.NewButton(text.Colourf("<purple>%s</purple>", g.Name()), g.Texture()))
+		buttons = append(buttons, form.NewButton(text.Colourf("<dark-grey>%s</dark-grey>", g.Name()), g.Texture()))
 	}
-	return m.WithButtons(buttons...)
+	return m.WithBody(text.Colourf("<orange>»</orange> Welcome to the <black>Queue</black> form. You may choose a game mode.")).WithButtons(buttons...)
 }
 
 func (q Queue) Submit(sub form.Submitter, btn form.Button) {

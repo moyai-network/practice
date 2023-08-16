@@ -1,6 +1,7 @@
 package form
 
 import (
+	"github.com/sandertv/gophertunnel/minecraft/text"
 	"math/rand"
 	"sort"
 	"strings"
@@ -43,7 +44,7 @@ func NewBan() form.Form {
 		OnlinePlayer:  form.NewDropdown("Online Player", list, 0),
 		OfflinePlayer: form.NewInput("Offline Player", "", names[rand.Intn(len(names)-1)]),
 		online:        online,
-	}, "Ban")
+	}, text.Colourf("<orange>» <black>Ban</black> «</orange>"))
 }
 
 // Submit ...

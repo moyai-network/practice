@@ -54,7 +54,7 @@
     "user.ban.header.alt": "<b><red>An account linked to you is banned from Syn</red></b>",
     "user.ban.description": "<gold>Reason:</gold> <yellow>%s</yellow>\n<dark-green>Remaining:</dark-green> <green>%s</green>\n<grey><i>For questions or concerns, refer to discord.gg/moyai-mc</grey></i>",
 
-    "duel.requested": "<green>%s just sent you a duel request</green>",
-    "duel.request": "<green>You just sent a duel request to %s</green>"
+    "duel.requested": "<green>%s just sent you a duel request in %s</green>",
+    "duel.request": "<green>You just sent a duel request to %s in %s</green>"
   }
 }

@@ -2,8 +2,6 @@ package user
 
 import (
 	"fmt"
-	"time"
-
 	"github.com/moyai-network/practice/moyai/game"
 	"github.com/oomph-ac/oomph/check"
 	"github.com/sandertv/gophertunnel/minecraft/protocol/packet"
@@ -78,7 +76,7 @@ func Broadcast(key string, args ...any) {
 func (h *Handler) DuelRequests() (requests []string) {
 	for xuid, t := range h.duelRequests {
 		p, ok := LookupXUID(xuid)
-		if !ok || t.Before(time.Now()) {
+		if !ok || t.Expired() {
 			delete(h.duelRequests, xuid)
 			continue
 		}
@@ -89,11 +87,12 @@ func (h *Handler) DuelRequests() (requests []string) {
 
 // Duel ...
 func (h *Handler) Duel(p *player.Player, g game.Game) {
-	h.duelRequests[p.XUID()] = time.Now().Add(5 * time.Minute)
+	h.duelRequests[p.XUID()] = newRequest(g)
 }
 
-func (h *Handler) AcceptDuel(t *player.Player) {
-	delete(h.duelRequests, t.XUID())
+func (h *Handler) AcceptDuel(t *player.Player) game.Game {
+	defer delete(h.duelRequests, t.XUID())
+	return h.duelRequests[t.XUID()].Game()
 }
 
 func (h *Handler) History() map[check.Check]float64 {

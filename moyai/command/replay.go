@@ -2,6 +2,7 @@ package command
 
 import (
 	"fmt"
+	"github.com/moyai-network/practice/moyai/structure"
 	"time"
 
 	"github.com/df-mc/dragonfly/server/block"
@@ -14,7 +15,6 @@ import (
 	"github.com/moyai-network/carrot/sets"
 	ent "github.com/moyai-network/practice/moyai/entity"
 	"github.com/moyai-network/practice/moyai/game/lobby"
-	"github.com/moyai-network/practice/moyai/game/structure"
 	"github.com/moyai-network/practice/moyai/user"
 	"github.com/samber/lo"
 	"github.com/sandertv/gophertunnel/minecraft/protocol/packet"

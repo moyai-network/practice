@@ -1,11 +1,11 @@
 package lobby
 
 import (
+	"github.com/moyai-network/practice/moyai/form"
 	"github.com/moyai-network/practice/moyai/game"
+	"github.com/moyai-network/practice/moyai/game/kit"
 	"strings"
 	"time"
-
-	"github.com/moyai-network/practice/moyai/game/kit"
 
 	"github.com/df-mc/dragonfly/server/event"
 	"github.com/df-mc/dragonfly/server/player"
@@ -14,7 +14,6 @@ import (
 	"github.com/moyai-network/carrot"
 	"github.com/moyai-network/carrot/lang"
 	"github.com/moyai-network/practice/moyai/data"
-	"github.com/moyai-network/practice/moyai/form"
 	"github.com/moyai-network/practice/moyai/user"
 	"github.com/sandertv/gophertunnel/minecraft/text"
 )

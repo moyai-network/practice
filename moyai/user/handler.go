@@ -25,7 +25,7 @@ type Handler struct {
 	p *player.Player
 
 	chatCoolDown carrot.CoolDown
-	duelRequests map[string]time.Time
+	duelRequests map[string]request
 
 	history   map[check.Check]float64
 	historyMu sync.Mutex
@@ -38,7 +38,7 @@ type Handler struct {
 }
 
 func NewHandler(p *player.Player) *Handler {
-	h := &Handler{p: p, duelRequests: map[string]time.Time{}, history: map[check.Check]float64{}, watchingReplay: atomic.Bool{}}
+	h := &Handler{p: p, duelRequests: map[string]request{}, history: map[check.Check]float64{}, watchingReplay: atomic.Bool{}}
 	return h
 }
 

@@ -2,6 +2,7 @@ package ffa
 
 import (
 	"github.com/df-mc/dragonfly/server/player"
+	"github.com/moyai-network/practice/moyai/structure"
 	"math"
 	"math/rand"
 
@@ -12,7 +13,6 @@ import (
 	"github.com/moyai-network/carrot/worlds"
 	ent "github.com/moyai-network/practice/moyai/entity"
 	"github.com/moyai-network/practice/moyai/game"
-	"github.com/moyai-network/practice/moyai/game/structure"
 )
 
 var lobby func(p *player.Player)

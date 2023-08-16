@@ -10,7 +10,7 @@ import (
 	ent "github.com/moyai-network/practice/moyai/entity"
 	"github.com/moyai-network/practice/moyai/game"
 	"github.com/moyai-network/practice/moyai/game/kit"
-	"github.com/moyai-network/practice/moyai/game/structure"
+	"github.com/moyai-network/practice/moyai/structure"
 	"github.com/sandertv/gophertunnel/minecraft/text"
 	"math/rand"
 	"time"

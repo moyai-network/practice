@@ -3,7 +3,6 @@ package form
 import (
 	"github.com/df-mc/dragonfly/server/player"
 	"github.com/df-mc/dragonfly/server/player/form"
-	"github.com/moyai-network/carrot"
 	"github.com/moyai-network/practice/moyai/game"
 	"github.com/moyai-network/practice/moyai/game/ffa"
 	"github.com/sandertv/gophertunnel/minecraft/text"
@@ -14,14 +13,14 @@ type FFA struct{}
 
 func NewFFA() form.Form {
 	var buttons []form.Button
-	m := form.NewMenu(FFA{}, carrot.GlyphFont("FFA"))
+	m := form.NewMenu(FFA{}, text.Colourf("<orange>» <black>Free For All</black> «</orange>"))
 	for _, g := range game.Games() {
 		if !g.FFA() {
 			continue
 		}
-		buttons = append(buttons, form.NewButton(text.Colourf("<purple>%s</purple>", g.Name()), g.Texture()))
+		buttons = append(buttons, form.NewButton(text.Colourf("<dark-grey>%s</dark-grey>", g.Name()), g.Texture()))
 	}
-	return m.WithButtons(buttons...)
+	return m.WithBody(text.Colourf("<orange>»</orange> Welcome to the <black>FFA</black> form. You may choose a game mode.")).WithButtons(buttons...)
 }
 
 func (f FFA) Submit(sub form.Submitter, btn form.Button) {
