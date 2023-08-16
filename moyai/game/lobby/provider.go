@@ -47,9 +47,9 @@ func formattedLeaderboard() string {
 			return 0
 		}
 		if a.Stats.Kills > b.Stats.Kills {
-			return 1
+			return -1
 		}
-		return -1
+		return 1
 	})
 
 	for i := 0; i < 10; i++ {
