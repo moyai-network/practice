@@ -196,7 +196,12 @@ func (h *Handler) HandleQuit() {
 	killer = killer.WithKills(killer.Stats.Kills + 1)
 
 	_ = data.SaveUser(killer)
-	user.Broadcast("user.kill.pots", u.Roles.Highest().Colour(u.DisplayName), potions(h.p), killer.Roles.Highest().Colour(killer.DisplayName), potions(h.op))
+
+	if h.m.g == game.NoDebuff() {
+		user.Broadcast("user.kill.pots", u.Roles.Highest().Colour(u.DisplayName), potions(h.p), killer.Roles.Highest().Colour(killer.DisplayName), potions(h.op))
+	} else {
+		user.Broadcast("user.kill", u.Roles.Highest().Colour(u.DisplayName), killer.Roles.Highest().Colour(killer.DisplayName))
+	}
 
 	lobby(h.op)
 }
