@@ -91,6 +91,8 @@ func main() {
 func accept(p *player.Player) {
 	lobby.AddPlayer(p)
 	user.Add(p)
+
+	p.Message(text.Colourf("<green>Make sure to join our discord server at discord.gg/moyai!</green>"))
 }
 
 func registerCommands() {
