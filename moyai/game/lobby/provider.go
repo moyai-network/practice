@@ -278,6 +278,87 @@ func formattedEloLeaderboard(g game.Game) string {
 	return sb.String()
 }
 
+func formattedOverallEloLeaderboard() string {
+	sb := &strings.Builder{}
+	sb.WriteString(text.Colourf("<bold><dark-red>TOP %v</dark-red></bold>\n", strings.ReplaceAll(strings.ToUpper("overall"), "_", " ")))
+	users := data.Users()
+
+	sorter := abcsort.New("abcdefghijklmnopqrstuvwxyz123456789 ")
+	sorter.Slice(users, func(i int) string {
+		return users[i].Name
+	})
+
+	slices.SortFunc(users, func(a, b data.User) int {
+		if a.TotalElo() == b.TotalElo() {
+			return 0
+		}
+		if a.TotalElo() > b.TotalElo() {
+			return -1
+		}
+		return 1
+	})
+
+	for i := 0; i < 10; i++ {
+		if len(users) < i+1 {
+			break
+		}
+		leader := users[i]
+		name := leader.DisplayName
+		if leader.Roles.Contains(role.Plus{}) {
+			name = text.Colourf("<red>%s</red>", name)
+		}
+
+		position, _ := roman.Itor(i + 1)
+		sb.WriteString(text.Colourf(
+			"<grey>%v.</grey> <white>%v</white> <dark-grey>-</dark-grey> <grey>%v</grey>\n",
+			position,
+			name,
+			leader.TotalElo(),
+		))
+	}
+	return sb.String()
+}
+
+func formattedTotalEloLeaderboard() string {
+	sb := &strings.Builder{}
+	users := data.Users()
+
+	sorter := abcsort.New("abcdefghijklmnopqrstuvwxyz123456789 ")
+	sorter.Slice(users, func(i int) string {
+		return users[i].Name
+	})
+
+	slices.SortFunc(users, func(a, b data.User) int {
+		if a.TotalElo() == b.TotalElo() {
+			return 0
+		}
+		if a.TotalElo() > b.TotalElo() {
+			return -1
+		}
+		return 1
+	})
+
+	for i := 0; i < 10; i++ {
+		if len(users) < i+1 {
+			break
+		}
+		leader := users[i]
+		name := leader.DisplayName
+		if leader.Roles.Contains(role.Plus{}) {
+			name = text.Colourf("<red>%s</red>", name)
+		}
+
+		position, _ := roman.Itor(i + 1)
+		sb.WriteString(text.Colourf(
+			"<grey>%v.</grey> <white>%v</white> <dark-grey>-</dark-grey> <grey>%v</grey>\n",
+			position,
+			name,
+			leader.TotalElo(),
+		))
+	}
+	return sb.String()
+}
+
 func startLeaderBoards() {
 	var gamesIndex, statsIndex int
 
@@ -315,6 +396,8 @@ func startLeaderBoards() {
 			statsLeaderboard.SetNameTag(formattedBestKSLeaderboard())
 		case 4:
 			statsLeaderboard.SetNameTag(formattedKDRLeaderboard())
+		case 5:
+			statsLeaderboard.SetNameTag(formattedOverallEloLeaderboard())
 		default:
 			statsLeaderboard.SetNameTag(formattedKillsLeaderboard())
 			statsIndex = 0
@@ -338,6 +421,10 @@ func AddPlayer(p *player.Player) {
 	p.Teleport(lobby.Spawn().Vec3Middle())
 
 	kit.Apply(kit.Lobby{}, p)
+
+	i, _ := p.Inventory().Item(2)
+	_ = p.Inventory().SetItem(2, i.WithLore(strings.Split(formattedTotalEloLeaderboard(), "\n")...))
+
 	h := newHandler(p)
 	h.SendScoreBoard()
 	p.Handle(h)

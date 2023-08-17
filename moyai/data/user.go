@@ -119,6 +119,17 @@ func (u User) GameElo(g game.Game) int32 {
 	return u.Elo[strings.ToLower(g.Name())]
 }
 
+func (u User) TotalElo() int32 {
+	var tot int32 = 1000
+	for _, g := range game.Games() {
+		if !g.Duel() {
+			continue
+		}
+		tot += u.GameElo(g) - 1000
+	}
+	return tot
+}
+
 // DefaultUser creates a default user.
 func DefaultUser(name string) User {
 	return User{
