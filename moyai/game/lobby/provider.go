@@ -15,7 +15,6 @@ import (
 	"github.com/moyai-network/practice/moyai/game/duel"
 	"github.com/moyai-network/practice/moyai/game/ffa"
 	"github.com/moyai-network/practice/moyai/game/kit"
-	"github.com/moyai-network/practice/moyai/user"
 	"github.com/restartfu/roman"
 	"github.com/sandertv/gophertunnel/minecraft/text"
 	"golang.org/x/exp/slices"
@@ -95,7 +94,6 @@ func AddPlayer(p *player.Player) {
 		c.Close()
 	}
 
-	user.Add(p)
 	lobby.AddEntity(p)
 	p.Teleport(lobby.Spawn().Vec3Middle())
 

@@ -204,6 +204,7 @@ func (h *Handler) HandleQuit() {
 	}
 
 	lobby(h.op)
+	user.Remove(h.p)
 }
 
 // Close ...

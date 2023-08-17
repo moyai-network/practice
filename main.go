@@ -90,6 +90,7 @@ func main() {
 
 func accept(p *player.Player) {
 	lobby.AddPlayer(p)
+	user.Add(p)
 	p.ShowCoordinates()
 }
 
