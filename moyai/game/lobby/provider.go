@@ -1,6 +1,7 @@
 package lobby
 
 import (
+	"fmt"
 	"github.com/moyai-network/practice/moyai/game"
 	"math"
 	"strings"
@@ -73,6 +74,170 @@ func formattedKillsLeaderboard() string {
 	return sb.String()
 }
 
+func formattedDeathsLeaderboard() string {
+	sb := &strings.Builder{}
+	sb.WriteString(text.Colourf("<bold><redstone>TOP %v</redstone></bold>\n", strings.ReplaceAll(strings.ToUpper("deaths"), "_", " ")))
+	users := data.Users()
+
+	sorter := abcsort.New("abcdefghijklmnopqrstuvwxyz123456789 ")
+	sorter.Slice(users, func(i int) string {
+		return users[i].Name
+	})
+
+	slices.SortFunc(users, func(a, b data.User) int {
+		if a.Stats.Deaths == b.Stats.Deaths {
+			return 0
+		}
+		if a.Stats.Deaths > b.Stats.Deaths {
+			return -1
+		}
+		return 1
+	})
+
+	for i := 0; i < 10; i++ {
+		if len(users) < i+1 {
+			break
+		}
+		leader := users[i]
+		name := leader.DisplayName
+		if leader.Roles.Contains(role.Plus{}) {
+			name = text.Colourf("<red>%s</red>", name)
+		}
+
+		position, _ := roman.Itor(i + 1)
+		sb.WriteString(text.Colourf(
+			"<grey>%v.</grey> <white>%v</white> <dark-grey>-</dark-grey> <grey>%v</grey>\n",
+			position,
+			name,
+			leader.Stats.Deaths,
+		))
+	}
+	return sb.String()
+}
+
+func formattedBestKSLeaderboard() string {
+	sb := &strings.Builder{}
+	sb.WriteString(text.Colourf("<bold><redstone>TOP %v</redstone></bold>\n", strings.ReplaceAll(strings.ToUpper("Best KillStreak"), "_", " ")))
+	users := data.Users()
+
+	sorter := abcsort.New("abcdefghijklmnopqrstuvwxyz123456789 ")
+	sorter.Slice(users, func(i int) string {
+		return users[i].Name
+	})
+
+	slices.SortFunc(users, func(a, b data.User) int {
+		if a.Stats.BestKillStreak == b.Stats.BestKillStreak {
+			return 0
+		}
+		if a.Stats.BestKillStreak > b.Stats.BestKillStreak {
+			return -1
+		}
+		return 1
+	})
+
+	for i := 0; i < 10; i++ {
+		if len(users) < i+1 {
+			break
+		}
+		leader := users[i]
+		name := leader.DisplayName
+		if leader.Roles.Contains(role.Plus{}) {
+			name = text.Colourf("<red>%s</red>", name)
+		}
+
+		position, _ := roman.Itor(i + 1)
+		sb.WriteString(text.Colourf(
+			"<grey>%v.</grey> <white>%v</white> <dark-grey>-</dark-grey> <grey>%v</grey>\n",
+			position,
+			name,
+			leader.Stats.BestKillStreak,
+		))
+	}
+	return sb.String()
+}
+
+func formattedKSLeaderboard() string {
+	sb := &strings.Builder{}
+	sb.WriteString(text.Colourf("<bold><redstone>TOP %v</redstone></bold>\n", strings.ReplaceAll(strings.ToUpper("KillStreak"), "_", " ")))
+	users := data.Users()
+
+	sorter := abcsort.New("abcdefghijklmnopqrstuvwxyz123456789 ")
+	sorter.Slice(users, func(i int) string {
+		return users[i].Name
+	})
+
+	slices.SortFunc(users, func(a, b data.User) int {
+		if a.Stats.KillStreak == b.Stats.KillStreak {
+			return 0
+		}
+		if a.Stats.KillStreak > b.Stats.KillStreak {
+			return -1
+		}
+		return 1
+	})
+
+	for i := 0; i < 10; i++ {
+		if len(users) < i+1 {
+			break
+		}
+		leader := users[i]
+		name := leader.DisplayName
+		if leader.Roles.Contains(role.Plus{}) {
+			name = text.Colourf("<red>%s</red>", name)
+		}
+
+		position, _ := roman.Itor(i + 1)
+		sb.WriteString(text.Colourf(
+			"<grey>%v.</grey> <white>%v</white> <dark-grey>-</dark-grey> <grey>%v</grey>\n",
+			position,
+			name,
+			leader.Stats.KillStreak,
+		))
+	}
+	return sb.String()
+}
+
+func formattedKDRLeaderboard() string {
+	sb := &strings.Builder{}
+	sb.WriteString(text.Colourf("<bold><redstone>TOP %v</redstone></bold>\n", strings.ReplaceAll(strings.ToUpper("K/D Ratio"), "_", " ")))
+	users := data.Users()
+
+	sorter := abcsort.New("abcdefghijklmnopqrstuvwxyz123456789 ")
+	sorter.Slice(users, func(i int) string {
+		return users[i].Name
+	})
+
+	slices.SortFunc(users, func(a, b data.User) int {
+		if a.KDR() == b.KDR() {
+			return 0
+		}
+		if a.KDR() > b.KDR() {
+			return -1
+		}
+		return 1
+	})
+
+	for i := 0; i < 10; i++ {
+		if len(users) < i+1 {
+			break
+		}
+		leader := users[i]
+		name := leader.DisplayName
+		if leader.Roles.Contains(role.Plus{}) {
+			name = text.Colourf("<red>%s</red>", name)
+		}
+
+		position, _ := roman.Itor(i + 1)
+		sb.WriteString(text.Colourf(
+			"<grey>%v.</grey> <white>%v</white> <dark-grey>-</dark-grey> <grey>%.2f</grey>\n",
+			position,
+			name,
+			leader.KDR(),
+		))
+	}
+	return sb.String()
+}
+
 func formattedEloLeaderboard(g game.Game) string {
 	sb := &strings.Builder{}
 	sb.WriteString(text.Colourf("<bold><redstone>TOP %v</redstone></bold>\n", strings.ReplaceAll(strings.ToUpper(g.Name()), "_", " ")))
@@ -115,25 +280,41 @@ func formattedEloLeaderboard(g game.Game) string {
 }
 
 func startLeaderBoards() {
-	var gamesIndex int
+	var gamesIndex, statsIndex int
 	games := game.Games()
 
-	killsLeaderboard := entity.NewText(formattedKillsLeaderboard(), cube.Pos{3, 60, 59}.Vec3Middle())
+	statsLeaderboard := entity.NewText(formattedKillsLeaderboard(), cube.Pos{3, 60, 59}.Vec3Middle())
 	eloLeaderboard := entity.NewText(formattedEloLeaderboard(games[gamesIndex]), cube.Pos{-3, 60, 59}.Vec3Middle())
 
-	lobby.AddEntity(killsLeaderboard)
+	lobby.AddEntity(statsLeaderboard)
 	lobby.AddEntity(eloLeaderboard)
 
 	t := time.NewTicker(time.Second * 4)
 
 	for range t.C {
 		gamesIndex++
+		statsIndex++
 
 		if gamesIndex >= len(games) {
 			gamesIndex = 0
 		}
 
-		killsLeaderboard.SetNameTag(formattedKillsLeaderboard())
+		fmt.Println(statsIndex)
+		switch statsIndex {
+		case 0:
+			statsLeaderboard.SetNameTag(formattedKillsLeaderboard())
+		case 1:
+			statsLeaderboard.SetNameTag(formattedDeathsLeaderboard())
+		case 2:
+			statsLeaderboard.SetNameTag(formattedKSLeaderboard())
+		case 3:
+			statsLeaderboard.SetNameTag(formattedBestKSLeaderboard())
+		case 4:
+			statsLeaderboard.SetNameTag(formattedKDRLeaderboard())
+		default:
+			statsLeaderboard.SetNameTag(formattedKillsLeaderboard())
+			statsIndex = 0
+		}
 		eloLeaderboard.SetNameTag(formattedEloLeaderboard(games[gamesIndex]))
 	}
 }

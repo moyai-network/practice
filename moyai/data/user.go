@@ -88,6 +88,16 @@ func (u User) WithBestKillStreak(n int) User {
 	return u
 }
 
+func (u User) KDR() float64 {
+	var kdr float64
+	if u.Stats.Deaths > 0 {
+		kdr = float64(u.Stats.Kills) / float64(u.Stats.Deaths)
+	} else {
+		kdr = float64(u.Stats.Kills)
+	}
+	return kdr
+}
+
 func (u User) WithElo(g game.Game, n int32) User {
 	if u.Elo == nil {
 		u.Elo = map[string]int32{}
