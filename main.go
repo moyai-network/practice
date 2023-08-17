@@ -96,16 +96,16 @@ func accept(p *player.Player) {
 
 func registerCommands() {
 	for _, c := range []cmd.Command{
-		cmd.New("spawn", text.Colourf("<orange>Teleport to spawn.</orange>"), []string{"hub"}, command.Spawn{}),
-		cmd.New("role", text.Colourf("<orange>Role management commands.</orange>"), nil, command.RoleAdd{}, command.RoleRemove{}, command.RoleAddOffline{}, command.RoleRemoveOffline{}),
-		cmd.New("duel", text.Colourf("<orange>Duel other players or parties.</orange>"), nil, command.DuelAccept{}, command.Duel{}),
-		cmd.New("ban", text.Colourf("<orange>Ban other players</orange>"), nil, command.BanList{}, command.BanLiftOffline{}, command.BanInfoOffline{}, command.Ban{}, command.BanOffline{}, command.BanForm{}),
-		cmd.New("kick", text.Colourf("<orange>Kick other players</orange>"), nil, command.Kick{}),
-		cmd.New("mute", text.Colourf("<orange>Mute other players</orange>"), nil, command.MuteList{}, command.MuteLiftOffline{}, command.MuteInfoOffline{}, command.Mute{}, command.MuteOffline{}, command.MuteForm{}),
-		cmd.New("rekit", text.Colourf("<orange>re-apply your kit</orange>"), nil, command.ReKit{}),
-		cmd.New("pprof", text.Colourf("<orange>You shouldn't have access to this</orange>"), nil, command.Pprof{}),
-		cmd.New("status", text.Colourf("<orange>View technical stats of the server.</orange>"), nil, command.Status{}),
-		//cmd.New("replay", text.Colourf("<orange>View replay of duels.</orange>"), nil, command.ReplayRecent{}),
+		cmd.New("spawn", text.Colourf("<redstone>Teleport to spawn.</redstone>"), []string{"hub"}, command.Spawn{}),
+		cmd.New("role", text.Colourf("<redstone>Role management commands.</redstone>"), nil, command.RoleAdd{}, command.RoleRemove{}, command.RoleAddOffline{}, command.RoleRemoveOffline{}),
+		cmd.New("duel", text.Colourf("<redstone>Duel other players or parties.</redstone>"), nil, command.DuelAccept{}, command.Duel{}),
+		cmd.New("ban", text.Colourf("<redstone>Ban other players</redstone>"), nil, command.BanList{}, command.BanLiftOffline{}, command.BanInfoOffline{}, command.Ban{}, command.BanOffline{}, command.BanForm{}),
+		cmd.New("kick", text.Colourf("<redstone>Kick other players</redstone>"), nil, command.Kick{}),
+		cmd.New("mute", text.Colourf("<redstone>Mute other players</redstone>"), nil, command.MuteList{}, command.MuteLiftOffline{}, command.MuteInfoOffline{}, command.Mute{}, command.MuteOffline{}, command.MuteForm{}),
+		cmd.New("rekit", text.Colourf("<redstone>re-apply your kit</redstone>"), nil, command.ReKit{}),
+		cmd.New("pprof", text.Colourf("<redstone>You shouldn't have access to this</redstone>"), nil, command.Pprof{}),
+		cmd.New("status", text.Colourf("<redstone>View technical stats of the server.</redstone>"), nil, command.Status{}),
+		//cmd.New("replay", text.Colourf("<redstone>View replay of duels.</redstone>"), nil, command.ReplayRecent{}),
 	} {
 		cmd.Register(c)
 	}

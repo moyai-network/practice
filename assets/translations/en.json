@@ -1,8 +1,8 @@
 {
   "translations": {
-    "item.lobby.ffa": "<orange>FFA</orange>",
-    "item.lobby.queue": "<orange>Queue</orange>",
-    "item.lobby.settings": "<orange>Settings</orange>",
+    "item.lobby.ffa": "<redstone>FFA</redstone>",
+    "item.lobby.queue": "<redstone>Queue</redstone>",
+    "item.lobby.settings": "<redstone>Settings</redstone>",
 
     "user.suicide": "%s <red>committed suicide</red>",
     "user.kill.pots": "%s<grey>[<red>%d</red>]</grey> <red>was slain by</red> %s<grey>[<red>%d</red>]</grey>",
@@ -21,7 +21,7 @@
     "pearl.cooldown": "<red>You are now on pearl cooldown</red>",
     "pearl.expired": "<green>Pearl cooldown expired</green",
 
-    "scoreboard.footer": " <i><grey>moyai.pro</i></grey>",
+    "scoreboard.footer": "       <i><grey>moyai.pro</i></grey>",
 
     "command.ban.already": "<red>That player is already banned.</red>",
     "command.ban.broadcast": "\n<aqua>%v</aqua> has removed <dark-aqua>%v</dark-aqua> from Moyai for <dark-red>%v</dark-red>\n\n",

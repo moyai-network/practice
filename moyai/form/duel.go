@@ -15,11 +15,11 @@ type Duel struct {
 
 func NewDuel(t *player.Player) form.Form {
 	var buttons []form.Button
-	m := form.NewMenu(Duel{t: t}, text.Colourf("<orange>» <black>Duel %s</black> «</orange>", t.Name()))
+	m := form.NewMenu(Duel{t: t}, text.Colourf("<redstone>» <red>Duel %s</red> «</redstone>", t.Name()))
 	for _, g := range game.Games() {
 		buttons = append(buttons, form.NewButton(text.Colourf("<dark-grey>%s</dark-grey>", g.Name()), g.Texture()))
 	}
-	return m.WithBody(text.Colourf("<orange>»</orange> Welcome to the <black>Duel</black> form. You may choose a game mode")).WithButtons(buttons...)
+	return m.WithBody(text.Colourf("<redstone>»</redstone> Welcome to the <red>Duel</red> form. You may choose a game mode")).WithButtons(buttons...)
 }
 
 func (d Duel) Submit(sub form.Submitter, btn form.Button) {

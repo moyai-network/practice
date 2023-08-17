@@ -33,7 +33,7 @@ func New(w *world.World) {
 
 func formattedLeaderboard() string {
 	sb := &strings.Builder{}
-	sb.WriteString(text.Colourf("<bold><orange>TOP %v</orange></bold>\n", strings.ReplaceAll(strings.ToUpper("kills"), "_", " ")))
+	sb.WriteString(text.Colourf("<bold><redstone>TOP %v</redstone></bold>\n", strings.ReplaceAll(strings.ToUpper("kills"), "_", " ")))
 	users := data.Users()
 
 	sorter := abcsort.New("abcdefghijklmnopqrstuvwxyz123456789 ")
@@ -58,7 +58,7 @@ func formattedLeaderboard() string {
 		leader := users[i]
 		name := leader.DisplayName
 		if leader.Roles.Contains(role.Plus{}) {
-			name = text.Colourf("<black>%s</black>", name)
+			name = text.Colourf("<red>%s</red>", name)
 		}
 
 		position, _ := roman.Itor(i + 1)

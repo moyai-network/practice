@@ -243,36 +243,39 @@ func (h *Handler) SendScoreBoard() {
 	l := h.p.Locale()
 	//u, _ := data.LoadUser(h.p.Name())
 
-	sb := scoreboard.New(carrot.GlyphFont("PRACTICE"))
+	sb := scoreboard.New(carrot.GlyphFont(" Moyai"))
 	sb.RemovePadding()
-	_, _ = sb.WriteString("§r\uE000")
+	_, _ = sb.WriteString("§r\uE002")
 
-	_, _ = sb.WriteString(text.Colourf("<black>\uE141 </black>Opponent<grey>:</grey> <red>%s</red>", h.op.Name()))
+	_, _ = sb.WriteString(text.Colourf("<red>\uE141 </red>Opponent<grey>:</grey> <red>%s</red>", h.op.Name()))
 	if h.m.g == game.Boxing() {
-		_, _ = sb.WriteString(text.Colourf("<black>\uE141 </black>Hits<grey>:</grey> <green>%d</green> <grey>:</grey> <red>%d</red>", h.hits, h.op.Handler().(*Handler).hits))
+		_, _ = sb.WriteString(text.Colourf("<red>\uE141 </red>Hits<grey>:</grey> <green>%d</green> <grey>:</grey> <red>%d</red>", h.hits, h.op.Handler().(*Handler).hits))
 		diff := h.hits - h.op.Handler().(*Handler).hits
 		d := strconv.Itoa(diff)
 		if diff > 0 {
 			d = "+" + d
 		}
-		_, _ = sb.WriteString(text.Colourf("<black>\uE141 </black>Difference<grey>:</grey> <orange>%s</orange>", d))
+		_, _ = sb.WriteString(text.Colourf("<red>\uE141 </red>Difference<grey>:</grey> <redstone>%s</redstone>", d))
 	}
 
 	_, _ = sb.WriteString("\n\uE146\uE147\uE148\uE149\uE144\uE143")
 	if h.pearl.Active() {
-		_, _ = sb.WriteString(text.Colourf("<black>\uE141 </black>Ender Pearl<grey>:</grey> <black>%.0f</black>", h.pearl.Remaining().Seconds()))
+		_, _ = sb.WriteString(text.Colourf("<red>\uE141 </red>Ender Pearl<grey>:</grey> <red>%.0f</red>", h.pearl.Remaining().Seconds()))
 	}
 
-	_, _ = sb.WriteString(text.Colourf("<black>\uE141 </black>Ping<grey>:</grey> <green>%dms</green> \uE145 <red>%dms</red>", h.p.Latency().Milliseconds()*2, h.op.Latency().Milliseconds()*2))
-	_, _ = sb.WriteString(text.Colourf("<black>\uE141 </black>Time<grey>:</grey> <black>%s</black>", parseDuration(time.Since(h.m.beginning))))
+	_, _ = sb.WriteString(text.Colourf("\uE141 Ping<grey>:</grey> <green>%dms</green> \uE145 <red>%dms</red>", h.p.Latency().Milliseconds()*2, h.op.Latency().Milliseconds()*2))
+	_, _ = sb.WriteString(text.Colourf("\uE141 Time<grey>:</grey> <red>%s</red>", parseDuration(time.Since(h.m.beginning))))
 
-	_, _ = sb.WriteString("\uE000")
+	_, _ = sb.WriteString("\uE002")
 	for i, li := range sb.Lines() {
-		if !strings.Contains(li, "\uE000") {
+		if !strings.Contains(li, "\uE002") {
 			sb.Set(i, "  "+li)
 		}
 	}
+	_, _ = sb.WriteString("§a")
 	_, _ = sb.WriteString(lang.Translatef(l, "scoreboard.footer"))
+
+	_, _ = sb.WriteString("\uE002")
 	h.p.RemoveScoreboard()
 	h.p.SendScoreboard(sb)
 }

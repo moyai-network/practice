@@ -46,7 +46,7 @@ func NewMute(p *player.Player) form.Form {
 		OfflinePlayer: form.NewInput("Offline Player", "", names[rand.Intn(len(names)-1)]),
 		online:        online,
 		p:             p,
-	}, text.Colourf("<orange>» <black>Mute</black> «</orange>"))
+	}, text.Colourf("<redstone>» <red>Mute</red> «</redstone>"))
 }
 
 // Submit ...

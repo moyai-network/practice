@@ -3,7 +3,7 @@
     "header": {
         "description": "Moyai texture pack",
         "name": "Moyai",
-        "uuid": "5438181a-0131-4843-abf7-5331ae9e3107",
+        "uuid": "4916c80d-27bf-bc95-b1d7-a69b6ec39b41",
         "version": [1, 0, 0],
         "min_engine_version": [1, 12, 1]
     },
@@ -11,7 +11,7 @@
         {
             "description": "",
             "type": "resources",
-            "uuid": "5438181a-0131-4843-abf7-5331ae9e3108",
+            "uuid": "4916c80d-27bf-4c95-b1d7-a69baec39b44",
             "version": [1, 0, 0]
         }
     ]

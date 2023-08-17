@@ -248,38 +248,41 @@ func (h *Handler) SendScoreBoard() {
 		kdr = float64(u.Stats.Kills)
 	}
 
-	sb := scoreboard.New(carrot.GlyphFont("PRACTICE"))
+	sb := scoreboard.New(carrot.GlyphFont(" Moyai"))
 	sb.RemovePadding()
-	_, _ = sb.WriteString("§r\uE000")
+	_, _ = sb.WriteString("§r\uE002")
 
 	_, _ = sb.WriteString("\uE142\uE143\uE144\uE143\uE142")
-	_, _ = sb.WriteString(text.Colourf("<black>\uE141 </black>K<grey>:</grey> <black>%d</black> D<grey>:</grey> <black>%d</black>", u.Stats.Kills, u.Stats.Deaths))
-	_, _ = sb.WriteString(text.Colourf("<black>\uE141 </black>KDR<grey>:</grey> <black>%.2f</black>", kdr))
-	_, _ = sb.WriteString(text.Colourf("<black>\uE141 </black>KS<grey>:</grey> <black>%d</black>", u.Stats.KillStreak))
+	_, _ = sb.WriteString(text.Colourf("<red>\uE141 </red>K<grey>:</grey> <red>%d</red> D<grey>:</grey> <red>%d</red>", u.Stats.Kills, u.Stats.Deaths))
+	_, _ = sb.WriteString(text.Colourf("<red>\uE141 </red>KDR<grey>:</grey> <red>%.2f</red>", kdr))
+	_, _ = sb.WriteString(text.Colourf("<red>\uE141 </red>KS<grey>:</grey> <red>%d</red>", u.Stats.KillStreak))
 
 	_, _ = sb.WriteString("\n\uE146\uE147\uE148\uE149\uE144\uE143")
 	if h.pearl.Active() {
-		_, _ = sb.WriteString(text.Colourf("<black>\uE141 </black>Ender Pearl<grey>:</grey> <black>%.0f</black>", h.pearl.Remaining().Seconds()))
+		_, _ = sb.WriteString(text.Colourf("<red>\uE141 </red>Ender Pearl<grey>:</grey> <red>%.0f</red>", h.pearl.Remaining().Seconds()))
 	}
 	if h.combat.Active() {
-		_, _ = sb.WriteString(text.Colourf("<black>\uE141 </black>Combat<grey>:</grey> <black>%.0f</black>", h.combat.Remaining().Seconds()))
+		_, _ = sb.WriteString(text.Colourf("<red>\uE141 </red>Combat<grey>:</grey> <red>%.0f</red>", h.combat.Remaining().Seconds()))
 	}
 
 	a, ok := data.LoadUser(h.lastAttacker.Load())
 	attacker, online := user.LookupXUID(a.XUID)
 	if ok && online && h.combat.Active() {
-		_, _ = sb.WriteString(text.Colourf("<black>\uE141 </black>Ping<grey>:</grey> <green>%dms</green> \uE145 <red>%dms</red>", h.p.Latency().Milliseconds()*2, attacker.Latency().Milliseconds()*2))
+		_, _ = sb.WriteString(text.Colourf("<red>\uE141 </red>Ping<grey>:</grey> <green>%dms</green> \uE145 <red>%dms</red>", h.p.Latency().Milliseconds()*2, attacker.Latency().Milliseconds()*2))
 	} else {
-		_, _ = sb.WriteString(text.Colourf("<black>\uE141 </black>Ping<grey>:</grey> <green>%dms</green>", h.p.Latency().Milliseconds()*2))
+		_, _ = sb.WriteString(text.Colourf("<red>\uE141 </red>Ping<grey>:</grey> <green>%dms</green>", h.p.Latency().Milliseconds()*2))
 	}
 
-	_, _ = sb.WriteString("\uE000")
+	_, _ = sb.WriteString("\uE002")
 	for i, li := range sb.Lines() {
-		if !strings.Contains(li, "\uE000") {
+		if !strings.Contains(li, "\uE002") {
 			sb.Set(i, "  "+li)
 		}
 	}
+	_, _ = sb.WriteString("§a")
 	_, _ = sb.WriteString(lang.Translatef(l, "scoreboard.footer"))
+
+	_, _ = sb.WriteString("\uE002")
 	h.p.RemoveScoreboard()
 	h.p.SendScoreboard(sb)
 }
