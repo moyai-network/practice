@@ -9,15 +9,19 @@ import (
 )
 
 func Games() []Game {
-	return []Game{NoDebuff(), Boxing()}
+	return []Game{NoDebuff(), Boxing(), Fist()}
 }
 
 func NoDebuff() Game {
-	return Game{name: "NoDebuff", texture: "zeqa/textures/ui/gm/nodebuff.png", kit: kit.NoDebuff{}, ffa: true}
+	return Game{name: "NoDebuff", texture: "zeqa/textures/ui/gm/nodebuff.png", kit: kit.NoDebuff{}, ffa: true, duel: true}
+}
+
+func Fist() Game {
+	return Game{name: "Fist", texture: "zeqa/textures/ui/gm/fist.png", kit: kit.Fist{}, ffa: true}
 }
 
 func Boxing() Game {
-	return Game{name: "Boxing", texture: "zeqa/textures/ui/gm/boxing.png", kit: kit.Boxing{}}
+	return Game{name: "Boxing", texture: "zeqa/textures/ui/gm/boxing.png", kit: kit.Boxing{}, duel: true}
 }
 
 // formatRegex is a regex used to clean color formatting on a string.
@@ -29,6 +33,8 @@ func ByName(name string) Game {
 		return NoDebuff()
 	case "boxing":
 		return Boxing()
+	case "fist":
+		return Fist()
 	}
 	panic("should never happen: unknown game name: '" + name + "'")
 }
@@ -37,7 +43,9 @@ type Game struct {
 	name    string
 	texture string
 
-	ffa bool
+	ffa  bool
+	duel bool
+
 	kit carrot.Kit
 }
 
@@ -51,6 +59,9 @@ func (g Game) Texture() string {
 
 func (g Game) FFA() bool {
 	return g.ffa
+}
+func (g Game) Duel() bool {
+	return g.duel
 }
 
 func (g Game) Kit() carrot.Kit {

@@ -85,8 +85,12 @@ func (h *Handler) HandleItemUse(ctx *event.Context) {
 }
 
 func (h *Handler) HandleHurt(ctx *event.Context, damage *float64, attackImmunity *time.Duration, src world.DamageSource) {
-	*damage = *damage / 1.25
-	*attackImmunity = time.Millisecond * 470
+	switch h.g {
+	case game.Fist():
+		*attackImmunity = 350 * time.Millisecond
+	default:
+		*damage = *damage / 1.25
+	}
 	if src == (entity.FallDamageSource{}) {
 		ctx.Cancel()
 		return
@@ -134,7 +138,12 @@ func (h *Handler) HandleHurt(ctx *event.Context, damage *float64, attackImmunity
 }
 
 func (h *Handler) HandleAttackEntity(ctx *event.Context, e world.Entity, force, height *float64, critical *bool) {
-	*force, *height = 0.394, 0.394
+	switch h.g {
+	case game.Fist():
+		*force, *height = 0.4, 0.375
+	default:
+		*force, *height = 0.394, 0.394
+	}
 	target, ok := e.(*player.Player)
 	if !ok {
 		return

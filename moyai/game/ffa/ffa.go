@@ -58,6 +58,9 @@ func init() {
 	}
 
 	for _, g := range game.Games() {
+		if !g.FFA() {
+			continue
+		}
 		size := 256
 		w := world.Config{Entities: ent.Registry}.New()
 		s := structure.GenerateBoxStructure([3]int{size, 50, size}, pairs[rand.Intn(len(pairs))]...)
