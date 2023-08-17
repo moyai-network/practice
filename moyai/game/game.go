@@ -9,7 +9,7 @@ import (
 )
 
 func Games() []Game {
-	return []Game{NoDebuff(), Boxing(), Fist()}
+	return []Game{NoDebuff(), Boxing(), Fist(), Gapple()}
 }
 
 func NoDebuff() Game {
@@ -18,6 +18,10 @@ func NoDebuff() Game {
 
 func Fist() Game {
 	return Game{name: "Fist", texture: "zeqa/textures/ui/gm/fist.png", kit: kit.Fist{}, ffa: true}
+}
+
+func Gapple() Game {
+	return Game{name: "Gapple", texture: "zeqa/textures/ui/gm/gapple.png", kit: kit.Gapple{}, ffa: true, duel: true}
 }
 
 func Boxing() Game {
@@ -35,6 +39,8 @@ func ByName(name string) Game {
 		return Boxing()
 	case "fist":
 		return Fist()
+	case "gapple":
+		return Gapple()
 	}
 	panic("should never happen: unknown game name: '" + name + "'")
 }
