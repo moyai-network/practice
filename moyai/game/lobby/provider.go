@@ -382,6 +382,7 @@ func startLeaderBoards() {
 		statsIndex++
 
 		if gamesIndex >= len(games) {
+			eloLeaderboard.SetNameTag(formattedOverallEloLeaderboard())
 			gamesIndex = 0
 		}
 
@@ -396,8 +397,6 @@ func startLeaderBoards() {
 			statsLeaderboard.SetNameTag(formattedBestKSLeaderboard())
 		case 4:
 			statsLeaderboard.SetNameTag(formattedKDRLeaderboard())
-		case 5:
-			statsLeaderboard.SetNameTag(formattedOverallEloLeaderboard())
 		default:
 			statsLeaderboard.SetNameTag(formattedKillsLeaderboard())
 			statsIndex = 0
