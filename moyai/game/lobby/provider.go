@@ -381,11 +381,6 @@ func startLeaderBoards() {
 		gamesIndex++
 		statsIndex++
 
-		if gamesIndex >= len(games) {
-			eloLeaderboard.SetNameTag(formattedOverallEloLeaderboard())
-			gamesIndex = 0
-		}
-
 		switch statsIndex {
 		case 0:
 			statsLeaderboard.SetNameTag(formattedKillsLeaderboard())
@@ -401,7 +396,13 @@ func startLeaderBoards() {
 			statsLeaderboard.SetNameTag(formattedKillsLeaderboard())
 			statsIndex = 0
 		}
-		eloLeaderboard.SetNameTag(formattedEloLeaderboard(games[gamesIndex]))
+
+		if gamesIndex >= len(games) {
+			eloLeaderboard.SetNameTag(formattedOverallEloLeaderboard())
+			gamesIndex = -1
+		} else {
+			eloLeaderboard.SetNameTag(formattedEloLeaderboard(games[gamesIndex]))
+		}
 	}
 }
 
