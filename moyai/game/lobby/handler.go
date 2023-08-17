@@ -56,7 +56,9 @@ func (h *Handler) HandleItemUse(_ *event.Context) {
 		case 0:
 			h.p.SendForm(form.NewFFA())
 		case 1:
-			h.p.SendForm(form.NewQueue())
+			h.p.SendForm(form.NewUnranked())
+		case 2:
+			h.p.SendForm(form.NewRanked())
 		}
 	}
 

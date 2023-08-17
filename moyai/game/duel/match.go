@@ -7,10 +7,12 @@ import (
 	"github.com/df-mc/dragonfly/server/world"
 	"github.com/go-gl/mathgl/mgl64"
 	"github.com/moyai-network/carrot/worlds"
+	"github.com/moyai-network/practice/moyai/data"
 	ent "github.com/moyai-network/practice/moyai/entity"
 	"github.com/moyai-network/practice/moyai/game"
 	"github.com/moyai-network/practice/moyai/game/kit"
 	"github.com/moyai-network/practice/moyai/structure"
+	"github.com/moyai-network/practice/moyai/user"
 	"github.com/sandertv/gophertunnel/minecraft/text"
 	"math/rand"
 	"time"
@@ -26,14 +28,18 @@ type Match struct {
 
 	beginning time.Time
 	running   bool
+
+	ranked bool
 }
 
-func NewMatch(p, op *player.Player, g game.Game) *Match {
+func NewMatch(p, op *player.Player, g game.Game, ranked bool) *Match {
 	m := &Match{
 		id:      rand.Int63(),
 		players: [2]*player.Player{p, op},
 
 		g: g,
+
+		ranked: ranked,
 	}
 	return m
 }
@@ -81,4 +87,49 @@ func (m *Match) prepare(dim [3]int) {
 	w.StopRaining()
 
 	m.w = w
+}
+
+func (m *Match) End(winner, loser *player.Player, forced bool) {
+	m.running = false
+
+	u, _ := data.LoadUser(loser.Name())
+	if u.Stats.KillStreak > u.Stats.BestKillStreak {
+		u = u.WithBestKillStreak(u.Stats.KillStreak)
+	}
+	u = u.WithDeaths(u.Stats.Deaths + 1)
+
+	killer, _ := data.LoadUser(winner.Name())
+
+	killer = killer.WithKillStreak(killer.Stats.KillStreak + 1)
+	if killer.Stats.KillStreak > killer.Stats.BestKillStreak {
+		killer = killer.WithBestKillStreak(killer.Stats.KillStreak)
+	}
+	killer = killer.WithKills(killer.Stats.Kills + 1)
+
+	if m.ranked {
+		earnings, losings := eloEarnings(u.GameElo(m.g), killer.GameElo(m.g)), eloLosings(killer.GameElo(m.g), u.GameElo(m.g))
+
+		killer = killer.WithElo(m.g, killer.GameElo(m.g)+earnings)
+		u = u.WithElo(m.g, u.GameElo(m.g)-losings)
+
+		if !forced {
+			loser.Message(text.Colourf("<red>New elo: %d (-%d)</red>", u.GameElo(m.g), losings))
+		}
+
+		winner.Message(text.Colourf("<green>New elo: %d (+%d)</green>", killer.GameElo(m.g), earnings))
+	}
+
+	_ = data.SaveUser(killer)
+	_ = data.SaveUser(u.WithKillStreak(0))
+
+	if m.g == game.NoDebuff() {
+		user.Broadcast("user.kill.pots", u.Roles.Highest().Colour(u.DisplayName), potions(loser), killer.Roles.Highest().Colour(killer.DisplayName), potions(winner))
+	} else {
+		user.Broadcast("user.kill", u.Roles.Highest().Colour(u.DisplayName), killer.Roles.Highest().Colour(killer.DisplayName))
+	}
+
+	if !forced {
+		lobby(loser)
+	}
+	lobby(winner)
 }

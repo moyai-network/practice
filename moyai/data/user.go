@@ -1,6 +1,7 @@
 package data
 
 import (
+	"github.com/moyai-network/practice/moyai/game"
 	"log"
 	"strings"
 	"sync"
@@ -55,6 +56,8 @@ type User struct {
 		KillStreak     int
 		BestKillStreak int
 	}
+
+	Elo map[string]int32
 }
 
 func (u User) WithKills(n int) User {
@@ -85,12 +88,34 @@ func (u User) WithBestKillStreak(n int) User {
 	return u
 }
 
+func (u User) WithElo(g game.Game, n int32) User {
+	if u.Elo == nil {
+		u.Elo = map[string]int32{}
+	}
+	if _, ok := u.Elo[strings.ToLower(g.Name())]; !ok {
+		u.Elo[strings.ToLower(g.Name())] = 1000
+	}
+	u.Elo[strings.ToLower(g.Name())] = n
+	return u
+}
+
+func (u User) GameElo(g game.Game) int32 {
+	if u.Elo == nil {
+		u.Elo = map[string]int32{}
+	}
+	if _, ok := u.Elo[strings.ToLower(g.Name())]; !ok {
+		u.Elo[strings.ToLower(g.Name())] = 1000
+	}
+	return u.Elo[strings.ToLower(g.Name())]
+}
+
 // DefaultUser creates a default user.
 func DefaultUser(name string) User {
 	return User{
 		Name:        strings.ToLower(name),
 		DisplayName: name,
 		Roles:       role.NewRoles([]carrot.Role{role.Default{}}, map[carrot.Role]time.Time{}),
+		Elo:         map[string]int32{},
 
 		FirstLogin: time.Now(),
 	}

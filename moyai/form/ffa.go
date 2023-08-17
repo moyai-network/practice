@@ -40,7 +40,7 @@ func (f FFA) Submit(sub form.Submitter, btn form.Button) {
 	}
 
 	for _, gm := range game.Games() {
-		if slices.Contains(game.Queued(gm), p) {
+		if slices.Contains(game.Queued(gm, false), p) || slices.Contains(game.Queued(gm, true), p) {
 			return
 		}
 	}

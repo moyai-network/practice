@@ -1,7 +1,8 @@
 {
   "translations": {
     "item.lobby.ffa": "<redstone>FFA</redstone>",
-    "item.lobby.queue": "<redstone>Queue</redstone>",
+    "item.lobby.unranked": "<redstone>Unranked</redstone>",
+    "item.lobby.ranked": "<redstone>Ranked</redstone>",
     "item.lobby.settings": "<redstone>Settings</redstone>",
 
     "user.suicide": "%s <red>committed suicide</red>",

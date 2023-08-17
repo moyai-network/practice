@@ -17,8 +17,11 @@ func (Lobby) Items(p *player.Player) [36]item.Stack {
 			"§r"+lang.Translatef(p.Locale(), "item.lobby.ffa"),
 		).WithValue("lobby", 0),
 		1: item.NewStack(item.Sword{Tier: item.ToolTierDiamond}, 1).WithCustomName(
-			"§r"+lang.Translatef(p.Locale(), "item.lobby.queue"),
+			"§r"+lang.Translatef(p.Locale(), "item.lobby.unranked"),
 		).WithValue("lobby", 1),
+		2: item.NewStack(item.Sword{Tier: item.ToolTierGold}, 1).WithCustomName(
+			"§r"+lang.Translatef(p.Locale(), "item.lobby.ranked"),
+		).WithValue("lobby", 2),
 		8: item.NewStack(item.EnchantedBook{}, 1).WithCustomName(
 			"§r"+lang.Translatef(p.Locale(), "item.lobby.settings"),
 		).WithValue("lobby", 8),

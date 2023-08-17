@@ -32,7 +32,9 @@ func Add(p *player.Player) {
 }
 
 func Remove(p *player.Player) {
+	fmt.Println("delete")
 	users.Delete(p)
+	fmt.Println("deleted")
 }
 
 func Lookup(name string) (*player.Player, bool) {

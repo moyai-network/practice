@@ -63,7 +63,7 @@ func (d DuelAccept) Run(src cmd.Source, out *cmd.Output) {
 	}
 
 	g := h.UserHandler().AcceptDuel(t)
-	duel.NewMatch(p, t, g).Start()
+	duel.NewMatch(p, t, g, false).Start()
 }
 
 type duelRequests string

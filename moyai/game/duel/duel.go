@@ -20,11 +20,14 @@ func init() {
 	go func() {
 		for range t.C {
 			for _, g := range game.Games() {
-				q := game.Queued(g)
-				if len(q) < 2 {
-					continue
+				q := game.Queued(g, false)
+				rq := game.Queued(g, true)
+				if len(q) >= 2 {
+					NewMatch(q[0], q[1], g, false).Start()
 				}
-				NewMatch(q[0], q[1], g).Start()
+				if len(rq) >= 2 {
+					NewMatch(rq[0], rq[1], g, true).Start()
+				}
 			}
 		}
 	}()

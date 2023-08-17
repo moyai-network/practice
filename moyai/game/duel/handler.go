@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/moyai-network/practice/moyai/game"
 	"strconv"
-	"strings"
 	"time"
 
 	"github.com/df-mc/dragonfly/server/cmd"
@@ -17,7 +16,6 @@ import (
 	"github.com/df-mc/dragonfly/server/world"
 	"github.com/moyai-network/carrot"
 	"github.com/moyai-network/carrot/lang"
-	"github.com/moyai-network/practice/moyai/data"
 	"github.com/moyai-network/practice/moyai/user"
 	"github.com/sandertv/gophertunnel/minecraft/protocol/packet"
 	"github.com/sandertv/gophertunnel/minecraft/text"
@@ -32,8 +30,6 @@ type Handler struct {
 
 	hits  int
 	pearl *carrot.CoolDown
-
-	close chan struct{}
 }
 
 func newHandler(p *player.Player, op *player.Player, m *Match) *Handler {
@@ -42,8 +38,6 @@ func newHandler(p *player.Player, op *player.Player, m *Match) *Handler {
 		m:       m,
 		p:       p,
 		op:      op,
-
-		close: make(chan struct{}, 0),
 	}
 
 	ongoingMu.Lock()
@@ -63,14 +57,12 @@ func newHandler(p *player.Player, op *player.Player, m *Match) *Handler {
 
 	t := time.NewTicker(time.Second)
 	go func() {
-		for {
-			select {
-			case <-t.C:
-				h.SendScoreBoard()
-			case <-h.close:
+		for range t.C {
+			if !m.running {
 				t.Stop()
 				return
 			}
+			h.SendScoreBoard()
 		}
 	}()
 	return h
@@ -118,36 +110,12 @@ func (h *Handler) HandleHurt(ctx *event.Context, damage *float64, attackImmunity
 	if (h.p.Health()-h.p.FinalDamageFrom(*damage, src) <= 0) || src == (entity.VoidDamageSource{}) || (h.m.g == game.Boxing() && h.op.Handler().(*Handler).hits >= 100) {
 		ctx.Cancel()
 
-		u, _ := data.LoadUser(h.p.Name())
-		if u.Stats.KillStreak > u.Stats.BestKillStreak {
-			u = u.WithBestKillStreak(u.Stats.KillStreak)
-		}
-		u = u.WithDeaths(u.Stats.Deaths + 1)
-		_ = data.SaveUser(u.WithKillStreak(0))
-		h.pearl.Cancel()
-
-		killer, _ := data.LoadUser(h.op.Name())
-
-		killer = killer.WithKillStreak(killer.Stats.KillStreak + 1)
-		if killer.Stats.KillStreak > killer.Stats.BestKillStreak {
-			killer = killer.WithBestKillStreak(killer.Stats.KillStreak)
-		}
-		killer = killer.WithKills(killer.Stats.Kills + 1)
-
-		_ = data.SaveUser(killer)
-		if h.m.g == game.NoDebuff() {
-			user.Broadcast("user.kill.pots", u.Roles.Highest().Colour(u.DisplayName), potions(h.p), killer.Roles.Highest().Colour(killer.DisplayName), potions(h.op))
-		} else {
-			user.Broadcast("user.kill", u.Roles.Highest().Colour(u.DisplayName), killer.Roles.Highest().Colour(killer.DisplayName))
-		}
-
 		ongoingMu.Lock()
 		defer ongoingMu.Unlock()
 		h.UserHandler().SetRecentReplay(ongoing[h.m.id])
 		h.op.Handler().(user.UserHandler).UserHandler().SetRecentReplay(ongoing[h.m.id])
 
-		lobby(h.op)
-		lobby(h.p)
+		h.m.End(h.op, h.p, false)
 	}
 }
 
@@ -177,33 +145,8 @@ func (h *Handler) HandleCommandExecution(ctx *event.Context, command cmd.Command
 
 // HandleQuit ...
 func (h *Handler) HandleQuit() {
+	h.m.End(h.op, h.p, true)
 	h.Close()
-	u, _ := data.LoadUser(h.p.Name())
-	if u.Stats.KillStreak > u.Stats.BestKillStreak {
-		u = u.WithBestKillStreak(u.Stats.KillStreak)
-	}
-	u = u.WithDeaths(u.Stats.Deaths + 1)
-	_ = data.SaveUser(u.WithKillStreak(0))
-
-	h.pearl.Cancel()
-
-	killer, _ := data.LoadUser(h.op.Name())
-
-	killer = killer.WithKillStreak(killer.Stats.KillStreak + 1)
-	if killer.Stats.KillStreak > killer.Stats.BestKillStreak {
-		killer = killer.WithBestKillStreak(killer.Stats.KillStreak)
-	}
-	killer = killer.WithKills(killer.Stats.Kills + 1)
-
-	_ = data.SaveUser(killer)
-
-	if h.m.g == game.NoDebuff() {
-		user.Broadcast("user.kill.pots", u.Roles.Highest().Colour(u.DisplayName), potions(h.p), killer.Roles.Highest().Colour(killer.DisplayName), potions(h.op))
-	} else {
-		user.Broadcast("user.kill", u.Roles.Highest().Colour(u.DisplayName), killer.Roles.Highest().Colour(killer.DisplayName))
-	}
-
-	lobby(h.op)
 	user.Remove(h.p)
 }
 
@@ -219,7 +162,6 @@ func (h *Handler) Close() {
 			}
 		}
 	}
-	close(h.close)
 }
 
 func (h *Handler) AddReplayAction(p *player.Player, pk packet.Packet) {
@@ -240,6 +182,9 @@ func (h *Handler) UserHandler() *user.Handler {
 }
 
 func (h *Handler) SendScoreBoard() {
+	if !h.m.running {
+		return
+	}
 	l := h.p.Locale()
 	//u, _ := data.LoadUser(h.p.Name())
 
@@ -247,7 +192,7 @@ func (h *Handler) SendScoreBoard() {
 	sb.RemovePadding()
 	_, _ = sb.WriteString("§r\uE002")
 
-	_, _ = sb.WriteString(text.Colourf("<red>\uE141 </red>Opponent<grey>:</grey> <red>%s</red>", h.op.Name()))
+	_, _ = sb.WriteString(text.Colourf("<red>\uE141 </red>Rival<grey>:</grey> <red>%s</red>", h.op.Name()))
 	if h.m.g == game.Boxing() {
 		_, _ = sb.WriteString(text.Colourf("<red>\uE141 </red>Hits<grey>:</grey> <green>%d</green> <grey>:</grey> <red>%d</red>", h.hits, h.op.Handler().(*Handler).hits))
 		diff := h.hits - h.op.Handler().(*Handler).hits
@@ -266,12 +211,6 @@ func (h *Handler) SendScoreBoard() {
 	_, _ = sb.WriteString(text.Colourf("\uE141 Ping<grey>:</grey> <green>%dms</green> \uE145 <red>%dms</red>", h.p.Latency().Milliseconds()*2, h.op.Latency().Milliseconds()*2))
 	_, _ = sb.WriteString(text.Colourf("\uE141 Time<grey>:</grey> <red>%s</red>", parseDuration(time.Since(h.m.beginning))))
 
-	_, _ = sb.WriteString("\uE002")
-	for i, li := range sb.Lines() {
-		if !strings.Contains(li, "\uE002") {
-			sb.Set(i, "  "+li)
-		}
-	}
 	_, _ = sb.WriteString("§a")
 	_, _ = sb.WriteString(lang.Translatef(l, "scoreboard.footer"))
 
