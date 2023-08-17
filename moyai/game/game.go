@@ -13,11 +13,11 @@ func Games() []Game {
 }
 
 func NoDebuff() Game {
-	return Game{name: "NoDebuff", texture: "textures/items/potion_bottle_splash_heal", kit: kit.NoDebuff{}, ffa: true}
+	return Game{name: "NoDebuff", texture: "zeqa/textures/ui/gm/nodebuff.png", kit: kit.NoDebuff{}, ffa: true}
 }
 
 func Boxing() Game {
-	return Game{name: "Boxing", texture: "textures/items/diamond_sword", kit: kit.Boxing{}}
+	return Game{name: "Boxing", texture: "zeqa/textures/ui/gm/boxing.png", kit: kit.Boxing{}}
 }
 
 // formatRegex is a regex used to clean color formatting on a string.
