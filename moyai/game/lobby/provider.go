@@ -280,7 +280,13 @@ func formattedEloLeaderboard(g game.Game) string {
 
 func startLeaderBoards() {
 	var gamesIndex, statsIndex int
-	games := game.Games()
+
+	var games []game.Game
+	for _, g := range game.Games() {
+		if g.Duel() {
+			games = append(games, g)
+		}
+	}
 
 	statsLeaderboard := entity.NewText(formattedKillsLeaderboard(), cube.Pos{3, 60, 59}.Vec3Middle())
 	eloLeaderboard := entity.NewText(formattedEloLeaderboard(games[gamesIndex]), cube.Pos{-3, 60, 59}.Vec3Middle())
