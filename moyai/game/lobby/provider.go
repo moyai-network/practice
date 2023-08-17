@@ -1,6 +1,7 @@
 package lobby
 
 import (
+	"github.com/moyai-network/practice/moyai/game"
 	"math"
 	"strings"
 	"time"
@@ -31,7 +32,7 @@ func New(w *world.World) {
 	go startLeaderBoards()
 }
 
-func formattedLeaderboard() string {
+func formattedKillsLeaderboard() string {
 	sb := &strings.Builder{}
 	sb.WriteString(text.Colourf("<bold><redstone>TOP %v</redstone></bold>\n", strings.ReplaceAll(strings.ToUpper("kills"), "_", " ")))
 	users := data.Users()
@@ -72,14 +73,68 @@ func formattedLeaderboard() string {
 	return sb.String()
 }
 
-func startLeaderBoards() {
-	leaderboard := entity.NewText(formattedLeaderboard(), cube.Pos{3, 60, 59}.Vec3Middle())
-	lobby.AddEntity(leaderboard)
+func formattedEloLeaderboard(g game.Game) string {
+	sb := &strings.Builder{}
+	sb.WriteString(text.Colourf("<bold><redstone>TOP %v</redstone></bold>\n", strings.ReplaceAll(strings.ToUpper(g.Name()), "_", " ")))
+	users := data.Users()
 
-	t := time.NewTicker(time.Second * 3)
+	sorter := abcsort.New("abcdefghijklmnopqrstuvwxyz123456789 ")
+	sorter.Slice(users, func(i int) string {
+		return users[i].Name
+	})
+
+	slices.SortFunc(users, func(a, b data.User) int {
+		if a.GameElo(g) == b.GameElo(g) {
+			return 0
+		}
+		if a.GameElo(g) > b.GameElo(g) {
+			return -1
+		}
+		return 1
+	})
+
+	for i := 0; i < 10; i++ {
+		if len(users) < i+1 {
+			break
+		}
+		leader := users[i]
+		name := leader.DisplayName
+		if leader.Roles.Contains(role.Plus{}) {
+			name = text.Colourf("<red>%s</red>", name)
+		}
+
+		position, _ := roman.Itor(i + 1)
+		sb.WriteString(text.Colourf(
+			"<grey>%v.</grey> <white>%v</white> <dark-grey>-</dark-grey> <grey>%v</grey>\n",
+			position,
+			name,
+			leader.GameElo(g),
+		))
+	}
+	return sb.String()
+}
+
+func startLeaderBoards() {
+	var gamesIndex int
+	games := game.Games()
+
+	killsLeaderboard := entity.NewText(formattedKillsLeaderboard(), cube.Pos{3, 60, 59}.Vec3Middle())
+	eloLeaderboard := entity.NewText(formattedEloLeaderboard(games[gamesIndex]), cube.Pos{-3, 60, 59}.Vec3Middle())
+
+	lobby.AddEntity(killsLeaderboard)
+	lobby.AddEntity(eloLeaderboard)
+
+	t := time.NewTicker(time.Second * 4)
 
 	for range t.C {
-		leaderboard.SetNameTag(formattedLeaderboard())
+		gamesIndex++
+
+		if gamesIndex >= len(games) {
+			gamesIndex = 0
+		}
+
+		killsLeaderboard.SetNameTag(formattedKillsLeaderboard())
+		eloLeaderboard.SetNameTag(formattedEloLeaderboard(games[gamesIndex]))
 	}
 }
 
