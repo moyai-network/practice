@@ -28,7 +28,7 @@ func NewFFA() form.Form {
 		if !g.FFA() {
 			continue
 		}
-		buttons = append(buttons, form.NewButton(text.Colourf("<dark-grey>%s</dark-grey>\n<grey>%d playing</grey>", g.Name(), playing[g]), g.Texture()))
+		buttons = append(buttons, form.NewButton(text.Colourf("<dark-grey>%s</dark-grey>\n<grey>%d Playing</grey>", g.Name(), playing[g]), g.Texture()))
 	}
 	return m.WithBody(text.Colourf("<redstone>»</redstone> Welcome to the <red>FFA</red> form. You may choose a game mode.")).WithButtons(buttons...)
 }
