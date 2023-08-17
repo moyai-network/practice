@@ -48,7 +48,7 @@ func main() {
 	c.Entities = ent.Registry
 	c.Allower = &moyai.Allower{}
 
-	c.Name = text.Colourf("<bold><purple>MOYAI</purple></bold>") + "§8"
+	c.Name = text.Colourf("<bold><red>MOYAI</purple></red>") + "§8"
 
 	ac := oomph.New(log, ":19132")
 	ac.Listen(&c, c.Name, []minecraft.Protocol{v486.New()}, false, false)
