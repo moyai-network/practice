@@ -16,7 +16,7 @@ func NewUnranked() form.Form {
 	var buttons []form.Button
 	m := form.NewMenu(Unranked{}, text.Colourf("<redstone>» <red>Unranked Queue</red> «</redstone>"))
 	for _, g := range game.Games() {
-		buttons = append(buttons, form.NewButton(text.Colourf("<dark-grey>%s</dark-grey>\n<grey>%d in queue</grey>", g.Name(), len(game.Queued(g, false))), g.Texture()))
+		buttons = append(buttons, form.NewButton(text.Colourf("<dark-grey>%s</dark-grey>\n<grey>%d Queuing</grey>", g.Name(), len(game.Queued(g, false))), g.Texture()))
 	}
 	return m.WithBody(text.Colourf("<redstone>»</redstone> Welcome to the <red>Unranked</red> form. You may choose a game mode.")).WithButtons(buttons...)
 }
