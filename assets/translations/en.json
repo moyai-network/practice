@@ -1,9 +1,9 @@
 {
   "translations": {
-    "item.lobby.ffa": "<redstone>FFA</redstone>",
-    "item.lobby.unranked": "<redstone>Unranked</redstone>",
-    "item.lobby.ranked": "<redstone>Ranked</redstone>",
-    "item.lobby.settings": "<redstone>Settings</redstone>",
+    "item.lobby.ffa": "<dark-red>FFA</dark-red>",
+    "item.lobby.unranked": "<dark-red>Unranked</dark-red>",
+    "item.lobby.ranked": "<dark-red>Ranked</dark-red>",
+    "item.lobby.settings": "<dark-red>Settings</dark-red>",
 
     "user.suicide": "%s <red>committed suicide</red>",
     "user.kill.pots": "%s<grey>[<red>%d</red>]</grey> <red>was slain by</red> %s<grey>[<red>%d</red>]</grey>",
@@ -12,8 +12,8 @@
     "user.kick.autoclicker": "<red>We detected that your CPS is unfair, please try increasing your\ndebounce time or terminate your external program!\n<grey><i>For questions or concerns, refer to discord.gg/synhcf</grey></i>",
     "user.kick.description": "<gold>Reason:</gold> <yellow>%s</yellow>\n<grey><i>For questions or concerns, refer to discord.gg/moyai-mc</grey></i>",
 
-    "staff.alert": "<redstone>Oomph > </redstone><grey>%v was flagged for <red>%v</red> (<red>%v</red>)</grey> <grey>[<red>%vx</red>]</grey>",
-    "staff.alert.with_debug": "<gold>[<redstone>Oomph</redstone>]</gold> <aqua>%v was flagged for %v (%v)</aqua> <grey>%v [x%v]</grey>",
+    "staff.alert": "<dark-red>Oomph > </dark-red><grey>%v was flagged for <red>%v</red> (<red>%v</red>)</grey> <grey>[<red>%vx</red>]</grey>",
+    "staff.alert.with_debug": "<gold>[<dark-red>Oomph</dark-red>]</gold> <aqua>%v was flagged for %v (%v)</aqua> <grey>%v [x%v]</grey>",
 
     "command.combat": "<red>You may not use this command in combat</red>",
 

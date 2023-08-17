@@ -200,7 +200,7 @@ func (h *Handler) SendScoreBoard() {
 		if diff > 0 {
 			d = "+" + d
 		}
-		_, _ = sb.WriteString(text.Colourf("<red>\uE141 </red>Difference<grey>:</grey> <redstone>%s</redstone>", d))
+		_, _ = sb.WriteString(text.Colourf("<red>\uE141 </red>Difference<grey>:</grey> <dark-red>%s</dark-red>", d))
 	}
 
 	_, _ = sb.WriteString("\n\uE146\uE147\uE148\uE149\uE144\uE143")

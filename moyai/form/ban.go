@@ -44,7 +44,7 @@ func NewBan() form.Form {
 		OnlinePlayer:  form.NewDropdown("Online Player", list, 0),
 		OfflinePlayer: form.NewInput("Offline Player", "", names[rand.Intn(len(names)-1)]),
 		online:        online,
-	}, text.Colourf("<redstone>» <red>Ban</red> «</redstone>"))
+	}, text.Colourf("<dark-red>» <red>Ban</red> «</dark-red>"))
 }
 
 // Submit ...

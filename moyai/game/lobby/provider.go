@@ -1,7 +1,6 @@
 package lobby
 
 import (
-	"fmt"
 	"github.com/moyai-network/practice/moyai/game"
 	"math"
 	"strings"
@@ -35,7 +34,7 @@ func New(w *world.World) {
 
 func formattedKillsLeaderboard() string {
 	sb := &strings.Builder{}
-	sb.WriteString(text.Colourf("<bold><redstone>TOP %v</redstone></bold>\n", strings.ReplaceAll(strings.ToUpper("kills"), "_", " ")))
+	sb.WriteString(text.Colourf("<bold><dark-red>TOP %v</dark-red></bold>\n", strings.ReplaceAll(strings.ToUpper("kills"), "_", " ")))
 	users := data.Users()
 
 	sorter := abcsort.New("abcdefghijklmnopqrstuvwxyz123456789 ")
@@ -76,7 +75,7 @@ func formattedKillsLeaderboard() string {
 
 func formattedDeathsLeaderboard() string {
 	sb := &strings.Builder{}
-	sb.WriteString(text.Colourf("<bold><redstone>TOP %v</redstone></bold>\n", strings.ReplaceAll(strings.ToUpper("deaths"), "_", " ")))
+	sb.WriteString(text.Colourf("<bold><dark-red>TOP %v</dark-red></bold>\n", strings.ReplaceAll(strings.ToUpper("deaths"), "_", " ")))
 	users := data.Users()
 
 	sorter := abcsort.New("abcdefghijklmnopqrstuvwxyz123456789 ")
@@ -117,7 +116,7 @@ func formattedDeathsLeaderboard() string {
 
 func formattedBestKSLeaderboard() string {
 	sb := &strings.Builder{}
-	sb.WriteString(text.Colourf("<bold><redstone>TOP %v</redstone></bold>\n", strings.ReplaceAll(strings.ToUpper("Best KillStreak"), "_", " ")))
+	sb.WriteString(text.Colourf("<bold><dark-red>TOP %v</dark-red></bold>\n", strings.ReplaceAll(strings.ToUpper("Best KillStreak"), "_", " ")))
 	users := data.Users()
 
 	sorter := abcsort.New("abcdefghijklmnopqrstuvwxyz123456789 ")
@@ -158,7 +157,7 @@ func formattedBestKSLeaderboard() string {
 
 func formattedKSLeaderboard() string {
 	sb := &strings.Builder{}
-	sb.WriteString(text.Colourf("<bold><redstone>TOP %v</redstone></bold>\n", strings.ReplaceAll(strings.ToUpper("KillStreak"), "_", " ")))
+	sb.WriteString(text.Colourf("<bold><dark-red>TOP %v</dark-red></bold>\n", strings.ReplaceAll(strings.ToUpper("KillStreak"), "_", " ")))
 	users := data.Users()
 
 	sorter := abcsort.New("abcdefghijklmnopqrstuvwxyz123456789 ")
@@ -199,7 +198,7 @@ func formattedKSLeaderboard() string {
 
 func formattedKDRLeaderboard() string {
 	sb := &strings.Builder{}
-	sb.WriteString(text.Colourf("<bold><redstone>TOP %v</redstone></bold>\n", strings.ReplaceAll(strings.ToUpper("K/D Ratio"), "_", " ")))
+	sb.WriteString(text.Colourf("<bold><dark-red>TOP %v</dark-red></bold>\n", strings.ReplaceAll(strings.ToUpper("K/D Ratio"), "_", " ")))
 	users := data.Users()
 
 	sorter := abcsort.New("abcdefghijklmnopqrstuvwxyz123456789 ")
@@ -240,7 +239,7 @@ func formattedKDRLeaderboard() string {
 
 func formattedEloLeaderboard(g game.Game) string {
 	sb := &strings.Builder{}
-	sb.WriteString(text.Colourf("<bold><redstone>TOP %v</redstone></bold>\n", strings.ReplaceAll(strings.ToUpper(g.Name()), "_", " ")))
+	sb.WriteString(text.Colourf("<bold><dark-red>TOP %v</dark-red></bold>\n", strings.ReplaceAll(strings.ToUpper(g.Name()), "_", " ")))
 	users := data.Users()
 
 	sorter := abcsort.New("abcdefghijklmnopqrstuvwxyz123456789 ")
@@ -299,7 +298,6 @@ func startLeaderBoards() {
 			gamesIndex = 0
 		}
 
-		fmt.Println(statsIndex)
 		switch statsIndex {
 		case 0:
 			statsLeaderboard.SetNameTag(formattedKillsLeaderboard())

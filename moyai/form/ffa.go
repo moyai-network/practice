@@ -23,14 +23,14 @@ func NewFFA() form.Form {
 		}
 	}
 
-	m := form.NewMenu(FFA{}, text.Colourf("<redstone>» <red>Free For All</red> «</redstone>"))
+	m := form.NewMenu(FFA{}, text.Colourf("<dark-red>» <red>Free For All</red> «</dark-red>"))
 	for _, g := range game.Games() {
 		if !g.FFA() {
 			continue
 		}
 		buttons = append(buttons, form.NewButton(text.Colourf("<dark-grey>%s</dark-grey>\n<grey>%d Playing</grey>", g.Name(), playing[g]), g.Texture()))
 	}
-	return m.WithBody(text.Colourf("<redstone>»</redstone> Welcome to the <red>FFA</red> form. You may choose a game mode.")).WithButtons(buttons...)
+	return m.WithBody(text.Colourf("<dark-red>»</dark-red> Welcome to the <red>FFA</red> form. You may choose a game mode.")).WithButtons(buttons...)
 }
 
 func (f FFA) Submit(sub form.Submitter, btn form.Button) {

@@ -14,11 +14,11 @@ type Ranked struct{}
 
 func NewRanked() form.Form {
 	var buttons []form.Button
-	m := form.NewMenu(Ranked{}, text.Colourf("<redstone>» <red>Ranked Queue</red> «</redstone>"))
+	m := form.NewMenu(Ranked{}, text.Colourf("<dark-red>» <red>Ranked Queue</red> «</dark-red>"))
 	for _, g := range game.Games() {
 		buttons = append(buttons, form.NewButton(text.Colourf("<dark-grey>%s</dark-grey>\n<grey>%d Queuing</grey>", g.Name(), len(game.Queued(g, true))), g.Texture()))
 	}
-	return m.WithBody(text.Colourf("<redstone>»</redstone> Welcome to the <red>Ranked</red> form. You may choose a game mode.")).WithButtons(buttons...)
+	return m.WithBody(text.Colourf("<dark-red>»</dark-red> Welcome to the <red>Ranked</red> form. You may choose a game mode.")).WithButtons(buttons...)
 }
 
 func (Ranked) Submit(sub form.Submitter, btn form.Button) {

@@ -14,11 +14,11 @@ type Unranked struct{}
 
 func NewUnranked() form.Form {
 	var buttons []form.Button
-	m := form.NewMenu(Unranked{}, text.Colourf("<redstone>» <red>Unranked Queue</red> «</redstone>"))
+	m := form.NewMenu(Unranked{}, text.Colourf("<dark-red>» <red>Unranked Queue</red> «</dark-red>"))
 	for _, g := range game.Games() {
 		buttons = append(buttons, form.NewButton(text.Colourf("<dark-grey>%s</dark-grey>\n<grey>%d Queuing</grey>", g.Name(), len(game.Queued(g, false))), g.Texture()))
 	}
-	return m.WithBody(text.Colourf("<redstone>»</redstone> Welcome to the <red>Unranked</red> form. You may choose a game mode.")).WithButtons(buttons...)
+	return m.WithBody(text.Colourf("<dark-red>»</dark-red> Welcome to the <red>Unranked</red> form. You may choose a game mode.")).WithButtons(buttons...)
 }
 
 func (Unranked) Submit(sub form.Submitter, btn form.Button) {
