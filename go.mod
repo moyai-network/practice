@@ -24,6 +24,7 @@ require (
 	github.com/restartfu/roman v0.0.0-20230625112848-37485fd60bf6
 	github.com/samber/lo v1.38.1
 	github.com/sandertv/gophertunnel v1.31.0
+	github.com/shirou/gopsutil v3.21.11+incompatible
 	github.com/sirupsen/logrus v1.9.3
 	github.com/unickorn/strutils v0.0.0-20221027210219-8e7a82cccd62
 	go.mongodb.org/mongo-driver v1.12.0
@@ -50,7 +51,6 @@ require (
 	github.com/pelletier/go-toml/v2 v2.0.7 // indirect
 	github.com/rogpeppe/go-internal v1.11.0 // indirect
 	github.com/sandertv/go-raknet v1.12.0 // indirect
-	github.com/shirou/gopsutil v3.21.11+incompatible // indirect
 	github.com/tklauser/go-sysconf v0.3.12 // indirect
 	github.com/tklauser/numcpus v0.6.1 // indirect
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect

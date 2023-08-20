@@ -1,12 +1,13 @@
 package main
 
 import (
-	"github.com/moyai-network/carrot/tebex"
-	"github.com/moyai-network/practice/moyai/data"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
+
+	"github.com/moyai-network/carrot/tebex"
+	"github.com/moyai-network/practice/moyai/data"
 
 	"github.com/df-mc/dragonfly/server/cmd"
 	"github.com/df-mc/dragonfly/server/player"
@@ -64,6 +65,9 @@ func main() {
 			p, err := ac.Accept()
 			if err != nil {
 				return
+			}
+			if p.Conn().Protocol().ID() == 486 { // Do this for rn
+				p.Acknowledgements().UseLegacy(true)
 			}
 			p.SetCombatMode(utils.AuthorityType(config.Oomph.CombatMode))
 			p.SetMovementMode(utils.AuthorityType(config.Oomph.MovementMode))

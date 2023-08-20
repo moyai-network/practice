@@ -107,8 +107,6 @@ func (p Protocol) ConvertToLatest(pk packet.Packet, conn *minecraft.Conn) []pack
 	var newPks []packet.Packet
 	switch pk := pk.(type) {
 	case *packet.NetworkStackLatency:
-		pk.Timestamp *= 100
-		fmt.Println("Client:", pk.Timestamp, pk.NeedsResponse)
 	case *packet.ClientCacheStatus:
 		pk.Enabled = false
 		newPks = append(newPks, pk)
@@ -612,7 +610,6 @@ func (p Protocol) ConvertFromLatest(pk packet.Packet, conn *minecraft.Conn) (res
 	for i, pk := range result {
 		switch pk := pk.(type) {
 		case *packet.NetworkStackLatency:
-			pk.Timestamp *= 1000
 			fmt.Println("Server:", pk.Timestamp, pk.NeedsResponse)
 		case *packet.AddActor:
 			result[i] = &legacypacket.AddActor{
