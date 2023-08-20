@@ -31,10 +31,10 @@ func (settings) Submit(sub form.Submitter, btn form.Button) {
 		/*case "Visual":
 			p.SendForm(NewVisual(s.u))
 		case "Gameplay":
-			p.SendForm(NewGameplay(s.u))
-		case "Privacy":
-			p.SendForm(NewPrivacy(s.u))
-		case "Matchmaking":
+		p.SendForm(NewGameplay(s.u))*/
+	case "Privacy":
+		p.SendForm(NewPrivacy(p))
+		/*case "Matchmaking":
 			p.SendForm(NewMatchmaking(s.u))
 		case "Advanced":
 			p.SendForm(NewAdvanced(s.u))

@@ -13,6 +13,8 @@ type display struct {
 	Scoreboard form.Dropdown
 	// CPS is a dropdown that allows the user to enable or disable the CPS counter.
 	CPS form.Dropdown
+
+	p *player.Player
 }
 
 // NewDisplay creates a new form for the player to modify their display settings.
@@ -22,30 +24,26 @@ func NewDisplay(p *player.Player) form.Form {
 	return form.New(display{
 		Scoreboard: newToggleDropdown("Scoreboard:", s.Display.Scoreboard),
 		CPS:        newToggleDropdown("CPS Counter:", s.Display.CPS),
+		p:          p,
 	}, text.Colourf("<dark-red>» <red>Display Settings</red> «</dark-red>"))
 }
 
 // Submit ...
 func (d display) Submit(sub form.Submitter) {
-	p, ok := sub.(*player.Player)
-	if !ok {
-		return
-	}
-
-	u, _ := data.LoadUser(p.Name())
+	u, _ := data.LoadUser(d.p.Name())
 	s := u.Settings
 	s.Display.CPS = indexBool(d.CPS)
 	s.Display.Scoreboard = indexBool(d.Scoreboard)
 	_ = data.SaveUser(u.WithSettings(s))
 
 	if s.Display.Scoreboard {
-		if h, ok := p.Handler().(interface{ SendScoreBoard() }); ok {
+		if h, ok := d.p.Handler().(interface{ SendScoreBoard() }); ok {
 			h.SendScoreBoard()
 		}
 	} else if !s.Display.Scoreboard {
-		p.RemoveScoreboard()
+		d.p.RemoveScoreboard()
 	}
-	p.SendForm(NewDisplay(p))
+	d.p.SendForm(NewDisplay(d.p))
 }
 
 // Close ...
