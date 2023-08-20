@@ -1,7 +1,10 @@
 package main
 
 import (
+	"github.com/moyai-network/practice/moyai/data"
 	"os"
+	"os/signal"
+	"syscall"
 	"time"
 
 	"github.com/df-mc/dragonfly/server/cmd"
@@ -70,7 +73,18 @@ func main() {
 	}()
 
 	srv := c.New()
-	srv.CloseOnProgramEnd()
+
+	ch := make(chan os.Signal, 2)
+	signal.Notify(ch, syscall.SIGINT, syscall.SIGTERM)
+	go func() {
+		<-ch
+		if err := data.Close(); err != nil {
+			log.Errorf("close data: %v", err)
+		}
+		if err := srv.Close(); err != nil {
+			log.Errorf("close server: %v", err)
+		}
+	}()
 
 	w := srv.World()
 	w.Handle(&worlds.Handler{})
