@@ -36,6 +36,7 @@ func init() {
 type Settings struct {
 	Display struct {
 		Scoreboard bool
+		CPS        bool
 	}
 }
 
@@ -147,6 +148,7 @@ func (u User) WithSettings(s Settings) User {
 func DefaultUser(name string) User {
 	s := Settings{}
 	s.Display.Scoreboard = true
+	s.Display.CPS = true
 
 	return User{
 		Name:        strings.ToLower(name),

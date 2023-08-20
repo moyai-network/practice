@@ -35,6 +35,8 @@ type Handler struct {
 		Name   string
 		Packet packet.Packet
 	}
+
+	clicks []time.Time
 }
 
 func NewHandler(p *player.Player) *Handler {
@@ -90,6 +92,29 @@ func (h *Handler) HandleChat(ctx *event.Context, message *string) {
 	h.chatCoolDown.Set(time.Second)
 
 	_, _ = chat.Global.WriteString(msg)
+}
+
+// HandlePunchAir ...
+func (h *Handler) HandlePunchAir(_ *event.Context) {
+	u, _ := data.LoadUser(h.p.Name())
+	if !u.Settings.Display.CPS {
+		return
+	}
+
+	if len(h.clicks) >= 100 {
+		h.clicks = []time.Time{}
+	}
+	h.clicks = append(h.clicks, time.Now())
+
+	var count = 0
+
+	for _, c := range h.clicks {
+		if time.Now().Before(c.Add(time.Second)) {
+			count++
+		}
+	}
+
+	h.p.SendTip(count)
 }
 
 // HandleFoodLoss ...

@@ -25,7 +25,7 @@ func Apply(kit carrot.Kit, p *player.Player) {
 	p.StopSprinting()
 	p.StopFlying()
 	p.ResetFallDistance()
-	p.SetGameMode(world.GameModeSurvival)
+	p.SetGameMode(world.GameModeAdventure)
 
 	p.Heal(20, effect.InstantHealingSource{})
 	p.SetFood(20)

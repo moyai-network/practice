@@ -417,6 +417,7 @@ func AddPlayer(p *player.Player) {
 		c.Close()
 	}
 
+	p.SetGameMode(world.GameModeAdventure)
 	lobby.AddEntity(p)
 	p.Teleport(lobby.Spawn().Vec3Middle())
 
