@@ -1,8 +1,8 @@
 {
   "translations": {
     "item.lobby.ffa": "<dark-red>FFA</dark-red>",
-    "item.lobby.unranked": "<dark-red>Unranked</dark-red>",
-    "item.lobby.ranked": "<dark-red>Ranked</dark-red>",
+    "item.lobby.unranked": "<dark-red>Casual</dark-red>",
+    "item.lobby.ranked": "<dark-red>Competitive</dark-red>",
     "item.lobby.settings": "<dark-red>Settings</dark-red>",
 
     "user.suicide": "%s <red>committed suicide</red>",

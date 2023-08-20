@@ -29,7 +29,7 @@ func NewCompetitiveStats(id string) form.Form {
 		games = append(games, text.Colourf("<red>%s:</red> <white>%v</white>", g.Name(), u.GameElo(g)))
 	}
 
-	return form.NewMenu(competitiveStats{id: id}, displayName+"'s Competitive Stats").WithButtons(
+	return form.NewMenu(competitiveStats{id: id}, text.Colourf("<dark-red>» <red>%v's Competitive Stats</red> «</dark-red>", displayName)).WithButtons(
 		form.NewButton("View Casual Stats", ""),
 	).WithBody(
 		text.Colourf("<red>Wins:</red> <white>%v</white>", stats.RankedWins),

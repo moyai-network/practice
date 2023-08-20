@@ -10,21 +10,21 @@ import (
 	"strings"
 )
 
-type ranked struct{}
+type casualQueue struct{}
 
-func NewRanked() form.Form {
+func NewCasualQueue() form.Form {
 	var buttons []form.Button
-	m := form.NewMenu(ranked{}, text.Colourf("<dark-red>» <red>ranked Queue</red> «</dark-red>"))
+	m := form.NewMenu(casualQueue{}, text.Colourf("<dark-red>» <red>Casual Queue</red> «</dark-red>"))
 	for _, g := range game.Games() {
 		if !g.Duel() {
 			continue
 		}
-		buttons = append(buttons, form.NewButton(text.Colourf("<dark-grey>%s</dark-grey>\n<grey>%d Queuing</grey>", g.Name(), len(game.Queued(g, true))), g.Texture()))
+		buttons = append(buttons, form.NewButton(text.Colourf("<dark-grey>%s</dark-grey>\n<grey>%d Queuing</grey>", g.Name(), len(game.Queued(g, false))), g.Texture()))
 	}
-	return m.WithBody(text.Colourf("<dark-red>»</dark-red> Welcome to the <red>ranked</red> form. You may choose a game mode.")).WithButtons(buttons...)
+	return m.WithBody(text.Colourf("<dark-red>»</dark-red> Welcome to the <red>Casual Queue</red> form. You may choose a game mode.")).WithButtons(buttons...)
 }
 
-func (ranked) Submit(sub form.Submitter, btn form.Button) {
+func (casualQueue) Submit(sub form.Submitter, btn form.Button) {
 	p, ok := sub.(*player.Player)
 	if !ok {
 		return
@@ -38,6 +38,6 @@ func (ranked) Submit(sub form.Submitter, btn form.Button) {
 
 	g := game.ByName(strings.Split(btn.Text, "\n")[0])
 
-	game.Queue(p, g, true)
+	game.Queue(p, g, false)
 	kit.Apply(kit.Queue{}, p)
 }

@@ -15,7 +15,7 @@ type duel struct {
 
 func NewDuel(t *player.Player) form.Form {
 	var buttons []form.Button
-	m := form.NewMenu(duel{t: t}, text.Colourf("<dark-red>» <red>duel %s</red> «</dark-red>", t.Name()))
+	m := form.NewMenu(duel{t: t}, text.Colourf("<dark-red>» <red>Duel %s</red> «</dark-red>", t.Name()))
 	for _, g := range game.Games() {
 		if !g.Duel() {
 			continue

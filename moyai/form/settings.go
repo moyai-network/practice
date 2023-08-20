@@ -9,7 +9,7 @@ import (
 type settings struct{}
 
 func NewSettings() form.Form {
-	return form.NewMenu(settings{}, text.Colourf("settings")).WithButtons(
+	return form.NewMenu(settings{}, text.Colourf("<dark-red>» <red>Settings</red> «</dark-red>")).WithButtons(
 		form.NewButton("Display", ""),
 		//form.NewButton("Visual", ""),
 		//form.NewButton("Gameplay", ""),

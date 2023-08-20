@@ -1,7 +1,6 @@
 package form
 
 import (
-	"fmt"
 	"github.com/df-mc/dragonfly/server/player"
 	"github.com/df-mc/dragonfly/server/player/form"
 	"github.com/moyai-network/practice/moyai/data"
@@ -29,7 +28,7 @@ func NewCasualStats(id string) form.Form {
 		playtimeSession = time.Since(p.Handler().(user.UserHandler).UserHandler().JoinTime()).Round(time.Second)
 	}
 
-	return form.NewMenu(casualStats{id: u.Name}, fmt.Sprintf("%v's Casual Stats", displayName)).WithButtons(
+	return form.NewMenu(casualStats{id: u.Name}, text.Colourf("<dark-red>» <red>%v's Casual Stats</red> «</dark-red>", displayName)).WithButtons(
 		form.NewButton("View Competitive Stats", ""),
 	).WithBody(
 		text.Colourf(" <red>Playtime (Session):</red> <white>%s</white>\n", playtimeSession),

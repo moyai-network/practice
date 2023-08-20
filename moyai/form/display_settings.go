@@ -4,6 +4,7 @@ import (
 	"github.com/df-mc/dragonfly/server/player"
 	"github.com/df-mc/dragonfly/server/player/form"
 	"github.com/moyai-network/practice/moyai/data"
+	"github.com/sandertv/gophertunnel/minecraft/text"
 )
 
 // display is the form that handles the modification of display settings.
@@ -21,7 +22,7 @@ func NewDisplay(p *player.Player) form.Form {
 	return form.New(display{
 		Scoreboard: newToggleDropdown("Scoreboard:", s.Display.Scoreboard),
 		CPS:        newToggleDropdown("CPS Counter:", s.Display.CPS),
-	}, "Display settings")
+	}, text.Colourf("<dark-red>» <red>Display Settings</red> «</dark-red>"))
 }
 
 // Submit ...

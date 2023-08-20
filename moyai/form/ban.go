@@ -40,7 +40,7 @@ func NewBan() form.Form {
 	list := maps.Keys(online)
 	sort.Strings(list)
 	return form.New(ban{
-		Reason:        form.NewDropdown("Reason", []string{"Unfair Advantage", "Unfair Advantage in ranked", "Interference", "Exploitation", "Permission Abuse", "Invalid Skin", "Evasion", "Advertising"}, 0),
+		Reason:        form.NewDropdown("Reason", []string{"Unfair Advantage", "Unfair Advantage in competitiveQueue", "Interference", "Exploitation", "Permission Abuse", "Invalid Skin", "Evasion", "Advertising"}, 0),
 		OnlinePlayer:  form.NewDropdown("Online Player", list, 0),
 		OfflinePlayer: form.NewInput("Offline Player", "", names[rand.Intn(len(names)-1)]),
 		online:        online,
@@ -65,7 +65,7 @@ func (b ban) Submit(s form.Submitter) {
 	switch reason {
 	case "Unfair Advantage":
 		length = time.Hour * 24 * 30
-	case "Unfair Advantage in ranked":
+	case "Unfair Advantage in competitiveQueue":
 		length = time.Hour * 24 * 90
 	case "Interference":
 		length = time.Hour * 12
