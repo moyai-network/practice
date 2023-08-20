@@ -91,23 +91,23 @@ func (u User) WithBestKillStreak(n int) User {
 	return u
 }
 
-func (u User) WithIncreasedWin(ranked bool) User {
+func (u User) WithIncreasedWin(competitive bool) User {
 	stats := u.Stats
-	if ranked {
-		stats.RankedWins++
+	if competitive {
+		stats.CompetitiveWins++
 	} else {
-		stats.UnrankedWins++
+		stats.CasualWins++
 	}
 	u.Stats = stats
 	return u
 }
 
-func (u User) WithIncreasedLoss(ranked bool) User {
+func (u User) WithIncreasedLoss(competitive bool) User {
 	stats := u.Stats
-	if ranked {
-		stats.RankedLosses++
+	if competitive {
+		stats.CompetitiveLosses++
 	} else {
-		stats.UnrankedLosses++
+		stats.CasualLosses++
 	}
 	u.Stats = stats
 	return u
@@ -192,10 +192,10 @@ type Stats struct {
 
 	Elo map[string]int32
 
-	UnrankedWins   int
-	UnrankedLosses int
-	RankedWins     int
-	RankedLosses   int
+	CasualWins        int
+	CasualLosses      int
+	CompetitiveWins   int
+	CompetitiveLosses int
 }
 
 func DefaultStats() Stats {

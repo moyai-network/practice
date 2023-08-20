@@ -32,8 +32,8 @@ func NewCompetitiveStats(id string) form.Form {
 	return form.NewMenu(competitiveStats{id: id}, text.Colourf("<dark-red>» <red>%v's Competitive Stats</red> «</dark-red>", displayName)).WithButtons(
 		form.NewButton("View Casual Stats", ""),
 	).WithBody(
-		text.Colourf("<red>Wins:</red> <white>%v</white>", stats.RankedWins),
-		text.Colourf("\n<red>Losses:</red> <white>%v</white>\n", stats.RankedLosses),
+		text.Colourf("<red>Wins:</red> <white>%v</white>", stats.CompetitiveWins),
+		text.Colourf("\n<red>Losses:</red> <white>%v</white>\n", stats.CompetitiveLosses),
 		text.Colourf("\n<dark-red>Elo</dark-red>\n"),
 		text.Colourf("<red>Global:</red> <white>%v</white>\n", u.TotalElo()),
 		strings.Join(games, "\n "),

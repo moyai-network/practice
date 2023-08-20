@@ -7,49 +7,49 @@ import (
 )
 
 var (
-	queuesMu     sync.Mutex
-	queues       = map[Game]sets.Set[*player.Player]{}
-	rankedQueues = map[Game]sets.Set[*player.Player]{}
+	queuesMu          sync.Mutex
+	casualQueues      = map[Game]sets.Set[*player.Player]{}
+	competitiveQueues = map[Game]sets.Set[*player.Player]{}
 )
 
 func init() {
 	queuesMu.Lock()
 	for _, g := range Games() {
-		queues[g] = sets.New[*player.Player]()
-		rankedQueues[g] = sets.New[*player.Player]()
+		casualQueues[g] = sets.New[*player.Player]()
+		competitiveQueues[g] = sets.New[*player.Player]()
 	}
 	queuesMu.Unlock()
 }
 
-func Queued(g Game, ranked bool) []*player.Player {
+func Queued(g Game, competitive bool) []*player.Player {
 	queuesMu.Lock()
 	defer queuesMu.Unlock()
 
-	if ranked {
-		return rankedQueues[g].Values()
+	if competitive {
+		return competitiveQueues[g].Values()
 	}
-	return queues[g].Values()
+	return casualQueues[g].Values()
 }
 
-func Queue(p *player.Player, g Game, ranked bool) {
+func Queue(p *player.Player, g Game, competitive bool) {
 	queuesMu.Lock()
-	if ranked {
-		rankedQueues[g].Add(p)
+	if competitive {
+		competitiveQueues[g].Add(p)
 	} else {
-		queues[g].Add(p)
+		casualQueues[g].Add(p)
 	}
 	queuesMu.Unlock()
 }
 
 func DeQueue(p *player.Player) {
 	queuesMu.Lock()
-	for _, q := range queues {
+	for _, q := range casualQueues {
 		if q.Contains(p) {
 			q.Delete(p)
 
 		}
 	}
-	for _, q := range rankedQueues {
+	for _, q := range competitiveQueues {
 		if q.Contains(p) {
 			q.Delete(p)
 		}

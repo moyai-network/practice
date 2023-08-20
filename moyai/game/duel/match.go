@@ -29,17 +29,17 @@ type Match struct {
 	beginning time.Time
 	running   bool
 
-	ranked bool
+	competitive bool
 }
 
-func NewMatch(p, op *player.Player, g game.Game, ranked bool) *Match {
+func NewMatch(p, op *player.Player, g game.Game, competitive bool) *Match {
 	m := &Match{
 		id:      rand.Int63(),
 		players: [2]*player.Player{p, op},
 
 		g: g,
 
-		ranked: ranked,
+		competitive: competitive,
 	}
 	return m
 }
@@ -96,7 +96,7 @@ func (m *Match) End(winner, loser *player.Player, forced bool) {
 	if u.Stats.KillStreak > u.Stats.BestKillStreak {
 		u = u.WithBestKillStreak(u.Stats.KillStreak)
 	}
-	u = u.WithDeaths(u.Stats.Deaths + 1).WithIncreasedLoss(m.ranked)
+	u = u.WithDeaths(u.Stats.Deaths + 1).WithIncreasedLoss(m.competitive)
 
 	killer, _ := data.LoadUser(winner.Name())
 
@@ -104,9 +104,9 @@ func (m *Match) End(winner, loser *player.Player, forced bool) {
 	if killer.Stats.KillStreak > killer.Stats.BestKillStreak {
 		killer = killer.WithBestKillStreak(killer.Stats.KillStreak)
 	}
-	killer = killer.WithKills(killer.Stats.Kills + 1).WithIncreasedWin(m.ranked)
+	killer = killer.WithKills(killer.Stats.Kills + 1).WithIncreasedWin(m.competitive)
 
-	if m.ranked {
+	if m.competitive {
 		earnings, losings := eloEarnings(u.GameElo(m.g), killer.GameElo(m.g)), eloLosings(killer.GameElo(m.g), u.GameElo(m.g))
 
 		killer = killer.WithElo(m.g, killer.GameElo(m.g)+earnings)
