@@ -50,8 +50,8 @@ func main() {
 	c.Allower = &moyai.Allower{}
 
 	c.Name = text.Colourf("<bold><red>MOYAI</red></bold>") + "§8"
-	c.JoinMessage = "<emerald>[+] %s</emerald>"
-	c.QuitMessage = "<redstone>[-] %s</redstone>"
+	c.JoinMessage = "<green>[+] %s</green>"
+	c.QuitMessage = "<red>[-] %s</red>"
 
 	ac := oomph.New(log, ":19132")
 	ac.Listen(&c, c.Name, []minecraft.Protocol{v486.New()}, true, false)
