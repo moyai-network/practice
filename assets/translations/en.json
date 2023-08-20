@@ -45,6 +45,7 @@
     "command.status.entry.world": "<grey>World </grey><green>\"%s\"</green>",
     "command.status.entry.uptime": "Uptime",
     "command.status.entry.cpu": "CPU Model",
+    "command.status.entry.cpu-usage": "CPU Usage",
     "command.status.entry.memory": "Memory",
     "command.status.header": "<green>--<grey>Server Status</grey>--\n</green>",
 

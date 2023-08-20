@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"time"
 
 	"github.com/df-mc/dragonfly/server/cmd"
 	"github.com/df-mc/dragonfly/server/player"
@@ -107,7 +108,7 @@ func registerCommands() {
 		cmd.New("mute", text.Colourf("<dark-red>Mute other players</dark-red>"), nil, command.MuteList{}, command.MuteLiftOffline{}, command.MuteInfoOffline{}, command.Mute{}, command.MuteOffline{}, command.MuteForm{}),
 		cmd.New("rekit", text.Colourf("<dark-red>re-apply your kit</dark-red>"), nil, command.ReKit{}),
 		cmd.New("pprof", text.Colourf("<dark-red>You shouldn't have access to this</dark-red>"), nil, command.Pprof{}),
-		cmd.New("status", text.Colourf("<dark-red>View technical stats of the server.</dark-red>"), nil, command.Status{}),
+		cmd.New("status", text.Colourf("<dark-red>View technical stats of the server.</dark-red>"), nil, command.NewStatus(time.Now())),
 		//cmd.New("replay", text.Colourf("<dark-red>View replay of duels.</dark-red>"), nil, command.ReplayRecent{}),
 	} {
 		cmd.Register(c)

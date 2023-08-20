@@ -12,6 +12,7 @@ import (
 	"github.com/moyai-network/carrot/lang"
 	"github.com/moyai-network/carrot/role"
 	"github.com/sandertv/gophertunnel/minecraft/text"
+	"github.com/shirou/gopsutil/cpu"
 	"golang.org/x/text/language"
 )
 
@@ -50,6 +51,8 @@ func (st Status) Run(s cmd.Source, o *cmd.Output) {
 
 	add(lang.Translatef(l, "command.status.entry.uptime"), durafmt.Parse(time.Since(st.startTime).Round(time.Second)).String())
 	add(lang.Translatef(l, "command.status.entry.cpu"), data.CPU.Model)
+	cpuUsage, _ := cpu.Percent(0, false)
+	add(lang.Translatef(l, "command.status.entry.cpu-usage"), text.Colourf("<gold>%.2f%%</gold>", cpuUsage[0]))
 	add(lang.Translatef(l, "command.status.entry.memory"), text.Colourf("<red>%v</red><grey>/</grey><gold>%v</gold>", data.Memory.Used, data.Memory.Total))
 
 	o.Print(sb.String())

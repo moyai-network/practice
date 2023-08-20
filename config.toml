@@ -3,7 +3,7 @@ Address = ':19132'
 
 [Server]
 Name = 'Dragonfly Server'
-ShutdownMessage = 'Server closed.'
+ShutdownMessage = "<red>Moyai has restarted - please re-join when it's back up!</red>"
 AuthEnabled = true
 JoinMessage = '%v has joined the game'
 QuitMessage = '%v has left the game'
@@ -14,7 +14,7 @@ Folder = 'assets/world'
 
 [Players]
 MaxCount = 0
-MaximumChunkRadius = 32
+MaximumChunkRadius = 8
 SaveData = false
 Folder = 'players'
 
