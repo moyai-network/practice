@@ -18,6 +18,7 @@ import (
 	"github.com/sandertv/gophertunnel/minecraft"
 	"github.com/sandertv/gophertunnel/minecraft/protocol"
 	"github.com/sandertv/gophertunnel/minecraft/protocol/packet"
+	"golang.org/x/exp/slices"
 )
 
 var (
@@ -26,6 +27,8 @@ var (
 	//go:embed block_states.nbt
 	blockStateData []byte
 )
+
+var sentForms = []string{}
 
 type Protocol struct {
 	itemMapping     mapping.Item
@@ -319,20 +322,27 @@ func (p Protocol) ConvertToLatest(pk packet.Packet, conn *minecraft.Conn) []pack
 			}),
 		})
 	case *legacypacket.ModalFormResponse:
-		responseData := protocol.Optional[[]byte]{}
-		cancelReason := protocol.Optional[uint8]{}
-		fmt.Println(pk.ResponseData)
-		if string(pk.ResponseData) == "null" {
-			var cancelReasonType uint8 = packet.ModalFormCancelReasonUserClosed
-			cancelReason = protocol.Option(cancelReasonType)
+		if slices.Contains(sentForms, conn.IdentityData().DisplayName) {
+			newPks = nil
+			i, _ := slices.BinarySearch(sentForms, conn.IdentityData().DisplayName)
+			sentForms = append(sentForms[:i], sentForms[i+1:]...)
 		} else {
-			responseData = protocol.Option(pk.ResponseData)
+			responseData := protocol.Optional[[]byte]{}
+			cancelReason := protocol.Optional[uint8]{}
+			if string(pk.ResponseData) == "null" {
+				var cancelReasonType uint8 = packet.ModalFormCancelReasonUserClosed
+				cancelReason = protocol.Option(cancelReasonType)
+			} else {
+				responseData = protocol.Option(pk.ResponseData)
+			}
+			sentForms = append(sentForms, conn.IdentityData().DisplayName)
+			newPks = append(newPks, &packet.ModalFormResponse{
+				FormID:       pk.FormID,
+				ResponseData: responseData,
+				CancelReason: cancelReason,
+			})
 		}
-		newPks = append(newPks, &packet.ModalFormResponse{
-			FormID:       pk.FormID,
-			ResponseData: responseData,
-			CancelReason: cancelReason,
-		})
+
 	case *legacypacket.NetworkChunkPublisherUpdate:
 		newPks = append(newPks, &packet.NetworkChunkPublisherUpdate{
 			Position:    pk.Position,
@@ -805,6 +815,7 @@ func (p Protocol) ConvertFromLatest(pk packet.Packet, conn *minecraft.Conn) (res
 				}),
 			}
 		case *packet.ModalFormResponse:
+			fmt.Println(pk)
 			var responseData []byte
 			if val, ok := pk.ResponseData.Value(); ok {
 				responseData = val
