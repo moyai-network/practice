@@ -33,6 +33,12 @@ func init() {
 	}()
 }
 
+type Settings struct {
+	Display struct {
+		Scoreboard bool
+	}
+}
+
 type User struct {
 	XUID        string
 	Name        string
@@ -56,6 +62,8 @@ type User struct {
 		KillStreak     int
 		BestKillStreak int
 	}
+
+	Settings Settings
 
 	Elo map[string]int32
 }
@@ -130,15 +138,23 @@ func (u User) TotalElo() int32 {
 	return tot
 }
 
+func (u User) WithSettings(s Settings) User {
+	u.Settings = s
+	return u
+}
+
 // DefaultUser creates a default user.
 func DefaultUser(name string) User {
+	s := Settings{}
+	s.Display.Scoreboard = true
+
 	return User{
 		Name:        strings.ToLower(name),
 		DisplayName: name,
 		Roles:       role.NewRoles([]carrot.Role{role.Default{}}, map[carrot.Role]time.Time{}),
 		Elo:         map[string]int32{},
-
-		FirstLogin: time.Now(),
+		Settings:    s,
+		FirstLogin:  time.Now(),
 	}
 }
 

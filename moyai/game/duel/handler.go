@@ -2,6 +2,7 @@ package duel
 
 import (
 	"fmt"
+	"github.com/moyai-network/practice/moyai/data"
 	"github.com/moyai-network/practice/moyai/game"
 	"strconv"
 	"time"
@@ -185,8 +186,13 @@ func (h *Handler) SendScoreBoard() {
 	if !h.m.running {
 		return
 	}
+
 	l := h.p.Locale()
-	//u, _ := data.LoadUser(h.p.Name())
+	u, _ := data.LoadUser(h.p.Name())
+
+	if !u.Settings.Display.Scoreboard {
+		return
+	}
 
 	sb := scoreboard.New(carrot.GlyphFont(" Moyai"))
 	sb.RemovePadding()

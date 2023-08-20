@@ -250,6 +250,10 @@ func (h *Handler) SendScoreBoard() {
 	l := h.p.Locale()
 	u, _ := data.LoadUser(h.p.Name())
 
+	if !u.Settings.Display.Scoreboard {
+		return
+	}
+
 	var kdr float64
 	if u.Stats.Deaths > 0 {
 		kdr = float64(u.Stats.Kills) / float64(u.Stats.Deaths)

@@ -59,6 +59,8 @@ func (h *Handler) HandleItemUse(_ *event.Context) {
 			h.p.SendForm(form.NewUnranked())
 		case 2:
 			h.p.SendForm(form.NewRanked())
+		case 8:
+			h.p.SendForm(form.NewSettings())
 		}
 	}
 
@@ -90,6 +92,10 @@ func (h *Handler) UserHandler() *user.Handler {
 func (h *Handler) SendScoreBoard() {
 	l := h.p.Locale()
 	u, _ := data.LoadUser(h.p.Name())
+
+	if !u.Settings.Display.Scoreboard {
+		return
+	}
 
 	var kdr float64
 	if u.Stats.Deaths > 0 {
