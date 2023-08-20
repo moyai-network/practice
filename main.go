@@ -71,8 +71,8 @@ func main() {
 			}
 			p.SetCombatMode(utils.AuthorityType(config.Oomph.CombatMode))
 			p.SetMovementMode(utils.AuthorityType(config.Oomph.MovementMode))
-			p.SetCombatCutoff(4)    // 2 ticks => 100ms
-			p.SetKnockbackCutoff(4) // 2 ticks => 100ms
+			p.SetCombatCutoff(4)      // 2 ticks => 100ms
+			p.SetKnockbackCutoff(100) // 2 ticks => 100ms
 			p.Handle(user.NewOomphHandler(p))
 		}
 	}()
