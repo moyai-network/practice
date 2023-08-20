@@ -17,7 +17,7 @@ require (
 	github.com/go-gl/mathgl v1.0.0
 	github.com/hako/durafmt v0.0.0-20210608085754-5c1018a4e16b
 	github.com/icza/abcsort v0.0.0-20230330133725-d6ace6446f81
-	github.com/moyai-network/carrot v0.0.0-20230820035935-b7c778b3badd
+	github.com/moyai-network/carrot v0.0.0-20230820154859-a661f4fdcf36
 	github.com/oomph-ac/oomph v0.0.0-20230820012256-68a71424e7d4
 	github.com/rcrowley/go-bson v0.0.0-20140210180454-771ad044f2d7
 	github.com/restartfu/gophig v0.0.0-20230501130741-bd994da592f7

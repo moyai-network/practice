@@ -33,13 +33,6 @@ func init() {
 	}()
 }
 
-type Settings struct {
-	Display struct {
-		Scoreboard bool
-		CPS        bool
-	}
-}
-
 type User struct {
 	XUID        string
 	Name        string
@@ -171,18 +164,32 @@ func (u User) WithSettings(s Settings) User {
 
 // DefaultUser creates a default user.
 func DefaultUser(name string) User {
-	s := Settings{}
-	s.Display.Scoreboard = true
-	s.Display.CPS = true
-
 	return User{
 		Name:        strings.ToLower(name),
 		DisplayName: name,
 		Roles:       role.NewRoles([]carrot.Role{role.Default{}}, map[carrot.Role]time.Time{}),
 		Stats:       DefaultStats(),
-		Settings:    s,
+		Settings:    DefaultSettings(),
 		FirstLogin:  time.Now(),
 	}
+}
+
+type Settings struct {
+	Display struct {
+		Scoreboard bool
+		CPS        bool
+	}
+	Privacy struct {
+		PrivateMessages bool
+	}
+}
+
+func DefaultSettings() Settings {
+	s := Settings{}
+	s.Display.Scoreboard = true
+	s.Display.CPS = true
+	s.Privacy.PrivateMessages = true
+	return s
 }
 
 type Stats struct {

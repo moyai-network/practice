@@ -1,10 +1,10 @@
 package user
 
 import (
+	"github.com/df-mc/atomic"
 	"regexp"
 	"strings"
 	"sync"
-	"sync/atomic"
 	"time"
 
 	"github.com/df-mc/dragonfly/server/block/cube"
@@ -37,6 +37,8 @@ type Handler struct {
 		Name   string
 		Packet packet.Packet
 	}
+
+	lastMessageFrom atomic.Value[string]
 
 	clicks []time.Time
 }
@@ -142,4 +144,15 @@ func (*Handler) HandleBlockPlace(ctx *event.Context, _ cube.Pos, _ world.Block) 
 // JoinTime ...
 func (h *Handler) JoinTime() time.Time {
 	return h.joinTime
+}
+
+// SetLastMessageFrom sets the player passed as the last player who messaged the user.
+func (h *Handler) SetLastMessageFrom(p *player.Player) {
+	h.lastMessageFrom.Store(p.XUID())
+}
+
+// LastMessageFrom returns the last user that messaged the user.
+func (h *Handler) LastMessageFrom() (*player.Player, bool) {
+	ha, ok := LookupXUID(h.lastMessageFrom.Load())
+	return ha, ok
 }

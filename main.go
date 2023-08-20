@@ -144,6 +144,8 @@ func registerCommands() {
 		cmd.New("status", text.Colourf("<dark-red>View technical stats of the server.</dark-red>"), nil, command.NewStatus(time.Now())),
 		cmd.New("settings", text.Colourf("<dark-red>Manage your settings.</dark-red>"), []string{"parameters"}, command.Settings{}),
 		cmd.New("stats", text.Colourf("<dark-red>See your or other people's stats.</dark-red>"), []string{"statistics"}, command.StatsOffline{}, command.Stats{}),
+		cmd.New("whisper", text.Colourf("<dark-red>Send a private message to a player.</dark-red>"), []string{"w", "msg", "tell"}, command.Whisper{}),
+		cmd.New("reply", text.Colourf("<dark-red>Reply to your last messenger.</dark-red>"), []string{"r"}, command.Reply{}),
 		//cmd.New("replay", text.Colourf("<dark-red>View replay of duels.</dark-red>"), nil, command.ReplayRecent{}),
 	} {
 		cmd.Register(c)

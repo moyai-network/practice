@@ -50,6 +50,13 @@
     "command.status.entry.cpu-usage": "CPU Usage",
     "command.status.entry.memory": "Memory",
     "command.status.header": "<green>--<grey>Server Status</grey>--\n</green>",
+    "command.reply.none": "<red>You do not have anyone to reply to.</red>",
+    "command.whisper.from": "<grey>[From</grey> %s<grey>]</grey> %s",
+    "command.whisper.to": "<grey>[To</grey> %s<grey>]</grey> %s",
+
+
+    "target.whisper.disabled": "<red>This player has private messages disabled.</red>",
+    "user.whisper.disabled": "<red>You have private messages disabled.</red>",
 
     "user.message.mute": "<red>You may not send message while muted</red>",
 
@@ -60,5 +67,6 @@
 
     "duel.requested": "<green>%s just sent you a duel request in %s</green>",
     "duel.request": "<green>You just sent a duel request to %s in %s</green>"
+
   }
 }
