@@ -5,6 +5,10 @@ import "github.com/df-mc/dragonfly/server"
 type Config struct {
 	server.UserConfig
 
+	Moyai struct {
+		Tebex string
+	}
+
 	Oomph struct {
 		Port         int
 		CombatMode   int

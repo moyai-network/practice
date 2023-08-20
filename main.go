@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/moyai-network/carrot/tebex"
 	"github.com/moyai-network/practice/moyai/data"
 	"os"
 	"os/signal"
@@ -99,17 +100,35 @@ func main() {
 
 	registerCommands()
 
+	store := loadStore(config.Moyai.Tebex, log)
+
 	srv.Listen()
-	for srv.Accept(accept) {
+	for srv.Accept(acceptFunc(store, log)) {
 		// Do nothing
 	}
 }
 
-func accept(p *player.Player) {
-	lobby.AddPlayer(p)
-	user.Add(p)
+// acceptFunc returns a function for handling players joining.
+func acceptFunc(store *tebex.Client, log *logrus.Logger) func(p *player.Player) {
+	return func(p *player.Player) {
+		lobby.AddPlayer(p)
+		user.Add(p)
 
-	p.Message(text.Colourf("<green>Make sure to join our discord server at discord.gg/moyai!</green>"))
+		p.Message(text.Colourf("<green>Make sure to join our discord server at discord.gg/moyai!</green>"))
+		store.ExecuteCommands(p)
+	}
+}
+
+// loadStore initializes the Tebex store connection.
+func loadStore(key string, log *logrus.Logger) *tebex.Client {
+	store := tebex.NewClient(log, time.Second*5, key)
+	name, domain, err := store.Information()
+	if err != nil {
+		log.Fatalf("tebex: %v", err)
+		return nil
+	}
+	log.Infof("Connected to Tebex under %v (%v).", name, domain)
+	return store
 }
 
 func registerCommands() {
