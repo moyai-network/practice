@@ -18,7 +18,7 @@ require (
 	github.com/hako/durafmt v0.0.0-20210608085754-5c1018a4e16b
 	github.com/icza/abcsort v0.0.0-20230330133725-d6ace6446f81
 	github.com/moyai-network/carrot v0.0.0-20230809230727-15e27bbcbcb7
-	github.com/oomph-ac/oomph v0.0.0-20230819123408-f4f52d86976e
+	github.com/oomph-ac/oomph v0.0.0-20230820012256-68a71424e7d4
 	github.com/rcrowley/go-bson v0.0.0-20140210180454-771ad044f2d7
 	github.com/restartfu/gophig v0.0.0-20230501130741-bd994da592f7
 	github.com/restartfu/roman v0.0.0-20230625112848-37485fd60bf6
