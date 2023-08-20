@@ -49,9 +49,11 @@ func main() {
 	c.Allower = &moyai.Allower{}
 
 	c.Name = text.Colourf("<bold><red>MOYAI</red></bold>") + "§8"
+	c.JoinMessage = "<emerald>[+] %s</emerald>"
+	c.QuitMessage = "<redstone>[-] %s</redstone>"
 
 	ac := oomph.New(log, ":19132")
-	ac.Listen(&c, c.Name, []minecraft.Protocol{v486.New()}, false, false)
+	ac.Listen(&c, c.Name, []minecraft.Protocol{v486.New()}, true, false)
 	go func() {
 		for {
 			p, err := ac.Accept()

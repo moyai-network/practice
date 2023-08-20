@@ -268,7 +268,7 @@ func (h *Handler) SendScoreBoard() {
 
 	_, _ = sb.WriteString("\n\uE146\uE147\uE148\uE149\uE144\uE143")
 	if h.pearl.Active() {
-		_, _ = sb.WriteString(text.Colourf("<red>\uE141 </red>Ender Pearl<grey>:</grey> <red>%.0f</red>", h.pearl.Remaining().Seconds()))
+		_, _ = sb.WriteString(text.Colourf("<red>\uE141 </red>Pearl<grey>:</grey> <red>%.0f</red>", h.pearl.Remaining().Seconds()))
 	}
 	if h.combat.Active() {
 		_, _ = sb.WriteString(text.Colourf("<red>\uE141 </red>Combat<grey>:</grey> <red>%.0f</red>", h.combat.Remaining().Seconds()))
