@@ -96,7 +96,7 @@ func (m *Match) End(winner, loser *player.Player, forced bool) {
 	if u.Stats.KillStreak > u.Stats.BestKillStreak {
 		u = u.WithBestKillStreak(u.Stats.KillStreak)
 	}
-	u = u.WithDeaths(u.Stats.Deaths + 1)
+	u = u.WithDeaths(u.Stats.Deaths + 1).WithIncreasedLoss(m.ranked)
 
 	killer, _ := data.LoadUser(winner.Name())
 
@@ -104,7 +104,7 @@ func (m *Match) End(winner, loser *player.Player, forced bool) {
 	if killer.Stats.KillStreak > killer.Stats.BestKillStreak {
 		killer = killer.WithBestKillStreak(killer.Stats.KillStreak)
 	}
-	killer = killer.WithKills(killer.Stats.Kills + 1)
+	killer = killer.WithKills(killer.Stats.Kills + 1).WithIncreasedWin(m.ranked)
 
 	if m.ranked {
 		earnings, losings := eloEarnings(u.GameElo(m.g), killer.GameElo(m.g)), eloLosings(killer.GameElo(m.g), u.GameElo(m.g))

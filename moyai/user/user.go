@@ -5,6 +5,8 @@ import (
 	"github.com/moyai-network/practice/moyai/game"
 	"github.com/oomph-ac/oomph/check"
 	"github.com/sandertv/gophertunnel/minecraft/protocol/packet"
+	"strings"
+	"time"
 
 	"github.com/df-mc/dragonfly/server/cmd"
 	"github.com/df-mc/dragonfly/server/player"
@@ -31,13 +33,16 @@ func Add(p *player.Player) {
 	users.Add(p)
 }
 
-func Remove(p *player.Player) {
-	users.Delete(p)
+func Remove(h *Handler) {
+	u, _ := data.LoadUser(h.p.Name())
+	_ = data.SaveUser(u.WithIncreasedPlayTime(time.Since(h.JoinTime())))
+
+	users.Delete(h.p)
 }
 
 func Lookup(name string) (*player.Player, bool) {
 	for p := range users {
-		if p.Name() == name {
+		if strings.EqualFold(p.Name(), name) {
 			return p, true
 		}
 	}

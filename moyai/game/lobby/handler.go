@@ -126,6 +126,6 @@ func (h *Handler) SendScoreBoard() {
 	h.p.SendScoreboard(sb)
 }
 func (h *Handler) HandleQuit() {
-	user.Remove(h.p)
+	user.Remove(h.UserHandler())
 	game.DeQueue(h.p)
 }

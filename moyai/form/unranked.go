@@ -10,21 +10,21 @@ import (
 	"strings"
 )
 
-type Unranked struct{}
+type unranked struct{}
 
 func NewUnranked() form.Form {
 	var buttons []form.Button
-	m := form.NewMenu(Unranked{}, text.Colourf("<dark-red>» <red>Unranked Queue</red> «</dark-red>"))
+	m := form.NewMenu(unranked{}, text.Colourf("<dark-red>» <red>unranked Queue</red> «</dark-red>"))
 	for _, g := range game.Games() {
 		if !g.Duel() {
 			continue
 		}
 		buttons = append(buttons, form.NewButton(text.Colourf("<dark-grey>%s</dark-grey>\n<grey>%d Queuing</grey>", g.Name(), len(game.Queued(g, false))), g.Texture()))
 	}
-	return m.WithBody(text.Colourf("<dark-red>»</dark-red> Welcome to the <red>Unranked</red> form. You may choose a game mode.")).WithButtons(buttons...)
+	return m.WithBody(text.Colourf("<dark-red>»</dark-red> Welcome to the <red>unranked</red> form. You may choose a game mode.")).WithButtons(buttons...)
 }
 
-func (Unranked) Submit(sub form.Submitter, btn form.Button) {
+func (unranked) Submit(sub form.Submitter, btn form.Button) {
 	p, ok := sub.(*player.Player)
 	if !ok {
 		return

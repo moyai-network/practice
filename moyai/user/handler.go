@@ -24,6 +24,8 @@ type Handler struct {
 	player.NopHandler
 	p *player.Player
 
+	joinTime time.Time
+
 	chatCoolDown carrot.CoolDown
 	duelRequests map[string]request
 
@@ -40,7 +42,12 @@ type Handler struct {
 }
 
 func NewHandler(p *player.Player) *Handler {
-	h := &Handler{p: p, duelRequests: map[string]request{}, history: map[check.Check]float64{}, watchingReplay: atomic.Bool{}}
+	h := &Handler{
+		p: p, joinTime: time.Now(),
+		duelRequests:   map[string]request{},
+		history:        map[check.Check]float64{},
+		watchingReplay: atomic.Bool{},
+	}
 	return h
 }
 
@@ -130,4 +137,9 @@ func (*Handler) HandleBlockBreak(ctx *event.Context, _ cube.Pos, _ *[]item.Stack
 // HandleBlockPlace ...
 func (*Handler) HandleBlockPlace(ctx *event.Context, _ cube.Pos, _ world.Block) {
 	ctx.Cancel()
+}
+
+// JoinTime ...
+func (h *Handler) JoinTime() time.Time {
+	return h.joinTime
 }

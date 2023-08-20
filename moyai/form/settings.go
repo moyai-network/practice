@@ -6,10 +6,10 @@ import (
 	"github.com/sandertv/gophertunnel/minecraft/text"
 )
 
-type Settings struct{}
+type settings struct{}
 
 func NewSettings() form.Form {
-	return form.NewMenu(Settings{}, text.Colourf("Settings")).WithButtons(
+	return form.NewMenu(settings{}, text.Colourf("settings")).WithButtons(
 		form.NewButton("Display", ""),
 		//form.NewButton("Visual", ""),
 		//form.NewButton("Gameplay", ""),
@@ -19,7 +19,7 @@ func NewSettings() form.Form {
 	)
 }
 
-func (Settings) Submit(sub form.Submitter, btn form.Button) {
+func (settings) Submit(sub form.Submitter, btn form.Button) {
 	p, ok := sub.(*player.Player)
 	if !ok {
 		return

@@ -21,7 +21,7 @@ func NewDisplay(p *player.Player) form.Form {
 	return form.New(display{
 		Scoreboard: newToggleDropdown("Scoreboard:", s.Display.Scoreboard),
 		CPS:        newToggleDropdown("CPS Counter:", s.Display.CPS),
-	}, "Display Settings")
+	}, "Display settings")
 }
 
 // Submit ...

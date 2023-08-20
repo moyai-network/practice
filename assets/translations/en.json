@@ -24,6 +24,8 @@
 
     "scoreboard.footer": "       <i><grey>moyai.pro</i></grey>",
 
+    "command.target.unknown": "<red>unknown target.</red>",
+
     "command.ban.already": "<red>That player is already banned.</red>",
     "command.ban.broadcast": "\n<aqua>%v</aqua> has removed <dark-aqua>%v</dark-aqua> from Moyai for <dark-red>%v</dark-red>\n\n",
     "command.ban.lift": "<green>You unbanned %s.</green>",

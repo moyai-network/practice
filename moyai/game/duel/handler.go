@@ -148,7 +148,7 @@ func (h *Handler) HandleCommandExecution(ctx *event.Context, command cmd.Command
 func (h *Handler) HandleQuit() {
 	h.m.End(h.op, h.p, true)
 	h.Close()
-	user.Remove(h.p)
+	user.Remove(h.UserHandler())
 }
 
 // Close ...

@@ -230,7 +230,7 @@ func (h *Handler) HandleQuit() {
 			kit.Apply(h.g.Kit(), kh.p)
 		}
 	}
-	user.Remove(h.p)
+	user.Remove(h.UserHandler())
 }
 
 // UserHandler ...

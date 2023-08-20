@@ -255,7 +255,7 @@ func parseBanReason(r banReason) (string, time.Duration) {
 	case "advantage":
 		return "Unfair Advantage", time.Hour * 24 * 30
 	case "ranked_advantage":
-		return "Unfair Advantage in Ranked", time.Hour * 24 * 90
+		return "Unfair Advantage in ranked", time.Hour * 24 * 90
 	case "interference":
 		return "Interference", time.Hour * 12
 	case "exploitation":

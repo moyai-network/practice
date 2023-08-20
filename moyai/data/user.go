@@ -58,15 +58,9 @@ type User struct {
 		Ban, Mute carrot.Punishment
 	}
 
-	Stats struct {
-		Kills, Deaths  int
-		KillStreak     int
-		BestKillStreak int
-	}
+	Stats Stats
 
 	Settings Settings
-
-	Elo map[string]int32
 }
 
 func (u User) WithKills(n int) User {
@@ -97,6 +91,28 @@ func (u User) WithBestKillStreak(n int) User {
 	return u
 }
 
+func (u User) WithIncreasedWin(ranked bool) User {
+	stats := u.Stats
+	if ranked {
+		stats.RankedWins++
+	} else {
+		stats.UnrankedWins++
+	}
+	u.Stats = stats
+	return u
+}
+
+func (u User) WithIncreasedLoss(ranked bool) User {
+	stats := u.Stats
+	if ranked {
+		stats.RankedLosses++
+	} else {
+		stats.UnrankedLosses++
+	}
+	u.Stats = stats
+	return u
+}
+
 func (u User) KDR() float64 {
 	var kdr float64
 	if u.Stats.Deaths > 0 {
@@ -108,24 +124,28 @@ func (u User) KDR() float64 {
 }
 
 func (u User) WithElo(g game.Game, n int32) User {
-	if u.Elo == nil {
-		u.Elo = map[string]int32{}
+	stats := u.Stats
+	if stats.Elo == nil {
+		stats.Elo = map[string]int32{}
 	}
-	if _, ok := u.Elo[strings.ToLower(g.Name())]; !ok {
-		u.Elo[strings.ToLower(g.Name())] = 1000
+	if _, ok := stats.Elo[strings.ToLower(g.Name())]; !ok {
+		stats.Elo[strings.ToLower(g.Name())] = 1000
 	}
-	u.Elo[strings.ToLower(g.Name())] = n
+	stats.Elo[strings.ToLower(g.Name())] = n
+
+	u.Stats = stats
 	return u
 }
 
 func (u User) GameElo(g game.Game) int32 {
-	if u.Elo == nil {
-		u.Elo = map[string]int32{}
+	stats := u.Stats
+	if stats.Elo == nil {
+		stats.Elo = map[string]int32{}
 	}
-	if _, ok := u.Elo[strings.ToLower(g.Name())]; !ok {
-		u.Elo[strings.ToLower(g.Name())] = 1000
+	if _, ok := stats.Elo[strings.ToLower(g.Name())]; !ok {
+		stats.Elo[strings.ToLower(g.Name())] = 1000
 	}
-	return u.Elo[strings.ToLower(g.Name())]
+	return stats.Elo[strings.ToLower(g.Name())]
 }
 
 func (u User) TotalElo() int32 {
@@ -137,6 +157,11 @@ func (u User) TotalElo() int32 {
 		tot += u.GameElo(g) - 1000
 	}
 	return tot
+}
+
+func (u User) WithIncreasedPlayTime(inc time.Duration) User {
+	u.PlayTime += inc
+	return u
 }
 
 func (u User) WithSettings(s Settings) User {
@@ -154,9 +179,28 @@ func DefaultUser(name string) User {
 		Name:        strings.ToLower(name),
 		DisplayName: name,
 		Roles:       role.NewRoles([]carrot.Role{role.Default{}}, map[carrot.Role]time.Time{}),
-		Elo:         map[string]int32{},
+		Stats:       DefaultStats(),
 		Settings:    s,
 		FirstLogin:  time.Now(),
+	}
+}
+
+type Stats struct {
+	Kills, Deaths  int
+	KillStreak     int
+	BestKillStreak int
+
+	Elo map[string]int32
+
+	UnrankedWins   int
+	UnrankedLosses int
+	RankedWins     int
+	RankedLosses   int
+}
+
+func DefaultStats() Stats {
+	return Stats{
+		Elo: map[string]int32{},
 	}
 }
 

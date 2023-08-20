@@ -79,11 +79,11 @@ func main() {
 	signal.Notify(ch, syscall.SIGINT, syscall.SIGTERM)
 	go func() {
 		<-ch
-		if err := data.Close(); err != nil {
-			log.Errorf("close data: %v", err)
-		}
 		if err := srv.Close(); err != nil {
 			log.Errorf("close server: %v", err)
+		}
+		if err := data.Close(); err != nil {
+			log.Errorf("close data: %v", err)
 		}
 	}()
 
@@ -142,6 +142,8 @@ func registerCommands() {
 		cmd.New("rekit", text.Colourf("<dark-red>re-apply your kit</dark-red>"), nil, command.ReKit{}),
 		cmd.New("pprof", text.Colourf("<dark-red>You shouldn't have access to this</dark-red>"), nil, command.Pprof{}),
 		cmd.New("status", text.Colourf("<dark-red>View technical stats of the server.</dark-red>"), nil, command.NewStatus(time.Now())),
+		cmd.New("settings", text.Colourf("<dark-red>Manage your settings.</dark-red>"), []string{"parameters"}, command.Settings{}),
+		cmd.New("stats", text.Colourf("<dark-red>See your or other people's stats.</dark-red>"), []string{"statistics"}, command.StatsOffline{}, command.Stats{}),
 		//cmd.New("replay", text.Colourf("<dark-red>View replay of duels.</dark-red>"), nil, command.ReplayRecent{}),
 	} {
 		cmd.Register(c)
