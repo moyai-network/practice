@@ -124,7 +124,11 @@ func (h *Handler) HandleHurt(ctx *event.Context, damage *float64, attackImmunity
 			killer = killer.WithKills(killer.Stats.Kills + 1)
 
 			_ = data.SaveUser(killer)
-			user.Broadcast("user.kill.pots", u.Roles.Highest().Colour(u.DisplayName), potions(h.p), killer.Roles.Highest().Colour(killer.DisplayName), potions(k))
+			if h.g == game.NoDebuff() {
+				user.Broadcast("user.kill.pots", u.Roles.Highest().Colour(u.DisplayName), potions(h.p), killer.Roles.Highest().Colour(killer.DisplayName), potions(k))
+			} else {
+				user.Broadcast("user.kill", u.Roles.Highest().Colour(u.DisplayName), killer.Roles.Highest().Colour(killer.DisplayName))
+			}
 		}
 		kh, ok := k.Handler().(*Handler)
 		if online && ok {
@@ -211,7 +215,11 @@ func (h *Handler) HandleQuit() {
 			killer = killer.WithKills(killer.Stats.Kills + 1)
 
 			_ = data.SaveUser(killer)
-			user.Broadcast("user.kill.pots", u.Roles.Highest().Colour(u.DisplayName), potions(h.p), killer.Roles.Highest().Colour(killer.DisplayName), potions(k))
+			if h.g == game.NoDebuff() {
+				user.Broadcast("user.kill.pots", u.Roles.Highest().Colour(u.DisplayName), potions(h.p), killer.Roles.Highest().Colour(killer.DisplayName), potions(k))
+			} else {
+				user.Broadcast("user.kill", u.Roles.Highest().Colour(u.DisplayName), killer.Roles.Highest().Colour(killer.DisplayName))
+			}
 		}
 
 		kh, ok := k.Handler().(*Handler)
