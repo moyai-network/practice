@@ -128,7 +128,7 @@ func (h *Handler) HandleAttackEntity(ctx *event.Context, e world.Entity, force, 
 	switch h.m.g {
 	case game.Boxing():
 		*critical = false
-		*force, *height = 0.394, 0.394
+		*force, *height = 0.38, 0.38
 	default:
 		*force, *height = 0.38, 0.38
 	}
