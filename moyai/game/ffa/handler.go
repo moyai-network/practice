@@ -89,6 +89,7 @@ func (h *Handler) HandleHurt(ctx *event.Context, damage *float64, attackImmunity
 	case game.Fist():
 		*attackImmunity = 350 * time.Millisecond
 	default:
+		*attackImmunity = 470 * time.Millisecond
 		*damage = *damage / 1.25
 	}
 	if src == (entity.FallDamageSource{}) {
