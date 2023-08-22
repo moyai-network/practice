@@ -29,4 +29,4 @@ Tebex = 'f2329e8813bc7bb5952b79692c61044320c3f1eb'
 [Oomph]
 Port = 19132
 CombatMode = 2
-MovementMode = 2
+MovementMode = 1
