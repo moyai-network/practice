@@ -345,6 +345,9 @@ func Close() error {
 	defer usersMu.Unlock()
 
 	for _, u := range users {
+		if u.Roles == nil {
+			u.Roles = role.NewRoles([]carrot.Role{role.Default{}}, map[carrot.Role]time.Time{})
+		}
 		filter := bson.M{"name": bson.M{"$eq": u.Name}}
 		update := bson.M{"$set": u}
 
