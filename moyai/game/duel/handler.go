@@ -88,7 +88,6 @@ func (h *Handler) HandleHurt(ctx *event.Context, damage *float64, attackImmunity
 	switch h.m.g {
 	default:
 		*attackImmunity = 470 * time.Millisecond
-		*damage = *damage / 1.25
 	}
 	*damage = *damage / 1.25
 	if src == (entity.FallDamageSource{}) {
@@ -126,11 +125,14 @@ func (h *Handler) HandleHurt(ctx *event.Context, damage *float64, attackImmunity
 }
 
 func (h *Handler) HandleAttackEntity(ctx *event.Context, e world.Entity, force, height *float64, critical *bool) {
-	*force, *height = 0.394, 0.394
-
-	if h.m.g == game.Boxing() {
+	switch h.m.g {
+	case game.Boxing():
 		*critical = false
+		*force, *height = 0.394, 0.394
+	default:
+		*force, *height = 0.38, 0.38
 	}
+
 }
 
 // bannedCommands is a list of commands disallowed in combat.

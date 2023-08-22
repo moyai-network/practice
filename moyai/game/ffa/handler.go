@@ -147,16 +147,17 @@ func (h *Handler) HandleAttackEntity(ctx *event.Context, e world.Entity, force, 
 	case game.Fist():
 		*force, *height = 0.4, 0.375
 	default:
-		*force, *height = 0.394, 0.394
+		*force, *height = 0.38, 0.38
 	}
 	target, ok := e.(*player.Player)
 	if !ok {
 		return
 	}
 
-	if o, ok := e.(*player.Player); ok && !o.OnGround() {
-		if dist := e.Position().Y() - h.p.Position().Y(); dist >= 2.5 {
-			*height -= dist / 26
+	if !h.p.OnGround() {
+		max, min := maxMin(target.Position().Y(), h.p.Position().Y())
+		if max-min >= 2.5 {
+			*height = 0.38 / 1.25
 		}
 	}
 
@@ -171,6 +172,13 @@ func (h *Handler) HandleAttackEntity(ctx *event.Context, e world.Entity, force, 
 	th.lastAttacker.Store(h.p.Name())
 	th.lastAttackerExpiration.Store(time.Now().Add(time.Second * 15))
 	h.SendScoreBoard()
+}
+
+func maxMin(n, n2 float64) (max float64, min float64) {
+	if n > n2 {
+		return n, n2
+	}
+	return n2, n
 }
 
 // bannedCommands is a list of commands disallowed in combat.
