@@ -132,7 +132,25 @@ func (h *Handler) HandleAttackEntity(ctx *event.Context, e world.Entity, force, 
 	default:
 		*force, *height = 0.38, 0.38
 	}
+	target, ok := e.(*player.Player)
+	if !ok {
+		return
+	}
 
+	if !target.OnGround() {
+		max, min := maxMin(target.Position().Y(), h.p.Position().Y())
+		if max-min >= 2.5 {
+			*height = 0.38 / 1.25
+		}
+	}
+
+}
+
+func maxMin(n, n2 float64) (max float64, min float64) {
+	if n > n2 {
+		return n, n2
+	}
+	return n2, n
 }
 
 // bannedCommands is a list of commands disallowed in combat.

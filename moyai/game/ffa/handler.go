@@ -154,7 +154,7 @@ func (h *Handler) HandleAttackEntity(ctx *event.Context, e world.Entity, force, 
 		return
 	}
 
-	if !h.p.OnGround() {
+	if !target.OnGround() {
 		max, min := maxMin(target.Position().Y(), h.p.Position().Y())
 		if max-min >= 2.5 {
 			*height = 0.38 / 1.25
