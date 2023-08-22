@@ -1,6 +1,6 @@
 {
 
-  "$0_color_format": [ 0.901, 0.0, 0.0 ], // Black
+  "$0_color_format": [ 0.878, 0.553, 0.608 ], // Black
   "$1_color_format": [ 0.0, 0.607, 0.882 ], // Dark Blue
   "$2_color_format": [ 0.392, 0.784, 0.313 ], // Dark Green
   "$3_color_format": [ 0.392, 0.690, 0.690 ], // Dark Aqua

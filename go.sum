@@ -58,6 +58,8 @@ github.com/montanaflynn/stats v0.0.0-20171201202039-1bf9dbcd8cbe h1:iruDEfMl2E6f
 github.com/montanaflynn/stats v0.0.0-20171201202039-1bf9dbcd8cbe/go.mod h1:wL8QJuTMNUDYhXwkmfOly8iTdp5TEcJFWZD2D7SIkUc=
 github.com/moyai-network/carrot v0.0.0-20230820154859-a661f4fdcf36 h1:XVGZVOjdTYyk/NycBOKsMFbc+zGDvV5oUoZp13nSvQw=
 github.com/moyai-network/carrot v0.0.0-20230820154859-a661f4fdcf36/go.mod h1:jjOSH+GPVBczAa0tIE018hIkMk+SX7LR1bQgutIv8Rk=
+github.com/moyai-network/carrot v0.0.0-20230822054334-13782c8428c9 h1:nB4d3rnh9nP6reu+HBaOVvxfXD/eNm9DTvGIGx/FCF8=
+github.com/moyai-network/carrot v0.0.0-20230822054334-13782c8428c9/go.mod h1:jjOSH+GPVBczAa0tIE018hIkMk+SX7LR1bQgutIv8Rk=
 github.com/muhammadmuzzammil1998/jsonc v1.0.0 h1:8o5gBQn4ZA3NBA9DlTujCj2a4w0tqWrPVjDwhzkgTIs=
 github.com/muhammadmuzzammil1998/jsonc v1.0.0/go.mod h1:saF2fIVw4banK0H4+/EuqfFLpRnoy5S+ECwTOCcRcSU=
 github.com/onsi/ginkgo v1.6.0/go.mod h1:lLunBs/Ym6LB5Z9jYTR76FiuTmxDTDusOGeTQH+WWjE=
