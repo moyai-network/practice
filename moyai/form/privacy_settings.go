@@ -11,9 +11,9 @@ type privacy struct {
 	// PrivateMessages is a dropdown that allows the user to enable or disable private messages from others.
 	PrivateMessages form.Dropdown
 	// PublicStatistics is a dropdown that allows the user to enable or disable public statistics.
-	PublicStatistics form.Dropdown
+	//PublicStatistics form.Dropdown
 	// DuelRequests is a dropdown that allows the user to enable or disable duel requests from others.
-	DuelRequests form.Dropdown
+	//DuelRequests form.Dropdown
 	// p is the player that is using the form.
 	p *player.Player
 }
