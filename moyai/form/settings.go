@@ -13,7 +13,7 @@ func NewSettings() form.Form {
 		form.NewButton("Display", ""),
 		//form.NewButton("Visual", ""),
 		//form.NewButton("Gameplay", ""),
-		//form.NewButton("Privacy", ""),
+		form.NewButton("Privacy", ""),
 		//form.NewButton("Matchmaking", ""),
 		//form.NewButton("Advanced", ""),
 	)
