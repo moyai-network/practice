@@ -59,7 +59,7 @@ func formattedKillsLeaderboard() string {
 		leader := users[i]
 		name := leader.DisplayName
 		if leader.Roles.Contains(role.Plus{}) {
-			name = text.Colourf("<red>%s</red>", name)
+			name = text.Colourf("<black>%s</black>", name)
 		}
 
 		position, _ := roman.Itor(i + 1)
@@ -100,7 +100,7 @@ func formattedDeathsLeaderboard() string {
 		leader := users[i]
 		name := leader.DisplayName
 		if leader.Roles.Contains(role.Plus{}) {
-			name = text.Colourf("<red>%s</red>", name)
+			name = text.Colourf("<black>%s</black>", name)
 		}
 
 		position, _ := roman.Itor(i + 1)
@@ -141,7 +141,7 @@ func formattedBestKSLeaderboard() string {
 		leader := users[i]
 		name := leader.DisplayName
 		if leader.Roles.Contains(role.Plus{}) {
-			name = text.Colourf("<red>%s</red>", name)
+			name = text.Colourf("<black>%s</black>", name)
 		}
 
 		position, _ := roman.Itor(i + 1)
@@ -182,7 +182,7 @@ func formattedKSLeaderboard() string {
 		leader := users[i]
 		name := leader.DisplayName
 		if leader.Roles.Contains(role.Plus{}) {
-			name = text.Colourf("<red>%s</red>", name)
+			name = text.Colourf("<black>%s</black>", name)
 		}
 
 		position, _ := roman.Itor(i + 1)
@@ -223,7 +223,7 @@ func formattedKDRLeaderboard() string {
 		leader := users[i]
 		name := leader.DisplayName
 		if leader.Roles.Contains(role.Plus{}) {
-			name = text.Colourf("<red>%s</red>", name)
+			name = text.Colourf("<black>%s</black>", name)
 		}
 
 		position, _ := roman.Itor(i + 1)
@@ -264,7 +264,7 @@ func formattedEloLeaderboard(g game.Game) string {
 		leader := users[i]
 		name := leader.DisplayName
 		if leader.Roles.Contains(role.Plus{}) {
-			name = text.Colourf("<red>%s</red>", name)
+			name = text.Colourf("<black>%s</black>", name)
 		}
 
 		position, _ := roman.Itor(i + 1)
@@ -305,7 +305,7 @@ func formattedOverallEloLeaderboard() string {
 		leader := users[i]
 		name := leader.DisplayName
 		if leader.Roles.Contains(role.Plus{}) {
-			name = text.Colourf("<red>%s</red>", name)
+			name = text.Colourf("<black>%s</black>", name)
 		}
 
 		position, _ := roman.Itor(i + 1)
@@ -345,7 +345,7 @@ func formattedTotalEloLeaderboard() string {
 		leader := users[i]
 		name := leader.DisplayName
 		if leader.Roles.Contains(role.Plus{}) {
-			name = text.Colourf("<red>%s</red>", name)
+			name = text.Colourf("<black>%s</black>", name)
 		}
 
 		position, _ := roman.Itor(i + 1)
