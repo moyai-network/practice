@@ -30,10 +30,10 @@ func NewPrivacy(p *player.Player) form.Form {
 
 // Submit ...
 func (d privacy) Submit(form.Submitter) {
-	u, _ := data.LoadUser(d.p.XUID())
+	u, _ := data.LoadUser(d.p.Name())
 	s := u.Settings
 	s.Privacy.PrivateMessages = indexBool(d.PrivateMessages)
-	_ = data.SaveUser(u)
+	_ = data.SaveUser(u.WithSettings(s))
 	d.p.SendForm(NewPrivacy(d.p))
 }
 
