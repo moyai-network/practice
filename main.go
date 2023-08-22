@@ -13,8 +13,6 @@ import (
 	"github.com/df-mc/dragonfly/server/player"
 	"github.com/df-mc/dragonfly/server/player/chat"
 	"github.com/df-mc/dragonfly/server/world"
-	_ "github.com/flonja/multiversion/protocols" // VERY IMPORTANT
-	v486 "github.com/flonja/multiversion/protocols/v486"
 	_ "github.com/moyai-network/carrot/console"
 	"github.com/moyai-network/carrot/lang"
 	"github.com/moyai-network/carrot/worlds"
@@ -59,15 +57,12 @@ func main() {
 	c.QuitMessage = "<red>[-] %s</red>"
 
 	ac := oomph.New(log, ":19132")
-	ac.Listen(&c, c.Name, []minecraft.Protocol{v486.New()}, true, false)
+	ac.Listen(&c, c.Name, []minecraft.Protocol{}, true, false)
 	go func() {
 		for {
 			p, err := ac.Accept()
 			if err != nil {
 				return
-			}
-			if p.Conn().Protocol().ID() == 486 { // Do this for rn
-				p.Acknowledgements().UseLegacy(true)
 			}
 			p.SetCombatMode(utils.AuthorityType(config.Oomph.CombatMode))
 			p.SetMovementMode(utils.AuthorityType(config.Oomph.MovementMode))
