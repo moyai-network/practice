@@ -3,6 +3,7 @@ package lobby
 import (
 	"github.com/df-mc/dragonfly/server/session"
 	"github.com/moyai-network/practice/moyai/game"
+	"github.com/moyai-network/practice/moyai/user"
 	"math"
 	"strings"
 	"time"
@@ -439,6 +440,12 @@ func AddPlayer(p *player.Player) {
 
 	u, _ := data.LoadUser(p.Name())
 	p.SetNameTag(u.Roles.Highest().Colour(p.Name()))
+
+	for _, u := range user.All() {
+		if h, ok := u.Handler().(*Handler); ok {
+			h.SendScoreBoard()
+		}
+	}
 }
 
 // noinspection ALL

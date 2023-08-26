@@ -4,14 +4,13 @@ import (
 	"fmt"
 	"github.com/moyai-network/practice/moyai/data"
 	"github.com/moyai-network/practice/moyai/game"
-	"strconv"
+	"strings"
 	"time"
 
 	"github.com/df-mc/dragonfly/server/cmd"
 	"github.com/df-mc/dragonfly/server/entity"
 	"github.com/df-mc/dragonfly/server/event"
 	"github.com/df-mc/dragonfly/server/item"
-	"github.com/df-mc/dragonfly/server/item/potion"
 	"github.com/df-mc/dragonfly/server/player"
 	"github.com/df-mc/dragonfly/server/player/scoreboard"
 	"github.com/df-mc/dragonfly/server/world"
@@ -56,6 +55,7 @@ func newHandler(p *player.Player, op *player.Player, m *Match) *Handler {
 		h.p.SendPopup(lang.Translatef(h.p.Locale(), "pearl.expired"))
 	})
 
+	h.SendScoreBoard()
 	t := time.NewTicker(time.Second)
 	go func() {
 		for range t.C {
@@ -228,33 +228,27 @@ func (h *Handler) SendScoreBoard() {
 		return
 	}
 
-	sb := scoreboard.New(carrot.GlyphFont(" Moyai"))
+	sb := scoreboard.New(carrot.GlyphFont("Moyai"))
 	sb.RemovePadding()
 	_, _ = sb.WriteString("§r\uE002")
 
-	_, _ = sb.WriteString(text.Colourf("<red>\uE141 </red>Rival<grey>:</grey> <red>%s</red>", h.op.Name()))
+	_, _ = sb.WriteString(text.Colourf("Duration: <red>%s</red>", parseDuration(time.Since(h.m.beginning))))
+
 	if h.m.g == game.Boxing() {
-		_, _ = sb.WriteString(text.Colourf("<red>\uE141 </red>Hits<grey>:</grey> <green>%d</green> <grey>:</grey> <red>%d</red>", h.hits, h.op.Handler().(*Handler).hits))
-		diff := h.hits - h.op.Handler().(*Handler).hits
-		d := strconv.Itoa(diff)
-		if diff > 0 {
-			d = "+" + d
-		}
-		_, _ = sb.WriteString(text.Colourf("<red>\uE141 </red>Difference<grey>:</grey> <dark-red>%s</dark-red>", d))
+		_, _ = sb.WriteString(text.Colourf("\n\nHits:\n  You: <red>%d</red>\n  Them: <red>%d</red>", h.hits, h.op.Handler().(*Handler).hits))
 	}
 
-	_, _ = sb.WriteString("\n\uE146\uE147\uE148\uE149\uE144\uE143")
-	if h.pearl.Active() {
-		_, _ = sb.WriteString(text.Colourf("<red>\uE141 </red>Ender Pearl<grey>:</grey> <red>%.0f</red>", h.pearl.Remaining().Seconds()))
-	}
-
-	_, _ = sb.WriteString(text.Colourf("\uE141 Ping<grey>:</grey> <green>%dms</green> \uE145 <red>%dms</red>", h.p.Latency().Milliseconds()*2, h.op.Latency().Milliseconds()*2))
-	_, _ = sb.WriteString(text.Colourf("\uE141 Time<grey>:</grey> <red>%s</red>", parseDuration(time.Since(h.m.beginning))))
+	_, _ = sb.WriteString(text.Colourf("\nYour Ping: <red>%dms</red>\nTheir Ping: <red>%dms</red>", h.p.Latency().Milliseconds()*2, h.op.Latency().Milliseconds()*2))
 
 	_, _ = sb.WriteString("§a")
 	_, _ = sb.WriteString(lang.Translatef(l, "scoreboard.footer"))
 
 	_, _ = sb.WriteString("\uE002")
+	for i, li := range sb.Lines() {
+		if !strings.Contains(li, "\uE002") {
+			sb.Set(i, " "+li)
+		}
+	}
 	h.p.RemoveScoreboard()
 	h.p.SendScoreboard(sb)
 }
@@ -269,14 +263,4 @@ func parseDuration(d time.Duration) string {
 	}
 
 	return fmt.Sprintf("%02d:%02d", minutes, seconds)
-}
-
-// potions returns the amount of potions the player has.
-func potions(p *player.Player) (n int) {
-	for _, i := range p.Inventory().Items() {
-		if p, ok := i.Item().(item.SplashPotion); ok && p.Type == potion.StrongHealing() {
-			n++
-		}
-	}
-	return n
 }

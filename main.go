@@ -52,7 +52,7 @@ func main() {
 	c.Entities = ent.Registry
 	c.Allower = &moyai.Allower{}
 
-	c.Name = text.Colourf("<bold><red>MOYAI</red></bold>") + "§8"
+	c.Name = text.Colourf("<bold><dark-red>MOYAI</dark-red></bold>") + "§8"
 	c.JoinMessage = "<green>[+] %s</green>"
 	c.QuitMessage = "<red>[-] %s</red>"
 
@@ -110,8 +110,8 @@ func main() {
 // acceptFunc returns a function for handling players joining.
 func acceptFunc(store *tebex.Client, log *logrus.Logger) func(p *player.Player) {
 	return func(p *player.Player) {
-		lobby.AddPlayer(p)
 		user.Add(p)
+		lobby.AddPlayer(p)
 
 		p.Message(text.Colourf("<green>Make sure to join our discord server at discord.gg/moyai!</green>"))
 		store.ExecuteCommands(p)

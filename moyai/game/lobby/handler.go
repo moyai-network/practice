@@ -97,29 +97,28 @@ func (h *Handler) SendScoreBoard() {
 		return
 	}
 
-	var kdr float64
-	if u.Stats.Deaths > 0 {
-		kdr = float64(u.Stats.Kills) / float64(u.Stats.Deaths)
-	} else {
-		kdr = float64(u.Stats.Kills)
-	}
-
-	sb := scoreboard.New(carrot.GlyphFont(" Moyai"))
+	sb := scoreboard.New(carrot.GlyphFont("Moyai"))
 	sb.RemovePadding()
 	_, _ = sb.WriteString("§r\uE002")
 
-	_, _ = sb.WriteString("\uE142\uE143\uE144\uE143\uE142")
-	_, _ = sb.WriteString(text.Colourf("\uE141 K<grey>:</grey> <red>%d</red> D<grey>:</grey> <red>%d</red>", u.Stats.Kills, u.Stats.Deaths))
-	_, _ = sb.WriteString(text.Colourf("\uE141 KDR<grey>:</grey> <red>%.2f</red>", kdr))
-	_, _ = sb.WriteString(text.Colourf("\uE141 KS<grey>:</grey> <red>%d</red>", u.Stats.KillStreak))
+	var playing int
+	for _, u := range user.All() {
+		if _, ok := u.Handler().(*Handler); !ok {
+			playing++
+		}
+	}
+
+	_, _ = sb.WriteString(text.Colourf("<red>Online:</red> <white>%d</white>", user.Count()))
+	_, _ = sb.WriteString(text.Colourf("<red>Playing:</red> <white>%d</white>", playing))
+
+	_, _ = sb.WriteString("§a")
+	_, _ = sb.WriteString(lang.Translatef(l, "scoreboard.footer"))
 
 	for i, li := range sb.Lines() {
 		if !strings.Contains(li, "\uE002") {
-			sb.Set(i, "  "+li)
+			sb.Set(i, " "+li)
 		}
 	}
-	_, _ = sb.WriteString("§a")
-	_, _ = sb.WriteString(lang.Translatef(l, "scoreboard.footer"))
 
 	_, _ = sb.WriteString("\uE002")
 	h.p.RemoveScoreboard()
@@ -128,4 +127,13 @@ func (h *Handler) SendScoreBoard() {
 func (h *Handler) HandleQuit() {
 	user.Remove(h.UserHandler())
 	game.DeQueue(h.p)
+	h.Close()
+}
+
+func (h *Handler) Close() {
+	for _, u := range user.All() {
+		if h, ok := u.Handler().(*Handler); ok {
+			h.SendScoreBoard()
+		}
+	}
 }

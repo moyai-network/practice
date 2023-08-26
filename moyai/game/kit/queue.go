@@ -11,10 +11,10 @@ import (
 type Queue struct{}
 
 // Items ...
-func (Queue) Items(p *player.Player) [36]item.Stack {
+func (Queue) Items(*player.Player) [36]item.Stack {
 	return [36]item.Stack{
 		8: item.NewStack(item.Dye{Colour: item.ColourRed()}, 1).WithCustomName(
-			"§r"+text.Colourf("<red>Leave queue</red>"),
+			"§r"+text.Colourf("<red>Leave</red>"),
 		).WithValue("queue", 8),
 	}
 }

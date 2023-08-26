@@ -2,12 +2,9 @@ module github.com/moyai-network/practice
 
 go 1.20
 
-replace github.com/flonja/multiversion => ./multiversion
-
 require (
 	github.com/df-mc/atomic v1.10.0
 	github.com/df-mc/dragonfly v0.9.9-0.20230826102332-5303318f64a0
-	github.com/flonja/multiversion v0.0.0-20230727204349-88d4a8c393a0
 	github.com/go-gl/mathgl v1.1.0
 	github.com/hako/durafmt v0.0.0-20210608085754-5c1018a4e16b
 	github.com/icza/abcsort v0.0.0-20230330133725-d6ace6446f81
@@ -42,7 +39,6 @@ require (
 	github.com/kr/text v0.2.0 // indirect
 	github.com/montanaflynn/stats v0.0.0-20171201202039-1bf9dbcd8cbe // indirect
 	github.com/muhammadmuzzammil1998/jsonc v1.0.0 // indirect
-	github.com/pelletier/go-toml v1.9.5 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.7 // indirect
 	github.com/rogpeppe/go-internal v1.11.0 // indirect
 	github.com/sandertv/go-raknet v1.12.1 // indirect

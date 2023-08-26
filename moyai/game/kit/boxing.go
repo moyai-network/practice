@@ -5,6 +5,7 @@ import (
 	"github.com/df-mc/dragonfly/server/item"
 	"github.com/df-mc/dragonfly/server/item/enchantment"
 	"github.com/df-mc/dragonfly/server/player"
+	"github.com/sandertv/gophertunnel/minecraft/text"
 	"time"
 )
 
@@ -14,7 +15,7 @@ type Boxing struct{}
 // Items ...
 func (Boxing) Items(*player.Player) [36]item.Stack {
 	items := [36]item.Stack{
-		item.NewStack(item.Sword{Tier: item.ToolTierDiamond}, 1).WithEnchantments(item.NewEnchantment(enchantment.Unbreaking{}, 10)),
+		item.NewStack(item.Sword{Tier: item.ToolTierDiamond}, 1).WithEnchantments(item.NewEnchantment(enchantment.Unbreaking{}, 10)).WithCustomName(text.Colourf("<red>Moyai</red>")),
 	}
 	return items
 }

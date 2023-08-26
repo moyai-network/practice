@@ -1,6 +1,7 @@
 package ffa
 
 import (
+	"fmt"
 	"strings"
 	"time"
 
@@ -96,6 +97,7 @@ func (h *Handler) HandleHurt(ctx *event.Context, damage *float64, attackImmunity
 		ctx.Cancel()
 		return
 	}
+	w := h.p.World()
 
 	if (h.p.Health()-h.p.FinalDamageFrom(*damage, src) <= 0) || src == (entity.VoidDamageSource{}) {
 		ctx.Cancel()
@@ -126,10 +128,25 @@ func (h *Handler) HandleHurt(ctx *event.Context, damage *float64, attackImmunity
 
 			_ = data.SaveUser(killer)
 			if h.g == game.NoDebuff() {
-				user.Broadcast("user.kill.pots", u.Roles.Highest().Colour(u.DisplayName), potions(h.p), killer.Roles.Highest().Colour(killer.DisplayName), potions(k))
+				user.Broadcast("user.kill.pots", killer.DisplayName, u.DisplayName, potions(k), potions(h.p))
 			} else {
-				user.Broadcast("user.kill", u.Roles.Highest().Colour(u.DisplayName), killer.Roles.Highest().Colour(killer.DisplayName))
+				user.Broadcast("user.kill", killer.DisplayName, u.DisplayName)
 			}
+
+			c := player.New(h.p.Name(), h.p.Skin(), h.p.Position())
+			c.SetAttackImmunity(time.Millisecond * 1400)
+			c.SetNameTag(h.p.NameTag())
+			c.SetScale(h.p.Scale())
+			w.AddEntity(c)
+
+			for _, viewer := range w.Viewers(c.Position()) {
+				viewer.ViewEntityAction(c, entity.DeathAction{})
+			}
+
+			c.KnockBack(k.Position(), 0.5, 0.2)
+			time.AfterFunc(time.Millisecond*1400, func() {
+				_ = c.Close()
+			})
 		}
 		kh, ok := k.Handler().(*Handler)
 		if online && ok {
@@ -271,50 +288,43 @@ func (h *Handler) SendScoreBoard() {
 		return
 	}
 
-	var kdr float64
-	if u.Stats.Deaths > 0 {
-		kdr = float64(u.Stats.Kills) / float64(u.Stats.Deaths)
-	} else {
-		kdr = float64(u.Stats.Kills)
-	}
-
-	sb := scoreboard.New(carrot.GlyphFont(" Moyai"))
+	sb := scoreboard.New(carrot.GlyphFont("Moyai"))
 	sb.RemovePadding()
 	_, _ = sb.WriteString("§r\uE002")
 
-	_, _ = sb.WriteString("\uE142\uE143\uE144\uE143\uE142")
-	_, _ = sb.WriteString(text.Colourf("<red>\uE141 </red>K<grey>:</grey> <red>%d</red> D<grey>:</grey> <red>%d</red>", u.Stats.Kills, u.Stats.Deaths))
-	_, _ = sb.WriteString(text.Colourf("<red>\uE141 </red>KDR<grey>:</grey> <red>%.2f</red>", kdr))
-	_, _ = sb.WriteString(text.Colourf("<red>\uE141 </red>KS<grey>:</grey> <red>%d</red>", u.Stats.KillStreak))
+	_, _ = sb.WriteString(text.Colourf("<red>Kills:</red> <white>%d</white>", u.Stats.Kills))
+	_, _ = sb.WriteString(text.Colourf("<red>Killstreak:</red> <white>%d</white>", u.Stats.KillStreak))
+	_, _ = sb.WriteString(text.Colourf("<red>Deaths:</red> <white>%d</white>", u.Stats.Deaths))
 
-	_, _ = sb.WriteString("\n\uE146\uE147\uE148\uE149\uE144\uE143")
-	if h.pearl.Active() {
-		_, _ = sb.WriteString(text.Colourf("<red>\uE141 </red>Pearl<grey>:</grey> <red>%.0f</red>", h.pearl.Remaining().Seconds()))
-	}
 	if h.combat.Active() {
-		_, _ = sb.WriteString(text.Colourf("<red>\uE141 </red>Combat<grey>:</grey> <red>%.0f</red>", h.combat.Remaining().Seconds()))
+		_, _ = sb.WriteString(text.Colourf("<red>Combat:</red> <white>%s</white>", parseDuration(h.combat.Remaining())))
 	}
 
-	a, ok := data.LoadUser(h.lastAttacker.Load())
-	attacker, online := user.LookupXUID(a.XUID)
-	if ok && online && h.combat.Active() {
-		_, _ = sb.WriteString(text.Colourf("<red>\uE141 </red>Ping<grey>:</grey> <green>%dms</green> \uE145 <red>%dms</red>", h.p.Latency().Milliseconds()*2, attacker.Latency().Milliseconds()*2))
-	} else {
-		_, _ = sb.WriteString(text.Colourf("<red>\uE141 </red>Ping<grey>:</grey> <green>%dms</green>", h.p.Latency().Milliseconds()*2))
-	}
-
-	_, _ = sb.WriteString("\uE002")
-	for i, li := range sb.Lines() {
-		if !strings.Contains(li, "\uE002") {
-			sb.Set(i, "  "+li)
-		}
-	}
 	_, _ = sb.WriteString("§a")
 	_, _ = sb.WriteString(lang.Translatef(l, "scoreboard.footer"))
 
 	_, _ = sb.WriteString("\uE002")
+	for i, li := range sb.Lines() {
+		if !strings.Contains(li, "\uE002") {
+			sb.Set(i, " "+li)
+		}
+	}
+
+	_, _ = sb.WriteString("\uE002")
 	h.p.RemoveScoreboard()
 	h.p.SendScoreboard(sb)
+}
+
+func parseDuration(d time.Duration) string {
+	hours := int(d.Hours())
+	minutes := int(d.Minutes()) % 60
+	seconds := int(d.Seconds()) % 60
+
+	if hours > 0 {
+		return fmt.Sprintf("%02d:%02d:%02d", hours, minutes, seconds)
+	}
+
+	return fmt.Sprintf("%02d:%02d", minutes, seconds)
 }
 
 func (h *Handler) Game() game.Game {

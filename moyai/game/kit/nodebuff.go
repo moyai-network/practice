@@ -1,6 +1,7 @@
 package kit
 
 import (
+	"github.com/sandertv/gophertunnel/minecraft/text"
 	"time"
 
 	"github.com/df-mc/dragonfly/server/entity/effect"
@@ -17,7 +18,7 @@ type NoDebuff struct {
 // Items ...
 func (n NoDebuff) Items(*player.Player) [36]item.Stack {
 	items := [36]item.Stack{
-		item.NewStack(item.Sword{Tier: item.ToolTierDiamond}, 1).WithEnchantments(item.NewEnchantment(enchantment.Unbreaking{}, 10), item.NewEnchantment(enchantment.Sharpness{}, 2)),
+		item.NewStack(item.Sword{Tier: item.ToolTierDiamond}, 1).WithEnchantments(item.NewEnchantment(enchantment.Unbreaking{}, 10), item.NewEnchantment(enchantment.Sharpness{}, 2)).WithCustomName(text.Colourf("<red>Moyai</red>")),
 		item.NewStack(item.EnderPearl{}, 16),
 	}
 	for i := 2; i < 36; i++ {

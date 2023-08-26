@@ -6,8 +6,8 @@
     "item.lobby.settings": "<dark-red>Settings</dark-red>",
 
     "user.suicide": "%s <red>committed suicide</red>",
-    "user.kill.pots": "%s<grey>[<red>%d</red>]</grey> <red>was slain by</red> %s<grey>[<red>%d</red>]</grey>",
-    "user.kill": "%s <red>was slain by</red> %s",
+    "user.kill.pots": "<green>%s</green><dark-green>[%d]</dark-green><grey> killed </grey><red>%s</red><dark-red>[%d]</dark-red>",
+    "user.kill": "<green>%s</green><grey> killed </grey><red>%s</red>",
     "user.kick.header.oomph": "<b><red>You were kicked from Moyai by Oomph</red></b>",
     "user.kick.autoclicker": "<red>We detected that your CPS is unfair, please try increasing your\ndebounce time or terminate your external program!\n<grey><i>For questions or concerns, refer to discord.gg/moyai</grey></i>",
     "user.kick.description": "<gold>Reason:</gold> <yellow>%s</yellow>\n<grey><i>For questions or concerns, refer to discord.gg/moyai</grey></i>",
@@ -19,12 +19,12 @@
 
     "command.combat": "<red>You may not use this command in combat</red>",
 
-    "combat.tag": "<red>You are now in combat</red>",
-    "combat.untag": "<green>You are no longer in combat</green>",
-    "pearl.cooldown": "<red>You are now on pearl cooldown</red>",
-    "pearl.expired": "<green>Pearl cooldown expired</green",
+    "combat.tag": "<red>Combat-Tag Started</red>",
+    "combat.untag": "<orange>Combat-Tag Reduced</orange>",
+    "pearl.cooldown": "<red>Pearl-Cooldown Started</red>",
+    "pearl.expired": "<green>Pearl-Cooldown expired</green",
 
-    "scoreboard.footer": "       <i><grey>moyai.pro</i></grey>",
+    "scoreboard.footer": "<red>moyai.pro</red>",
 
     "command.target.unknown": "<red>unknown target.</red>",
 
