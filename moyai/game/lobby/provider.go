@@ -1,10 +1,12 @@
 package lobby
 
 import (
+	"github.com/df-mc/dragonfly/server/session"
 	"github.com/moyai-network/practice/moyai/game"
 	"math"
 	"strings"
 	"time"
+	_ "unsafe"
 
 	"github.com/df-mc/dragonfly/server/block/cube"
 	"github.com/df-mc/dragonfly/server/entity"
@@ -413,6 +415,9 @@ func Contains(p *player.Player) bool {
 }
 
 func AddPlayer(p *player.Player) {
+	if player_session(p) == session.Nop {
+		return
+	}
 	if c, closeable := p.Handler().(interface{ Close() }); closeable {
 		c.Close()
 	}
@@ -435,3 +440,8 @@ func AddPlayer(p *player.Player) {
 	u, _ := data.LoadUser(p.Name())
 	p.SetNameTag(u.Roles.Highest().Colour(p.Name()))
 }
+
+// noinspection ALL
+//
+//go:linkname player_session github.com/df-mc/dragonfly/server/player.(*Player).session
+func player_session(*player.Player) *session.Session

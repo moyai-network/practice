@@ -69,6 +69,9 @@ func newHandler(p *player.Player, op *player.Player, m *Match) *Handler {
 	return h
 }
 func (h *Handler) HandleItemUse(ctx *event.Context) {
+	if !h.m.running {
+		return
+	}
 	held, _ := h.p.HeldItems()
 	switch held.Item().(type) {
 	case item.EnderPearl:
@@ -85,6 +88,9 @@ func (h *Handler) HandleItemUse(ctx *event.Context) {
 }
 
 func (h *Handler) HandleHurt(ctx *event.Context, damage *float64, attackImmunity *time.Duration, src world.DamageSource) {
+	if !h.m.running {
+		return
+	}
 	switch h.m.g {
 	default:
 		*attackImmunity = 470 * time.Millisecond
@@ -125,6 +131,9 @@ func (h *Handler) HandleHurt(ctx *event.Context, damage *float64, attackImmunity
 }
 
 func (h *Handler) HandleAttackEntity(ctx *event.Context, e world.Entity, force, height *float64, critical *bool) {
+	if !h.m.running {
+		return
+	}
 	switch h.m.g {
 	case game.Boxing():
 		*critical = false

@@ -2,8 +2,10 @@ package duel
 
 import (
 	"github.com/df-mc/dragonfly/server/block/cube"
+	"github.com/df-mc/dragonfly/server/entity"
 	"github.com/df-mc/dragonfly/server/item/inventory"
 	"github.com/df-mc/dragonfly/server/player"
+	"github.com/df-mc/dragonfly/server/player/title"
 	"github.com/df-mc/dragonfly/server/world"
 	"github.com/go-gl/mathgl/mgl64"
 	"github.com/moyai-network/carrot/worlds"
@@ -12,7 +14,6 @@ import (
 	"github.com/moyai-network/practice/moyai/game"
 	"github.com/moyai-network/practice/moyai/game/kit"
 	"github.com/moyai-network/practice/moyai/structure"
-	"github.com/moyai-network/practice/moyai/user"
 	"github.com/sandertv/gophertunnel/minecraft/text"
 	"math/rand"
 	"time"
@@ -90,7 +91,11 @@ func (m *Match) prepare(dim [3]int) {
 }
 
 func (m *Match) End(winner, loser *player.Player, forced bool) {
+	if !m.running {
+		return
+	}
 	m.running = false
+	w := m.w
 
 	u, _ := data.LoadUser(loser.Name())
 	if u.Stats.KillStreak > u.Stats.BestKillStreak {
@@ -122,14 +127,40 @@ func (m *Match) End(winner, loser *player.Player, forced bool) {
 	_ = data.SaveUser(killer)
 	_ = data.SaveUser(u.WithKillStreak(0))
 
-	if m.g == game.NoDebuff() {
-		user.Broadcast("user.kill.pots", u.Roles.Highest().Colour(u.DisplayName), potions(loser), killer.Roles.Highest().Colour(killer.DisplayName), potions(winner))
-	} else {
-		user.Broadcast("user.kill", u.Roles.Highest().Colour(u.DisplayName), killer.Roles.Highest().Colour(killer.DisplayName))
+	msg := text.Colourf("<green>Winner: </green><yellow>%s <grey>-</grey> <red>Loser: </red>%s</yellow>", winner.Name(), loser.Name())
+	winner.Message(msg)
+	loser.Message(msg)
+
+	winner.SendTitle(title.New(text.Colourf("<b><green>VICTORY</green></b>\n <white>You won the match</white>")))
+	loser.SendTitle(title.New(text.Colourf("<b><red>DEFEAT</red></b>\n <white>You lost the match</white>")))
+
+	loser.SetGameMode(world.GameModeSpectator)
+	loser.KnockBack(winner.Position(), 0.5, 0.5)
+
+	loser.Inventory().Clear()
+	winner.Inventory().Clear()
+	loser.Armour().Clear()
+	winner.Armour().Clear()
+
+	c := player.New(loser.Name(), loser.Skin(), loser.Position())
+	c.SetAttackImmunity(time.Millisecond * 1400)
+	c.SetNameTag(loser.NameTag())
+	c.SetScale(loser.Scale())
+	w.AddEntity(c)
+
+	for _, viewer := range w.Viewers(c.Position()) {
+		viewer.ViewEntityAction(c, entity.DeathAction{})
 	}
 
-	if !forced {
-		lobby(loser)
-	}
-	lobby(winner)
+	c.KnockBack(winner.Position(), 0.5, 0.2)
+	time.AfterFunc(time.Millisecond*1400, func() {
+		_ = c.Close()
+	})
+
+	time.AfterFunc(time.Second*3, func() {
+		if !forced {
+			lobby(loser)
+		}
+		lobby(winner)
+	})
 }
