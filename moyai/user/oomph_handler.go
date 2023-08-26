@@ -32,8 +32,12 @@ func (h *OomphHandler) HandleFlag(ctx *event.Context, ch check.Check, params map
 	if !ok {
 		return
 	}
-	if h, ok := p.Handler().(*Handler); ok {
-		h.History()[ch] = ch.Violations()
+	if uh, ok := p.Handler().(*Handler); ok {
+		if uh.History()[ch] >= 200 {
+			h.HandlePunishment(ctx, ch, nil)
+			return
+		}
+		uh.History()[ch] = ch.Violations()
 	}
 	Broadcast("staff.alert",
 		h.p.Name(),
@@ -43,7 +47,7 @@ func (h *OomphHandler) HandleFlag(ctx *event.Context, ch check.Check, params map
 	)
 }
 
-func (h *OomphHandler) HandlePunishment(ctx *event.Context, ch check.Check, msg *string) {
+func (h *OomphHandler) HandlePunishment(ctx *event.Context, ch check.Check, _ *string) {
 	ctx.Cancel()
 	n, v := ch.Name()
 	l := h.p.Locale()
