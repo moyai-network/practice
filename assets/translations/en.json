@@ -12,7 +12,7 @@
     "user.kick.autoclicker": "<red>We detected that your CPS is unfair, please try increasing your\ndebounce time or terminate your external program!\n<grey><i>For questions or concerns, refer to discord.gg/moyai</grey></i>",
     "user.kick.description": "<gold>Reason:</gold> <yellow>%s</yellow>\n<grey><i>For questions or concerns, refer to discord.gg/moyai</grey></i>",
 
-    "oomph.kick.broadcast": "\n<aqua>%v</aqua> has kicked <dark-aqua>%v</dark-aqua> from Moyai for <dark-red>%v</dark-red>\n\n",
+    "oomph.kick.broadcast": "\n<red>Oomph</red> has kicked <dark-aqua>%s</dark-aqua> from Moyai for <dark-red>%v</dark-red>\n\n",
 
     "staff.alert": "<dark-red>Oomph > </dark-red><grey>%v was flagged for <red>%v</red> (<red>%v</red>)</grey> <grey>[<red>%vx</red>]</grey>",
     "staff.alert.with_debug": "<gold>[<dark-red>Oomph</dark-red>]</gold> <aqua>%v was flagged for %v (%v)</aqua> <grey>%v [x%v]</grey>",

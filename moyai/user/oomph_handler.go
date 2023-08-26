@@ -52,7 +52,7 @@ func (h *OomphHandler) HandlePunishment(ctx *event.Context, ch check.Check, msg 
 		lang.Translatef(l, "user.kick.description", n+v),
 	}, "\n")))
 
-	_, _ = chat.Global.WriteString(lang.Translatef(language.English, "oomph.kick.broadcast", n+v))
+	_, _ = chat.Global.WriteString(lang.Translatef(language.English, "oomph.kick.broadcast", h.p.Name(), n+v))
 }
 
 func (h *OomphHandler) HandleClientPacket(ctx *event.Context, pk packet.Packet) {
