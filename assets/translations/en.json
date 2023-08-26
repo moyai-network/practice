@@ -9,8 +9,10 @@
     "user.kill.pots": "%s<grey>[<red>%d</red>]</grey> <red>was slain by</red> %s<grey>[<red>%d</red>]</grey>",
     "user.kill": "%s <red>was slain by</red> %s",
     "user.kick.header.oomph": "<b><red>You were kicked from Moyai by Oomph</red></b>",
-    "user.kick.autoclicker": "<red>We detected that your CPS is unfair, please try increasing your\ndebounce time or terminate your external program!\n<grey><i>For questions or concerns, refer to discord.gg/synhcf</grey></i>",
-    "user.kick.description": "<gold>Reason:</gold> <yellow>%s</yellow>\n<grey><i>For questions or concerns, refer to discord.gg/moyai-mc</grey></i>",
+    "user.kick.autoclicker": "<red>We detected that your CPS is unfair, please try increasing your\ndebounce time or terminate your external program!\n<grey><i>For questions or concerns, refer to discord.gg/moyai</grey></i>",
+    "user.kick.description": "<gold>Reason:</gold> <yellow>%s</yellow>\n<grey><i>For questions or concerns, refer to discord.gg/moyai</grey></i>",
+
+    "oomph.kick.broadcast": "\n<aqua>%v</aqua> has kicked <dark-aqua>%v</dark-aqua> from Moyai for <dark-red>%v</dark-red>\n\n",
 
     "staff.alert": "<dark-red>Oomph > </dark-red><grey>%v was flagged for <red>%v</red> (<red>%v</red>)</grey> <grey>[<red>%vx</red>]</grey>",
     "staff.alert.with_debug": "<gold>[<dark-red>Oomph</dark-red>]</gold> <aqua>%v was flagged for %v (%v)</aqua> <grey>%v [x%v]</grey>",
@@ -80,8 +82,8 @@
 
     "user.ban.header": "<b><red>You are banned from Moyai</red></b>",
     "user.ban.header.oomph": "<b><red>You were banned from Moyai by Oomph</red></b>",
-    "user.ban.header.alt": "<b><red>An account linked to you is banned from Syn</red></b>",
-    "user.ban.description": "<gold>Reason:</gold> <yellow>%s</yellow>\n<dark-green>Remaining:</dark-green> <green>%s</green>\n<grey><i>For questions or concerns, refer to discord.gg/moyai-mc</grey></i>",
+    "user.ban.header.alt": "<b><red>An account linked to you is banned from Moyai</red></b>",
+    "user.ban.description": "<gold>Reason:</gold> <yellow>%s</yellow>\n<dark-green>Remaining:</dark-green> <green>%s</green>\n<grey><i>For questions or concerns, refer to discord.gg/moyai</grey></i>",
 
     "duel.requested": "<green>%s just sent you a duel request in %s</green>",
     "duel.request": "<green>You just sent a duel request to %s in %s</green>"

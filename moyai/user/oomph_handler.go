@@ -1,6 +1,8 @@
 package user
 
 import (
+	"github.com/df-mc/dragonfly/server/player/chat"
+	"golang.org/x/text/language"
 	"strings"
 
 	"github.com/df-mc/dragonfly/server/event"
@@ -49,6 +51,8 @@ func (h *OomphHandler) HandlePunishment(ctx *event.Context, ch check.Check, msg 
 		lang.Translatef(l, "user.kick.header.oomph"),
 		lang.Translatef(l, "user.kick.description", n+v),
 	}, "\n")))
+
+	_, _ = chat.Global.WriteString(lang.Translatef(language.English, "oomph.kick.broadcast", n+v))
 }
 
 func (h *OomphHandler) HandleClientPacket(ctx *event.Context, pk packet.Packet) {
