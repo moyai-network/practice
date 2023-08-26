@@ -1,6 +1,7 @@
 package form
 
 import (
+	"github.com/moyai-network/carrot/webhook"
 	"github.com/sandertv/gophertunnel/minecraft/text"
 	"math/rand"
 	"sort"
@@ -109,7 +110,8 @@ func (m mute) Submit(s form.Submitter) {
 		_ = data.SaveUser(t)
 
 		user.Alert(m.p, "staff.alert.mute", t.DisplayName, reason)
-		//webhook.SendPunishment(m.p.Name(), t.DisplayName(), reason, "Mute")
+
+		webhook.SendPunishment(m.p.Name(), t.DisplayName, reason, webhook.MutePunishment())
 		h.Message("command.mute.success", t.DisplayName, reason)
 		return
 	}
@@ -130,6 +132,7 @@ func (m mute) Submit(s form.Submitter) {
 	_ = data.SaveUser(t) // Save in case of a server crash or anything that may cause the data to not get saved.
 
 	user.Alert(m.p, "staff.alert.mute", t.Name, reason)
-	//webhook.SendPunishment(m.p.Name(), t.Player().Name(), reason, "Mute")
+
+	webhook.SendPunishment(m.p.Name(), t.DisplayName, reason, webhook.MutePunishment())
 	h.Message("command.mute.success", t.Name, reason)
 }

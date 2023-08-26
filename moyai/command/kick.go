@@ -54,5 +54,5 @@ func (k Kick) Run(s cmd.Source, o *cmd.Output) {
 
 // Allow ...
 func (Kick) Allow(s cmd.Source) bool {
-	return allow(s, true, role.Mod{})
+	return allow(s, true, role.Trial{})
 }

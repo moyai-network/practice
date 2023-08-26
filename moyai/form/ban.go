@@ -1,6 +1,7 @@
 package form
 
 import (
+	"github.com/moyai-network/carrot/webhook"
 	"github.com/sandertv/gophertunnel/minecraft/text"
 	"math/rand"
 	"sort"
@@ -139,6 +140,7 @@ func (b ban) Submit(s form.Submitter) {
 
 	user.Alert(p, "staff.alert.ban", name, reason)
 	user.Broadcast("command.ban.broadcast", p.Name(), name, reason)
-	//webhook.SendPunishment(p.Name(), name, reason, "Ban")
+
+	webhook.SendPunishment(p.Name(), name, reason, webhook.BanPunishment())
 	p.Message("command.ban.success", name, reason)
 }

@@ -1,6 +1,7 @@
 package command
 
 import (
+	"github.com/moyai-network/carrot/webhook"
 	"strings"
 	"time"
 
@@ -105,7 +106,8 @@ func (b BanLiftOffline) Run(src cmd.Source, o *cmd.Output) {
 	_ = data.SaveUser(u)
 
 	user.Alert(src, "staff.alert.unban", u.DisplayName)
-	//webhook.SendPunishment(s.Name(), u.DisplayName(), "", "Unban")
+
+	webhook.SendPunishment(src.(cmd.NamedTarget).Name(), u.DisplayName, "Lift", webhook.UnbanPunishment())
 	o.Print(lang.Translatef(l, "command.ban.lift", u.DisplayName))
 }
 
@@ -156,7 +158,8 @@ func (b Ban) Run(src cmd.Source, o *cmd.Output) {
 
 	user.Alert(src, "staff.alert.ban", t.Name(), reason)
 	user.Broadcast("command.ban.broadcast", s.Name(), t.Name(), reason)
-	//webhook.SendPunishment(s.Name(), t.Name(), reason, "Ban")
+
+	webhook.SendPunishment(s.Name(), t.Name(), reason, webhook.BanPunishment())
 	o.Print(lang.Translatef(l, "command.ban.success", t.Name(), reason))
 }
 
@@ -193,7 +196,8 @@ func (b BanOffline) Run(src cmd.Source, o *cmd.Output) {
 
 	user.Alert(src, "staff.alert.ban", u.DisplayName, reason)
 	user.Broadcast("command.ban.broadcast", s.Name(), u.DisplayName, reason)
-	//webhook.SendPunishment(s.Name(), u.DisplayName(), reason, "Ban")
+
+	webhook.SendPunishment(s.Name(), u.DisplayName, reason, webhook.BanPunishment())
 	o.Print(lang.Translatef(l, "command.ban.success", u.DisplayName, reason))
 }
 
@@ -204,22 +208,22 @@ func (BanList) Allow(s cmd.Source) bool {
 
 // Allow ...
 func (BanInfoOffline) Allow(s cmd.Source) bool {
-	return allow(s, true, role.Mod{})
+	return allow(s, true, role.Trial{})
 }
 
 // Allow ...
 func (BanForm) Allow(s cmd.Source) bool {
-	return allow(s, false, role.Mod{})
+	return allow(s, false, role.Trial{})
 }
 
 // Allow ...
 func (Ban) Allow(s cmd.Source) bool {
-	return allow(s, true, role.Mod{})
+	return allow(s, true, role.Trial{})
 }
 
 // Allow ...
 func (BanOffline) Allow(s cmd.Source) bool {
-	return allow(s, true, role.Mod{})
+	return allow(s, true, role.Trial{})
 }
 
 // Allow ...

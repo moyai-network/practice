@@ -1,6 +1,7 @@
 package command
 
 import (
+	"github.com/moyai-network/carrot/webhook"
 	"strings"
 	"time"
 
@@ -153,7 +154,8 @@ func (m MuteLift) Run(src cmd.Source, out *cmd.Output) {
 	_ = data.SaveUser(u)
 
 	user.Alert(src, "staff.alert.unmute", p.Name())
-	//webhook.SendPunishment(s.Name(), u.DisplayName(), "", "Unmute")
+
+	webhook.SendPunishment(src.(cmd.NamedTarget).Name(), u.DisplayName, "Lift", webhook.UnMutePunishment())
 	out.Print(lang.Translatef(l, "command.mute.lift", p.Name()))
 }
 
@@ -173,7 +175,8 @@ func (m MuteLiftOffline) Run(src cmd.Source, out *cmd.Output) {
 	_ = data.SaveUser(u)
 
 	user.Alert(src, "staff.alert.unmute", u.DisplayName)
-	//webhook.SendPunishment(src.Name(), u.DisplayName(), "", "Unmute")
+
+	webhook.SendPunishment(src.(cmd.NamedTarget).Name(), u.DisplayName, "Lift", webhook.UnMutePunishment())
 	out.Print(lang.Translatef(l, "command.mute.lift", u.DisplayName))
 }
 
@@ -223,7 +226,8 @@ func (m Mute) Run(src cmd.Source, out *cmd.Output) {
 	_ = data.SaveUser(u)
 
 	user.Alert(src, "staff.alert.mute", t.Name(), reason)
-	//webhook.SendPunishment(src.Name(), t.Name(), reason, "Mute")
+
+	webhook.SendPunishment(src.(cmd.NamedTarget).Name(), u.DisplayName, reason, webhook.MutePunishment())
 	out.Print(lang.Translatef(l, "command.mute.success", t.Name(), reason))
 }
 
@@ -262,48 +266,49 @@ func (m MuteOffline) Run(src cmd.Source, out *cmd.Output) {
 	_ = data.SaveUser(u)
 
 	user.Alert(src, "staff.alert.mute", u.DisplayName, reason)
-	//webhook.SendPunishment(s.Name(), u.DisplayName(), reason, "Mute")
+
+	webhook.SendPunishment(src.(cmd.NamedTarget).Name(), u.DisplayName, reason, webhook.MutePunishment())
 	out.Print(lang.Translatef(l, "command.mute.success", u.DisplayName, reason))
 }
 
 // Allow ...
 func (MuteList) Allow(s cmd.Source) bool {
-	return allow(s, true, role.Mod{})
+	return allow(s, true, role.Trial{})
 }
 
 // Allow ...
 func (MuteInfo) Allow(s cmd.Source) bool {
-	return allow(s, true, role.Mod{})
+	return allow(s, true, role.Trial{})
 }
 
 // Allow ...
 func (MuteInfoOffline) Allow(s cmd.Source) bool {
-	return allow(s, true, role.Mod{})
+	return allow(s, true, role.Trial{})
 }
 
 // Allow ...
 func (MuteForm) Allow(s cmd.Source) bool {
-	return allow(s, false, role.Mod{})
+	return allow(s, false, role.Trial{})
 }
 
 // Allow ...
 func (Mute) Allow(s cmd.Source) bool {
-	return allow(s, true, role.Mod{})
+	return allow(s, true, role.Trial{})
 }
 
 // Allow ...
 func (MuteOffline) Allow(s cmd.Source) bool {
-	return allow(s, true, role.Mod{})
+	return allow(s, true, role.Trial{})
 }
 
 // Allow ...
 func (MuteLift) Allow(s cmd.Source) bool {
-	return allow(s, true, role.Mod{})
+	return allow(s, true, role.Trial{})
 }
 
 // Allow ...
 func (MuteLiftOffline) Allow(s cmd.Source) bool {
-	return allow(s, true, role.Mod{})
+	return allow(s, true, role.Trial{})
 }
 
 type (
