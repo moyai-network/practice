@@ -128,7 +128,7 @@ func (h *Handler) HandleHurt(ctx *event.Context, damage *float64, attackImmunity
 
 			_ = data.SaveUser(killer)
 			if h.g == game.NoDebuff() {
-				user.Broadcast("user.kill.pots", killer.DisplayName, u.DisplayName, potions(k), potions(h.p))
+				user.Broadcast("user.kill.pots", killer.DisplayName, potions(k), u.DisplayName, potions(h.p))
 			} else {
 				user.Broadcast("user.kill", killer.DisplayName, u.DisplayName)
 			}
@@ -242,7 +242,7 @@ func (h *Handler) HandleQuit() {
 
 			_ = data.SaveUser(killer)
 			if h.g == game.NoDebuff() {
-				user.Broadcast("user.kill.pots", u.Roles.Highest().Colour(u.DisplayName), potions(h.p), killer.Roles.Highest().Colour(killer.DisplayName), potions(k))
+				user.Broadcast("user.kill.pots", killer.Roles.Highest().Colour(killer.DisplayName), potions(k), u.Roles.Highest().Colour(u.DisplayName), potions(h.p))
 			} else {
 				user.Broadcast("user.kill", u.Roles.Highest().Colour(u.DisplayName), killer.Roles.Highest().Colour(killer.DisplayName))
 			}
