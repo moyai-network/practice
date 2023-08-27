@@ -72,10 +72,10 @@ func (b PlayerInfoOffline) Run(src cmd.Source, o *cmd.Output) {
 
 // Allow ...
 func (PlayerInfo) Allow(s cmd.Source) bool {
-	return allow(s, true, role.Trial{})
+	return allow(s, true, role.Admin{})
 }
 
 // Allow ...
 func (PlayerInfoOffline) Allow(s cmd.Source) bool {
-	return allow(s, true, role.Trial{})
+	return allow(s, true, role.Admin{})
 }
