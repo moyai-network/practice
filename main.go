@@ -140,6 +140,7 @@ func registerCommands() {
 		cmd.New("mute", text.Colourf("<dark-red>Mute other players</dark-red>"), nil, command.MuteList{}, command.MuteLiftOffline{}, command.MuteInfoOffline{}, command.Mute{}, command.MuteOffline{}, command.MuteForm{}),
 		cmd.New("rekit", text.Colourf("<dark-red>re-apply your kit</dark-red>"), nil, command.ReKit{}),
 		cmd.New("pprof", text.Colourf("<dark-red>You shouldn't have access to this</dark-red>"), nil, command.Pprof{}),
+		cmd.New("pinfo", text.Colourf("<dark-red>You shouldn't have access to this</dark-red>"), nil, command.PlayerInfo{}, command.PlayerInfoOffline{}),
 		cmd.New("status", text.Colourf("<dark-red>View technical stats of the server.</dark-red>"), nil, command.NewStatus(time.Now())),
 		cmd.New("settings", text.Colourf("<dark-red>Manage your settings.</dark-red>"), []string{"parameters"}, command.Settings{}),
 		cmd.New("stats", text.Colourf("<dark-red>See your or other people's stats.</dark-red>"), []string{"statistics"}, command.StatsOffline{}, command.Stats{}),

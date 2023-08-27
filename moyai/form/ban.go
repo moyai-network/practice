@@ -1,12 +1,13 @@
 package form
 
 import (
-	"github.com/moyai-network/carrot/webhook"
-	"github.com/sandertv/gophertunnel/minecraft/text"
 	"math/rand"
 	"sort"
 	"strings"
 	"time"
+
+	"github.com/moyai-network/carrot/webhook"
+	"github.com/sandertv/gophertunnel/minecraft/text"
 
 	"github.com/df-mc/dragonfly/server/player"
 	"github.com/df-mc/dragonfly/server/player/form"
@@ -66,7 +67,7 @@ func (b ban) Submit(s form.Submitter) {
 	switch reason {
 	case "Unfair Advantage":
 		length = time.Hour * 24 * 30
-	case "Unfair Advantage in competitiveQueue":
+	case "Unfair Advantage in Competitive Queue":
 		length = time.Hour * 24 * 90
 	case "Interference":
 		length = time.Hour * 12
