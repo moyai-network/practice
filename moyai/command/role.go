@@ -1,10 +1,11 @@
 package command
 
 import (
-	"github.com/moyai-network/carrot"
-	"github.com/moyai-network/practice/moyai/data"
 	"strings"
 	"time"
+
+	"github.com/moyai-network/carrot"
+	"github.com/moyai-network/practice/moyai/data"
 
 	"github.com/df-mc/dragonfly/server/cmd"
 	"github.com/df-mc/dragonfly/server/player"

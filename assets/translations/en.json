@@ -74,6 +74,8 @@
     "command.role.modify.self": "<red>You cannot modify your own role.</red>",
     "command.role.remove": "<green>You removed the role %s from %s.</green>",
 
+    "command.pinfo.info": "\uE002\n<dark-green>%s<dark-green/> %s\n<green>XUID</green>: <white>%s</white>\n<green>Address</green>: <white>%s <red>[Hashed]</red></white>\n<green>Device ID</green>: <white>%s</white>\n<green>SSID</green>: <white>%s</white>\n<green>First Login</green>: <white>%s</white>\n<green>Play Time</green>: <white>%s</white>\n<green>Roles</green>: <white>%s</white>\n<green>Ban</green>: <white>%s</white>\n<green>Mute</green>: <white>%s</white>\n\uE002",
+
 
     "target.whisper.disabled": "<red>This player has private messages disabled.</red>",
     "user.whisper.disabled": "<red>You have private messages disabled.</red>",

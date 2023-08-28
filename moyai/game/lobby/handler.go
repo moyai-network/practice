@@ -1,16 +1,21 @@
 package lobby
 
 import (
+	"encoding/hex"
+	"net/netip"
+	"strings"
+	"time"
+
 	"github.com/moyai-network/carrot/lang"
 	"github.com/moyai-network/practice/moyai/form"
 	"github.com/moyai-network/practice/moyai/game"
 	"github.com/moyai-network/practice/moyai/game/kit"
-	"strings"
-	"time"
+	"golang.org/x/crypto/sha3"
 
 	"github.com/df-mc/dragonfly/server/event"
 	"github.com/df-mc/dragonfly/server/player"
 	"github.com/df-mc/dragonfly/server/player/scoreboard"
+	"github.com/df-mc/dragonfly/server/session"
 	"github.com/df-mc/dragonfly/server/world"
 	"github.com/moyai-network/carrot"
 	"github.com/moyai-network/practice/moyai/data"
@@ -41,6 +46,17 @@ func newHandler(p *player.Player) *Handler {
 	u := data.LoadOrCreateUser(p.Name())
 	u.DisplayName = p.Name()
 	u.XUID = p.XUID()
+
+	if s := player_session(p); s != session.Nop {
+		u.DeviceID = s.ClientData().DeviceID
+		u.SelfSignedID = s.ClientData().SelfSignedID
+		sha := sha3.New256()
+		addr, _ := netip.ParseAddrPort(p.Addr().String())
+		sha.Write(addr.Addr().AsSlice())
+		sha.Write([]byte(data.Salt))
+		u.Address = hex.EncodeToString(sha.Sum(nil))
+	}
+
 	_ = data.SaveUser(u)
 
 	return h
