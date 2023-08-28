@@ -93,7 +93,7 @@ func (h *Handler) HandleHurt(ctx *event.Context, damage *float64, attackImmunity
 	}
 	switch h.m.g {
 	default:
-		*attackImmunity = 470 * time.Millisecond
+		*attackImmunity = 490 * time.Millisecond
 	}
 	*damage = *damage / 1.25
 	if src == (entity.FallDamageSource{}) {
