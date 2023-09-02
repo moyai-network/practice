@@ -48,7 +48,7 @@ func (b PlayerInfo) Run(src cmd.Source, o *cmd.Output) {
 	// if b := dT.Punishments.Ban; !b.Expired() {
 	// 	ban = text.Colourf("<gold>%s</gold", b.Occurrence)
 	// }
-	o.Print(lang.Translatef(l, "command.pinfo.info", dT.DisplayName, "<green>[Offline]</green>", dT.XUID, addr, dT.DeviceID, dT.SelfSignedID, dT.FirstLogin.Format(time.DateTime), dT.PlayTime.Round(time.Second), roles, "TODO", "TODO"))
+	o.Print(lang.Translatef(l, "command.pinfo.info", dT.DisplayName, "<green>[Online]</green>", dT.XUID, addr, dT.DeviceID, dT.SelfSignedID, dT.FirstLogin.Format(time.DateTime), dT.PlayTime.Round(time.Second), roles, "TODO", "TODO"))
 }
 
 // Run ...
@@ -67,7 +67,7 @@ func (b PlayerInfoOffline) Run(src cmd.Source, o *cmd.Output) {
 	// if b := dT.Punishments.Ban; !b.Expired() {
 	// 	ban = text.Colourf("<gold>%s</gold", b.Occurrence)
 	// }
-	o.Print(lang.Translatef(l, "command.pinfo.info", dT.DisplayName, "<green>[Online]</green>", dT.XUID, addr, dT.DeviceID, dT.SelfSignedID, dT.FirstLogin.Format(time.DateTime), dT.PlayTime.Round(time.Second), roles, "TODO", "TODO"))
+	o.Print(lang.Translatef(l, "command.pinfo.info", dT.DisplayName, "<red>[Offline]</red>", dT.XUID, addr, dT.DeviceID, dT.SelfSignedID, dT.FirstLogin.Format(time.DateTime), dT.PlayTime.Round(time.Second), roles, "TODO", "TODO"))
 }
 
 // Allow ...

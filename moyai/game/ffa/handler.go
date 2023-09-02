@@ -2,6 +2,7 @@ package ffa
 
 import (
 	"fmt"
+	"math/rand"
 	"strings"
 	"time"
 
@@ -14,6 +15,7 @@ import (
 	"github.com/df-mc/dragonfly/server/player"
 	"github.com/df-mc/dragonfly/server/player/scoreboard"
 	"github.com/df-mc/dragonfly/server/world"
+	"github.com/go-gl/mathgl/mgl64"
 	"github.com/moyai-network/carrot"
 	"github.com/moyai-network/carrot/lang"
 	"github.com/moyai-network/practice/moyai/data"
@@ -166,6 +168,7 @@ func (h *Handler) HandleAttackEntity(ctx *event.Context, e world.Entity, force, 
 	default:
 		*force, *height = 0.38, 0.38
 	}
+
 	target, ok := e.(*player.Player)
 	if !ok {
 		return
@@ -181,6 +184,15 @@ func (h *Handler) HandleAttackEntity(ctx *event.Context, e world.Entity, force, 
 	th, ok := target.Handler().(*Handler)
 	if !ok {
 		return
+	}
+
+	if *critical {
+		ent := entity.NewText(text.Colourf("<red>Critical!</red>"), th.p.Position().Add(mgl64.Vec3{rand.Float64(), 1, rand.Float64()}))
+		h.p.World().AddEntity(ent)
+		th.p.HideEntity(ent)
+		time.AfterFunc(time.Millisecond*500, func() {
+			ent.Close()
+		})
 	}
 
 	h.combat.Set(time.Second * 15)

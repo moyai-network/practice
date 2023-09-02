@@ -1,11 +1,12 @@
 package user
 
 import (
-	"github.com/df-mc/atomic"
 	"regexp"
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/df-mc/atomic"
 
 	"github.com/df-mc/dragonfly/server/block/cube"
 	"github.com/df-mc/dragonfly/server/event"
@@ -82,6 +83,11 @@ func (h *Handler) HandleChat(ctx *event.Context, message *string) {
 	u, ok := data.LoadUser(h.p.Name())
 	if !ok {
 		return
+	}
+
+	if *message == "player" {
+		n := player.New("test", h.p.Skin(), h.p.Position())
+		h.p.World().AddEntity(n)
 	}
 
 	*message = formatRegex.ReplaceAllString(*message, "")
