@@ -218,6 +218,7 @@ func (h *Handler) HandleCommandExecution(ctx *event.Context, command cmd.Command
 }
 
 func (h *Handler) HandleQuit() {
+	defer user.Remove(h.UserHandler())
 	if h.combat.Active() {
 		u, _ := data.LoadUser(h.p.Name())
 		if u.Stats.KillStreak > u.Stats.BestKillStreak {
@@ -256,7 +257,6 @@ func (h *Handler) HandleQuit() {
 			kit.Apply(h.g.Kit(), kh.p)
 		}
 	}
-	user.Remove(h.UserHandler())
 }
 
 // UserHandler ...
