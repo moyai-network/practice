@@ -12,7 +12,7 @@ func NewSettings() form.Form {
 	return form.NewMenu(settings{}, text.Colourf("<dark-red>» <red>Settings</red> «</dark-red>")).WithButtons(
 		form.NewButton("Display", ""),
 		//form.NewButton("Visual", ""),
-		//form.NewButton("Gameplay", ""),
+		form.NewButton("Gameplay", ""),
 		form.NewButton("Privacy", ""),
 		//form.NewButton("Matchmaking", ""),
 		//form.NewButton("Advanced", ""),
@@ -28,10 +28,10 @@ func (settings) Submit(sub form.Submitter, btn form.Button) {
 	switch btn.Text {
 	case "Display":
 		p.SendForm(NewDisplay(p))
-		/*case "Visual":
-			p.SendForm(NewVisual(s.u))
-		case "Gameplay":
-		p.SendForm(NewGameplay(s.u))*/
+	/*case "Visual":
+	p.SendForm(NewVisual(s.u))*/
+	case "Gameplay":
+		p.SendForm(NewGameplay(p))
 	case "Privacy":
 		p.SendForm(NewPrivacy(p))
 		/*case "Matchmaking":

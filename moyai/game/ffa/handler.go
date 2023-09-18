@@ -186,12 +186,16 @@ func (h *Handler) HandleAttackEntity(ctx *event.Context, e world.Entity, force, 
 		return
 	}
 
-	if *critical {
+	u, _ := data.LoadUser(h.p.Name())
+	if *critical && u.Settings.Gameplay.CriticalEffect {
 		ent := entity.NewText(text.Colourf("<red>Critical!</red>"), th.p.Position().Add(mgl64.Vec3{rand.Float64(), 1, rand.Float64()}))
+		for _, viewer := range h.p.World().Viewers(ent.Position()) {
+			viewer.HideEntity(ent)
+		}
 		h.p.World().AddEntity(ent)
-		th.p.HideEntity(ent)
+		h.p.ShowEntity(ent)
 		time.AfterFunc(time.Millisecond*500, func() {
-			ent.Close()
+			_ = ent.Close()
 		})
 	}
 

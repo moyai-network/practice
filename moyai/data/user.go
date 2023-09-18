@@ -182,6 +182,9 @@ type Settings struct {
 	Privacy struct {
 		PrivateMessages bool
 	}
+	Gameplay struct {
+		CriticalEffect bool
+	}
 }
 
 func DefaultSettings() Settings {
