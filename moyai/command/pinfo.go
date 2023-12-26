@@ -11,6 +11,7 @@ import (
 	"github.com/moyai-network/carrot/role"
 	"github.com/moyai-network/practice/moyai/data"
 	"github.com/samber/lo"
+	"github.com/sandertv/gophertunnel/minecraft/text"
 )
 
 // PlayerInfo is a command that is used to info on an online player.
@@ -44,11 +45,18 @@ func (b PlayerInfo) Run(src cmd.Source, o *cmd.Output) {
 		return r.Colour(r.Name())
 	}), ", ")
 	addr := dT.Address[:9] + "..."
-	// var ban, mute string
-	// if b := dT.Punishments.Ban; !b.Expired() {
-	// 	ban = text.Colourf("<gold>%s</gold", b.Occurrence)
-	// }
-	o.Print(lang.Translatef(l, "command.pinfo.info", dT.DisplayName, "<green>[Online]</green>", dT.XUID, addr, dT.DeviceID, dT.SelfSignedID, dT.FirstLogin.Format(time.DateTime), dT.PlayTime.Round(time.Second), roles, "TODO", "TODO"))
+	var ban, mute string
+	if b := dT.Punishments.Ban; !b.Expired() {
+		ban = text.Colourf("<gold>%s</gold", b.Occurrence)
+	} else {
+		ban = text.Colourf("<white>None</white>")
+	}
+	if m := dT.Punishments.Mute; !m.Expired() {
+		mute = text.Colourf("<gold>%s</gold", m.Occurrence)
+	} else {
+		mute = text.Colourf("<white>None</white>")
+	}
+	o.Print(lang.Translatef(l, "command.pinfo.info", dT.DisplayName, "<green>[Online]</green>", dT.XUID, addr, dT.DeviceID, dT.SelfSignedID, dT.FirstLogin.Format(time.DateTime), dT.PlayTime.Round(time.Second), roles, ban, mute))
 }
 
 // Run ...
@@ -63,11 +71,18 @@ func (b PlayerInfoOffline) Run(src cmd.Source, o *cmd.Output) {
 		return r.Colour(r.Name())
 	}), ", ")
 	addr := dT.Address[:9] + "..."
-	// var ban, mute string
-	// if b := dT.Punishments.Ban; !b.Expired() {
-	// 	ban = text.Colourf("<gold>%s</gold", b.Occurrence)
-	// }
-	o.Print(lang.Translatef(l, "command.pinfo.info", dT.DisplayName, "<red>[Offline]</red>", dT.XUID, addr, dT.DeviceID, dT.SelfSignedID, dT.FirstLogin.Format(time.DateTime), dT.PlayTime.Round(time.Second), roles, "TODO", "TODO"))
+	var ban, mute string
+	if b := dT.Punishments.Ban; !b.Expired() {
+		ban = text.Colourf("<gold>%s</gold", b.Occurrence)
+	} else {
+		ban = text.Colourf("<white>None</white>")
+	}
+	if m := dT.Punishments.Mute; !m.Expired() {
+		mute = text.Colourf("<gold>%s</gold", m.Occurrence)
+	} else {
+		mute = text.Colourf("<white>None</white>")
+	}
+	o.Print(lang.Translatef(l, "command.pinfo.info", dT.DisplayName, "<red>[Offline]</red>", dT.XUID, addr, dT.DeviceID, dT.SelfSignedID, dT.FirstLogin.Format(time.DateTime), dT.PlayTime.Round(time.Second), roles, ban, mute))
 }
 
 // Allow ...

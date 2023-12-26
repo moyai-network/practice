@@ -21,10 +21,7 @@ import (
 	ent "github.com/moyai-network/practice/moyai/entity"
 	"github.com/moyai-network/practice/moyai/game/lobby"
 	"github.com/moyai-network/practice/moyai/user"
-	"github.com/oomph-ac/oomph"
-	"github.com/oomph-ac/oomph/utils"
 	"github.com/restartfu/gophig"
-	"github.com/sandertv/gophertunnel/minecraft"
 	"github.com/sandertv/gophertunnel/minecraft/text"
 	"github.com/sirupsen/logrus"
 	"golang.org/x/text/language"
@@ -56,21 +53,18 @@ func main() {
 	c.JoinMessage = "<green>[+] %s</green>"
 	c.QuitMessage = "<red>[-] %s</red>"
 
-	ac := oomph.New(log, ":19132")
-	ac.Listen(&c, c.Name, []minecraft.Protocol{}, true, false)
-	go func() {
-		for {
-			p, err := ac.Accept()
-			if err != nil {
-				return
-			}
-			p.SetCombatMode(utils.AuthorityType(config.Oomph.CombatMode))
-			p.SetMovementMode(utils.AuthorityType(config.Oomph.MovementMode))
-			p.SetCombatCutoff(4)      // 2 ticks => 100ms
-			p.SetKnockbackCutoff(100) // 2 ticks => 100ms
-			p.Handle(user.NewOomphHandler(p))
-		}
-	}()
+	// ac := oomph.New(log, ":19132")
+	// ac.Listen(&c, c.Name, []minecraft.Protocol{}, true, true)
+	// go func() {
+	// 	for {
+	// 		p, err := ac.Accept()
+	// 		if err != nil {
+	// 			return
+	// 		}
+	// 		logrus.Info("LOL OK")
+	// 		p.Handle(user.NewOomphHandler(p))
+	// 	}
+	// }()
 
 	srv := c.New()
 
@@ -112,6 +106,7 @@ func acceptFunc(store *tebex.Client, log *logrus.Logger) func(p *player.Player) 
 	return func(p *player.Player) {
 		user.Add(p)
 		lobby.AddPlayer(p)
+		p.SetGameMode(world.GameModeCreative)
 
 		p.Message(text.Colourf("<green>Make sure to join our discord server at discord.gg/moyai!</green>"))
 		store.ExecuteCommands(p)
@@ -132,6 +127,7 @@ func loadStore(key string, log *logrus.Logger) *tebex.Client {
 
 func registerCommands() {
 	for _, c := range []cmd.Command{
+		cmd.New("alias", text.Colourf("<dark-red>Get aliases of a player.</dark-red>"), nil, command.AliasOnline{}, command.AliasOffline{}),
 		cmd.New("spawn", text.Colourf("<dark-red>Teleport to spawn.</dark-red>"), []string{"hub"}, command.Spawn{}),
 		cmd.New("role", text.Colourf("<dark-red>Role management commands.</dark-red>"), nil, command.RoleAdd{}, command.RoleRemove{}, command.RoleAddOffline{}, command.RoleRemoveOffline{}),
 		cmd.New("duel", text.Colourf("<dark-red>Duel other players or parties.</dark-red>"), nil, command.DuelAccept{}, command.Duel{}),

@@ -14,7 +14,7 @@ Folder = 'assets/world'
 
 [Players]
 MaxCount = 0
-MaximumChunkRadius = 8
+MaximumChunkRadius = 32
 SaveData = false
 Folder = 'players'
 
@@ -25,6 +25,9 @@ Required = false
 
 [Moyai]
 Tebex = 'f2329e8813bc7bb5952b79692c61044320c3f1eb'
+
+[Proxy]
+Enabled = true
 
 [Oomph]
 Port = 19132

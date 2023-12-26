@@ -28,6 +28,7 @@
 
     "command.target.unknown": "<red>unknown target.</red>",
 
+    "command.alias.accounts": "\n<yellow>Listed accounts under %v's IP</yellow>\n<grey>%v</grey>\n\n<yellow>Listed accounts under %v's DID</yellow>\n<grey>%v</grey>\n\n<yellow>Listed accounts under %v's SSID</yellow>\n<grey>%v</grey>\n\n",
     "command.ban.already": "<red>That player is already banned.</red>",
     "command.ban.broadcast": "\n<aqua>%v</aqua> has removed <dark-aqua>%v</dark-aqua> from Moyai for <dark-red>%v</dark-red>\n\n",
     "command.ban.lift": "<green>You unbanned %s.</green>",
